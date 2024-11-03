@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&family=Oswald:wght@700&display=swap');
+
+* {
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.logo {
+  font-family: 'Oswald', 'Noto Sans KR', sans-serif;
+  font-weight: bolder;
+  @apply text-4xl;
+}
+
+#root {
+  width: 100vw;
+  min-height: 100vh;
+}
