@@ -10,7 +10,11 @@ function Header() {
         'dark:border-grey-800'
       }
     >
-      <Link to={'/'} className={'text-black dark:text-white logo'}>BLINK</Link>
+      <Link to={'/'} className={'logo'}>BLINK</Link>
+      <Stack direction={'row'} className={'gap-4'}>
+        <Link to={'/auth'} className={'text-black dark:text-white'}>로그인</Link>
+        <Link to={'/users/register'} className={'text-black dark:text-white'}>회원가입</Link>
+      </Stack>
     </header>
   )
 }
