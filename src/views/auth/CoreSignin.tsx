@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Stack from "../layout/Stack.tsx";
 import {
   GoogleIcon,
@@ -10,8 +10,17 @@ import {
 } from "../../assets/svgs/svg.tsx";
 import {Link} from "react-router-dom";
 import ThemeSelector from "../../css/ThemeSelector.tsx";
+import Alert from "../form/Alert.tsx";
 
 function CoreSignin() {
+  const [error, setError] = React.useState<string | null>(null);
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(window.location.search)
+    const e = queryParams.get("error")
+    if(e != null) setError(e);
+  }, []);
+
   return (
     <div
       className={
@@ -52,6 +61,12 @@ function CoreSignin() {
           to={'/auth/passkey'}
         />
       </Stack>
+
+      {error === 'state_unset' && <Alert variant={'error'}>state가 설정되지 않았습니다.</Alert>}
+      {error === 'state_mismatch' && <Alert variant={'error'}>state가 일치하지 않습니다.</Alert>}
+      {error === 'code_unset' && <Alert variant={'error'}>OAuth 응답이 잘못되었습니다.</Alert>}
+      {error === 'google_error' && <Alert variant={'error'}>Google로 로그인할 수 없습니다.</Alert>}
+      {error === 'internal_server_error' && <Alert variant={'error'}>로그인하지 못했습니다.</Alert>}
     </div>
   )
 }
