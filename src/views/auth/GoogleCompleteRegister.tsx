@@ -1,52 +1,26 @@
 import Stack from "../layout/Stack.tsx";
-import {Button, ButtonLink} from "../form/Button.tsx";
-import {Checkbox} from "../form/Checkbox.tsx";
-import {TextInput} from "../form/TextInput.tsx";
-import {FormGroup, FormSection} from "../form/Form.tsx";
 import {Hr} from "../fragments/Hr.tsx";
+import {FormGroup, FormSection} from "../form/Form.tsx";
 import {Link} from "react-router-dom";
+import {Checkbox} from "../form/Checkbox.tsx";
+import {Button} from "../form/Button.tsx";
+import {TextInput} from "../form/TextInput.tsx";
 import {useState} from "react";
-import {assertValue, checkFlag, lengthCheck, regexCheck, verifyAll} from "../../modules/formValidator.ts";
 
-function CoreRegister() {
+function GoogleCompleteRegister() {
   const [username, setUsername] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
   const [consentCheck, setConsentCheck] = useState<boolean>(false);
   const [verifyCheck, setVerifyCheck] = useState<boolean>(false);
-
-  const [formState, setFormState] = useState<number>(0);
-
-  function validateForm() {
-    verifyAll(
-      checkUsername,
-      whenFormInvalid,
-
-      lengthCheck(username, 1, 100, 0),
-      regexCheck(email, /^[\w-\\.]+@([\w-]+\.)+[\w-]{2,4}$/, 1),
-      lengthCheck(email, 5, 255, 1),
-
-      assertValue<boolean>(consentCheck, true, 2),
-      assertValue<boolean>(verifyCheck, true, 3)
-    );
-  }
-
-  function checkUsername() {
-
-  }
-  function whenFormInvalid(formFlag: number) {
-    setFormState(formFlag);
-  }
 
   return (
     <div className={'w-full px-5 sm:w-3/4 lg:w-1/2 pt-3 mx-auto'}>
       <Stack direction={'row'} className={'gap-4'}>
         <p className={'!text-5xl logo'}>BLINK</p>
-        <p className={'text-2xl font-bold my-3'}>회원가입</p>
+        <p className={'text-2xl font-bold my-3'}>Google로 회원가입</p>
       </Stack>
-
       <Hr/>
-
-      <Stack className={'gap-4'}>
+      <p>Google을 이용해서 BLINK에 회원가입합니다.</p>
+      <Stack className={'gap-4 my-4'}>
         <FormSection title={'기본 정보'}>
           <FormGroup label={'이름'}>
             <TextInput
@@ -55,19 +29,6 @@ function CoreRegister() {
               label={'이름'}
               value={username}
               setter={setUsername}
-              invalid={checkFlag(formState, 0)}
-              error={'이름은 100자 이하로 입력해주세요.'}
-            />
-          </FormGroup>
-          <FormGroup label={'이메일'}>
-            <TextInput
-              placeholder={'이메일'}
-              size={'sm'}
-              label={'이메일'}
-              value={email}
-              setter={setEmail}
-              invalid={checkFlag(formState, 1)}
-              error={'올바른 이메일을 입력해주세요.'}
             />
           </FormGroup>
         </FormSection>
@@ -82,7 +43,6 @@ function CoreRegister() {
             label={'이상의 내용을 모두 이해했고, 동의합니다.'}
             checked={consentCheck}
             setter={setConsentCheck}
-            invalid={checkFlag(formState, 2)}
           />
         </FormSection>
 
@@ -97,17 +57,12 @@ function CoreRegister() {
             label={'위의 내용을 모두 확인했습니다.'}
             checked={verifyCheck}
             setter={setVerifyCheck}
-            invalid={checkFlag(formState, 3)}
           />
         </FormSection>
       </Stack>
-
-      <Stack direction={'row'} className={'my-4 gap-4'}>
-        <ButtonLink to={'/auth'}>기존 계정으로 로그인</ButtonLink>
-        <Button onClick={validateForm}>회원가입</Button>
-      </Stack>
+      <Button>회원가입</Button>
     </div>
   )
 }
 
-export default CoreRegister;
+export default GoogleCompleteRegister;
