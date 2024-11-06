@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind variants;
+
+.table-root {
+  width: 100%;
+  overflow-x: auto;
+
+  scrollbar-width: thin;
+  scrollbar-color: #C1C1C1 #F9F9F9;
+
+  @media (prefers-color-scheme: dark) {
+    scrollbar-color: #6B6B6B #2D2D2D;
+  }
+}
+
+table {
+  width: 150%;
+  @apply sm:w-full;
+}
+
+table, th, td {
+  @apply border border-grey-400 dark:border-grey-600 px-3 py-2;
+}

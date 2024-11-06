@@ -8,7 +8,8 @@ interface ButtonProps {
 
   disabled?: boolean;
   className?: string;
-  color?: 'default'
+  color?: 'default';
+  size?: 'lg' | 'md' | 'sm';
 }
 
 const buttonColors: {default: string} = {
@@ -21,8 +22,10 @@ function Button(props: ButtonProps) {
     <button
       onClick={props.onClick}
       className={
-        'px-5 py-3 border rounded-xl transition ' +
-        buttonColors[props.color ? props.color : 'default']
+        'border rounded-xl transition ' +
+        (props.size === 'lg' ? 'px-8 py-4 text-lg' : props.size === 'sm' ? 'px-5 py-2 text-sm' : 'px-5 py-3') + ' ' +
+        buttonColors[props.color ? props.color : 'default'] +
+        (props.className ? ' ' + props.className : '')
       }
     >
       {props.children}
@@ -36,7 +39,8 @@ function ButtonLink(props: ButtonProps) {
       to={props.to ? props.to : '#'}
       className={
         'px-5 py-3 border rounded-xl transition ' +
-        buttonColors[props.color ? props.color : 'default']
+        buttonColors[props.color ? props.color : 'default'] +
+        (props.className ? ' ' + props.className : '')
       }
     >
       {props.children}
@@ -46,5 +50,5 @@ function ButtonLink(props: ButtonProps) {
 
 export {
   Button,
-  ButtonLink
+  ButtonLink,
 }

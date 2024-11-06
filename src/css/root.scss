@@ -5,9 +5,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&family=Oswald:wght@700&display=swap');
 
 @import "form";
+@import "table";
 
 * {
   font-family: 'Noto Sans KR', sans-serif;
+}
+
+html {
+  overflow-x: hidden;
 }
 
 .logo {
@@ -17,8 +22,22 @@
   @apply text-4xl;
 }
 
-p, label, a, li {
+.grecaptcha-badge {
+  visibility: hidden;
+}
+
+p, label, a, li, span, td, th {
   @apply text-grey-900 dark:text-grey-100;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance:textfield;
 }
 
 #root {

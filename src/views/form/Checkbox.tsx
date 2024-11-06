@@ -21,6 +21,21 @@ function Checkbox(props: CheckboxProps) {
   )
 }
 
+function RadioButton(props: CheckboxProps) {
+  return (
+    <Stack direction={'row'} className={'gap-2 my-2'}>
+      <input
+        id={props.id}
+        type={'radio'}
+        checked={props.checked}
+        className={'cursor-pointer fill-grey-800'}
+      />
+      <label htmlFor={props.id} className={'cursor-pointer'}>{props.label}</label>
+    </Stack>
+  )
+}
+
 export {
-  Checkbox
+  Checkbox,
+  RadioButton
 }
