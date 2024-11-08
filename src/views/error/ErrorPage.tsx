@@ -16,7 +16,10 @@ function ErrorPage(props: ErrorPageProps) {
       }
     >
       <p className={'text-6xl font-bold'}>
-        {props.errorCode ? props.errorCode : props.errorTitle}
+        {props.errorCode}
+      </p>
+      <p className={'text-xl font-bold'}>
+        {props.errorTitle}
       </p>
       <p className={'text-lg'}>{props.errorMessage}</p>
       {props.children}

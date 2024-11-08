@@ -8,6 +8,7 @@ function NotFound() {
   return (
     <ErrorPage
       errorCode={404}
+      errorTitle={'Not Found'}
       errorMessage={'페이지를 찾을 수 없습니다.'}
     >
       <Stack direction={'row'} className={'gap-5'}>

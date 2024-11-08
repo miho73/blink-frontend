@@ -34,7 +34,7 @@ function CoreSignin() {
           img={<Svg src={GoogleIcon}/>}
           text={'Google로 로그인'}
           context={'default'}
-          to={'/api/auth/google/web/begin'}
+          to={'/api/auth/google/login'}
         />
         <LoginLink
           img={

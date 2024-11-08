@@ -1,5 +1,5 @@
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import {Footer, Header} from "./fragments/UICover.tsx";
+import {Footer, Header} from "./fragments/UiCover.tsx";
 import NotFound from "./error/NotFound.tsx";
 import AuthenticatedFrame from "./Frames/AuthenticatedFrame.tsx";
 import AuthenticationFrame from "./Frames/AuthenticationFrame.tsx";

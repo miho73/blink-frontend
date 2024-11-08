@@ -1,16 +1,83 @@
 import Stack from "../layout/Stack.tsx";
 import {Hr} from "../fragments/Hr.tsx";
 import {FormGroup, FormSection} from "../form/Form.tsx";
-import {Link} from "react-router-dom";
+import {Link, useNavigate, useSearchParams} from "react-router-dom";
 import {Checkbox} from "../form/Checkbox.tsx";
 import {Button} from "../form/Button.tsx";
 import {TextInput} from "../form/TextInput.tsx";
 import {useState} from "react";
+import {assertValue, checkFlag, lengthCheck, verifyAll} from "../../modules/formValidator.ts";
+import axios from "axios";
+import {useGoogleReCaptcha} from "react-google-recaptcha-v3";
 
 function GoogleCompleteRegister() {
   const [username, setUsername] = useState<string>('');
   const [consentCheck, setConsentCheck] = useState<boolean>(false);
   const [verifyCheck, setVerifyCheck] = useState<boolean>(false);
+
+  const [formState, setFormState] = useState<number>(0);
+
+  const [searchParams] = useSearchParams();
+  const code = searchParams.get('code');
+  const error = searchParams.get('error');
+
+  const navigate = useNavigate();
+
+  function validateForm() {
+    verifyAll(
+      completeRecaptcha,
+      whenFormInvalid,
+
+      lengthCheck(username, 1, 100, 0),
+      assertValue<boolean>(consentCheck, true, 1),
+      assertValue<boolean>(verifyCheck, true, 2)
+    );
+  }
+
+  const {executeRecaptcha} = useGoogleReCaptcha();
+  async function checkRecaptcha() {
+    if(!executeRecaptcha) {
+      throw new Error('recaptcha not ready');
+    }
+
+    return await executeRecaptcha('signup/google');
+  }
+
+  function completeRecaptcha() {
+    checkRecaptcha().then(token => {
+      completeRegister(token);
+    }).catch(() => {
+      setFormState(1 << 3);
+    });
+  }
+
+  function completeRegister(token: string) {
+    axios.post('/api/auth/google/register', {
+      code: code,
+      username: username,
+      recaptcha: token
+    }).then(() => {
+      navigate('/user/welcome');
+    }).catch(() => {
+      setFormState(1 << 4);
+    });
+  }
+  function whenFormInvalid(formFlag: number) {
+    setFormState(formFlag);
+  }
+
+  if(error) {
+    return (
+      <div className={'w-full px-5 sm:w-3/4 lg:w-1/2 pt-3 mx-auto'}>
+        <Stack direction={'row'} className={'gap-4'}>
+          <p className={'!text-5xl logo'}>BLINK</p>
+          <p className={'text-2xl font-bold my-3'}>Google로 회원가입</p>
+        </Stack>
+        <Hr/>
+        <p className={'text-red-500 dark:text-red-300'}>Google으로 회원가입할 수 없습니다.</p>
+      </div>
+    )
+  }
 
   return (
     <div className={'w-full px-5 sm:w-3/4 lg:w-1/2 pt-3 mx-auto'}>
@@ -29,6 +96,8 @@ function GoogleCompleteRegister() {
               label={'이름'}
               value={username}
               setter={setUsername}
+              invalid={checkFlag(formState, 0)}
+              error={'이름은 100자 이하로 입력해주세요.'}
             />
           </FormGroup>
         </FormSection>
@@ -43,6 +112,7 @@ function GoogleCompleteRegister() {
             label={'이상의 내용을 모두 이해했고, 동의합니다.'}
             checked={consentCheck}
             setter={setConsentCheck}
+            invalid={checkFlag(formState, 1)}
           />
         </FormSection>
 
@@ -57,10 +127,15 @@ function GoogleCompleteRegister() {
             label={'위의 내용을 모두 확인했습니다.'}
             checked={verifyCheck}
             setter={setVerifyCheck}
+            invalid={checkFlag(formState, 2)}
           />
         </FormSection>
       </Stack>
-      <Button>회원가입</Button>
+
+      {checkFlag(formState, 3) && <p className={'my-2 text-red-500 dark:text-red-300'}>reCAPTCHA를 완료하지 못했습니다. 다시 시도해주세요.</p>}
+      {checkFlag(formState, 4) && <p className={'my-2 text-red-500 dark:text-red-300'}>계정을 만들지 못했습니다.</p>}
+
+      <Button onClick={validateForm}>회원가입</Button>
     </div>
   )
 }
