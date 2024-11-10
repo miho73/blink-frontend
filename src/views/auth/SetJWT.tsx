@@ -11,8 +11,8 @@ function getUserInfo(jwt: string) {
 }
 
 function SetJwt() {
-  const queryParams = new URLSearchParams(window.location.search)
-  const jwt = queryParams.get("jwt")
+  const queryParams = new URLSearchParams(window.location.search);
+  const jwt = queryParams.get("jwt");
   const navigate = useNavigate();
 
   const [status, setStatus] = useState(0);
@@ -28,7 +28,7 @@ function SetJwt() {
       {},
       {headers: {'Authorization': `Bearer ${jwt}`}}
     ).then(response => {
-      if(response.data['authorized'] == true) {
+      if (response.data['authorized'] == true) {
         getUserInfo(jwt)
           .then(response => {
             const user = response.data;
@@ -43,15 +43,14 @@ function SetJwt() {
             localStorage.setItem('with-authentication', jwt);
             navigate('/');
           }).catch(() => {
-            setStatus(3);
-          });
-      }
-      else {
+          setStatus(3);
+        });
+      } else {
         setStatus(2);
       }
     }).catch(() => {
-        setStatus(2);
-    })
+      setStatus(2);
+    });
   }, [dispatch, jwt, navigate]);
 
   switch (status) {

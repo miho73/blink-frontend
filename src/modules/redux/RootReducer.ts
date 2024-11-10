@@ -1,4 +1,4 @@
-import { combineReducers } from "redux";
+import {combineReducers} from "redux";
 import userInfoReducer from "./UserInfoReducer.ts";
 import {configureStore} from "@reduxjs/toolkit";
 

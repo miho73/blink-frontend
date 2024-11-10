@@ -18,7 +18,7 @@ function CoreSignin() {
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search)
     const e = queryParams.get("error")
-    if(e != null) setError(e);
+    if (e != null) setError(e);
   }, []);
 
   return (
@@ -80,14 +80,14 @@ interface LoginLinkProps {
   useLink?: boolean;
 }
 
-const colorClasses: {default: string} = {
+const colorClasses: { default: string } = {
   default: 'bg-transparent border-grey-300 text-grey-900 hover:bg-grey-200 hover:border-grey-300 hover:text-black ' +
     'dark:border-grey-800 dark:text-grey-100 dark:hover:bg-grey-800 dark:hover:border-grey-700 dark:hover:text-grey-200',
 }
 
 function LoginLink(props: LoginLinkProps) {
 
-  if(props.useLink) {
+  if (props.useLink) {
     return (
       <Link
         className={
@@ -102,8 +102,7 @@ function LoginLink(props: LoginLinkProps) {
         <p>{props.text}</p>
       </Link>
     );
-  }
-  else {
+  } else {
     return (
       <a
         className={

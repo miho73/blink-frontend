@@ -15,13 +15,13 @@ function CheckVerificationStatus() {
       <div className={'table-root'}>
         <table>
           <thead>
-            <tr>
-              <th>신청 번호</th>
-              <th>상태</th>
-              <th>신청 시각</th>
-              <th>신청 정보</th>
-            </tr>
-            </thead>
+          <tr>
+            <th>신청 번호</th>
+            <th>상태</th>
+            <th>신청 시각</th>
+            <th>신청 정보</th>
+          </tr>
+          </thead>
           <tbody>
           <tr className={'text-center'}>
             <td>2332-3992</td>

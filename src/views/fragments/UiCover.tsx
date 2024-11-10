@@ -1,7 +1,42 @@
 import Stack from "../layout/Stack.tsx";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import {useAppSelector} from "../../modules/hook/ReduxHooks.ts";
+import {ReactElement} from "react";
+import {useDispatch} from "react-redux";
+import {actions} from "../../modules/redux/UserInfoReducer.ts";
+import {LinkButton} from "../form/Button.tsx";
 
 function Header() {
+  const userInfo = useAppSelector(state => state.userInfoReducer);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  let links: ReactElement;
+
+  // FIXME: Refreshing page when authenticated does not load auth state
+  function signOut() {
+    localStorage.removeItem('with-authentication');
+    dispatch(actions.signOut());
+    navigate('/auth');
+  }
+
+  if (userInfo.initialized && userInfo.authenticated) {
+    links = (
+      <>
+        <Link to={'/profile'} className={'text-black dark:text-white'}>프로필</Link>
+        <Link to={'/settings'} className={'text-black dark:text-white'}>설정</Link>
+        <LinkButton onClick={signOut} className={'text-black dark:text-white'}>로그아웃</LinkButton>
+      </>
+    );
+  } else {
+    links = (
+      <>
+        <Link to={'/auth'} className={'text-black dark:text-white'}>로그인</Link>
+        <Link to={'/auth/register'} className={'text-black dark:text-white'}>회원가입</Link>
+      </>
+    )
+  }
+
   return (
     <header
       className={
@@ -12,8 +47,7 @@ function Header() {
     >
       <Link to={'/'} className={'logo'}>BLINK</Link>
       <Stack direction={'row'} className={'gap-4'}>
-        <Link to={'/auth'} className={'text-black dark:text-white'}>로그인</Link>
-        <Link to={'/auth/register'} className={'text-black dark:text-white'}>회원가입</Link>
+        {links}
       </Stack>
     </header>
   )

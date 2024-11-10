@@ -11,7 +11,7 @@ function Stack(props: StackProps) {
         'flex' +
         (props.direction === 'row' ? ' flex-row' : ' flex-col') +
         (props.className ? ' ' + props.className : '')
-    }
+      }
     >
       {props.children}
     </div>

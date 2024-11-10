@@ -1,10 +1,9 @@
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {Footer, Header} from "./fragments/UiCover.tsx";
 import NotFound from "./error/NotFound.tsx";
-import AuthenticatedFrame from "./Frames/AuthenticatedFrame.tsx";
-import AuthenticationFrame from "./Frames/AuthenticationFrame.tsx";
-import CoreStudentVerification from "./user/StudentVerification/CoreStudentVerification.tsx";
-import CheckVerificationStatus from "./user/StudentVerification/CheckVerificationStatus.tsx";
+import AuthenticationRouteFrame from "./Frames/RouteFrames/AuthenticationRouteFrame.tsx";
+import UserAuthenticatedRouteFrame from "./Frames/RouteFrames/UserAuthenticatedRouteFrame.tsx";
+import UserUnauthenticatedRouteFrame from "./Frames/RouteFrames/UserUnauthenticatedRouteFrame.tsx";
 
 function App() {
   return (
@@ -12,14 +11,11 @@ function App() {
       <Header/>
       <main className={'mb-10 mt-3'}>
         <Routes>
-          <Route path={'/auth/*'} element={<AuthenticationFrame/>}/>
+          <Route path={'/'} element={<div>Home</div>}/>
 
-          <Route element={<AuthenticatedFrame/>}>
-            <Route path={'/'} element={<div>Home</div>}/>
-            <Route path={'/user/student-verification'} element={<CoreStudentVerification/>}/>
-            <Route path={'/user/student-verification/check'} element={<CheckVerificationStatus/>}/>
-            <Route path={'*'} element={<NotFound/>}/>
-          </Route>
+          <Route path={'/auth/*'} element={<AuthenticationRouteFrame/>}/>
+          <Route path={'/user/n/*'} element={<UserUnauthenticatedRouteFrame/>}/>
+          <Route path={'/user/*'} element={<UserAuthenticatedRouteFrame/>}/>
 
           <Route path={'*'} element={<NotFound/>}/>
         </Routes>

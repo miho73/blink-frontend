@@ -11,6 +11,7 @@ interface TextInputProps {
   invalid?: boolean;
   error?: string
   size?: 'sm' | 'md' | 'lg';
+  authComplete?: 'email' | 'nickname' | 'name' | 'username' | 'new-password' | 'current-password' | 'one-time-code';
 
   className?: string;
 }
@@ -33,6 +34,7 @@ function TextInput(props: TextInputProps) {
           (props.size === 'lg' ? ' px-8 py-4 text-xl rounded-2xl max-md:px-6 max-md-py-3 max-md:text-lg max-md:rounded-xl' : '') +
           (props.className ? ' ' + props.className : '')
         }
+        autoComplete={props.authComplete}
       />
       {props.invalid &&
         <p className={'my-2 text-red-500 dark:text-red-300'}>{props.error}</p>

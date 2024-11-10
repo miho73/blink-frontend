@@ -25,6 +25,7 @@ const userInfoSlice = createSlice({
       state.authenticated = true;
       state.username = action.payload.username;
       state.jwt = action.payload.jwt;
+      state.initialized = true;
     },
 
     completeInitialization: (state: UserInfoStateType, action: PayloadAction<boolean>) => {
@@ -44,3 +45,4 @@ export const actions = userInfoSlice.actions;
 export const authenticated = (state: RootState) => state.userInfoReducer.authenticated;
 export const initialized = (state: RootState) => state.userInfoReducer.initialized;
 export default userInfoSlice.reducer;
+export type {UserInfoStateType};
