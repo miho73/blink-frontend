@@ -13,7 +13,6 @@ function Header() {
 
   let links: ReactElement;
 
-  // FIXME: Refreshing page when authenticated does not load auth state
   function signOut() {
     localStorage.removeItem('with-authentication');
     dispatch(actions.signOut());
@@ -23,8 +22,7 @@ function Header() {
   if (userInfo.initialized && userInfo.authenticated) {
     links = (
       <>
-        <Link to={'/profile'} className={'text-black dark:text-white'}>프로필</Link>
-        <Link to={'/settings'} className={'text-black dark:text-white'}>설정</Link>
+        <Link to={'/user'} className={'text-black dark:text-white'}>프로필</Link>
         <LinkButton onClick={signOut} className={'text-black dark:text-white'}>로그아웃</LinkButton>
       </>
     );

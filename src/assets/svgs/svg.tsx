@@ -6,19 +6,30 @@ import MapIcon from './map.svg';
 import SettingsIcon from './settings.svg';
 import GoogleIcon from './google_logo.svg';
 import KakaoIcon from './kakao_logo.svg';
+import PencilIcon from './pencil.svg';
+import CheckIconLight from './check_light.svg';
+import CheckIconDark from './check_dark.svg';
+import CancelIconLight from './cancel_light.svg';
+import CancelIconDark from './cancel_dark.svg';
+
 import PasskeyIocnBlack from './FIDO_Passkey_mark_A_black.svg';
 import PasskeyIocnWhite from './FIDO_Passkey_mark_A_white.svg';
 import KeyIconWhite from './Key_white.svg';
 import KeyIconBlack from './Key_black.svg';
 
+
 interface SVGProps {
   src: string;
+  css?: boolean;
   className?: string;
 }
 
 function Svg(props: SVGProps) {
   return (
-    <img src={props.src} className={(props.className ? props.className : '')}/>
+    <img
+      src={props.src}
+      className={(props.className ? props.className : '') + (props.css ? ' svg-color-control' : '')}
+    />
   )
 }
 
@@ -35,6 +46,11 @@ export {
   PasskeyIocnWhite,
   KeyIconWhite,
   KeyIconBlack,
+  PencilIcon,
+  CheckIconLight,
+  CheckIconDark,
+  CancelIconLight,
+  CancelIconDark,
 
   Svg
 };

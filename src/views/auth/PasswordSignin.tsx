@@ -11,10 +11,13 @@ function PasswordSignin() {
   const [id, setId] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [formState, setFormState] = useState<number>(0);
+  const [working, setWorking] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
   function validateForm() {
+    setWorking(true);
+
     verifyAll(
       completeRecaptcha,
       whenFormInvalid,
@@ -39,6 +42,8 @@ function PasswordSignin() {
       completeSignin(token);
     }).catch(() => {
       setFormState(1 << 2);
+    }).finally(() => {
+      setWorking(false);
     });
   }
 
@@ -68,6 +73,7 @@ function PasswordSignin() {
 
   function whenFormInvalid(formFlag: number) {
     setFormState(formFlag);
+    setWorking(false);
   }
 
   return (
@@ -85,6 +91,8 @@ function PasswordSignin() {
           value={id}
           setter={setId}
           authComplete={'username'}
+          onEnter={validateForm}
+          disabled={working}
         />
         <TextInput
           placeholder={'Password'}
@@ -94,6 +102,8 @@ function PasswordSignin() {
           value={password}
           setter={setPassword}
           authComplete={'current-password'}
+          onEnter={validateForm}
+          disabled={working}
         />
       </Stack>
 
@@ -104,8 +114,8 @@ function PasswordSignin() {
       {checkFlag(formState, 4) && <p className={'my-2 text-red-500 dark:text-red-300 text-center'}>로그인하지 못했습니다.</p>}
 
       <Stack direction={'row'} className={'my-2 gap-4'}>
-        <ButtonLink to={'/auth'}>다른 방법으로 로그인</ButtonLink>
-        <Button onClick={validateForm}>로그인</Button>
+        <ButtonLink to={'/auth'} disabled={working}>다른 방법으로 로그인</ButtonLink>
+        <Button onClick={validateForm} disabled={working}>로그인</Button>
       </Stack>
       <Stack direction={'row'} className={'gap-4 text-blue-600 dark:text-blue-400'}>
         <Link to={'/auth/iforgot'} className={'hover:underline'}>암호 찾기</Link>

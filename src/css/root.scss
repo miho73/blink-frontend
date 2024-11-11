@@ -26,8 +26,14 @@ html {
   visibility: hidden;
 }
 
-p, label, a, li, span, td, th {
+p, label, a, li, span, td, th, button, caption {
   @apply text-grey-900 dark:text-grey-100;
+}
+
+img.svg-color-control {
+  @media (prefers-color-scheme: dark) {
+    filter: invert(63%) sepia(10%) saturate(246%) hue-rotate(175deg) brightness(93%) contrast(93%);
+  }
 }
 
 input::-webkit-outer-spin-button,

@@ -4,6 +4,7 @@ import NotFound from "./error/NotFound.tsx";
 import AuthenticationRouteFrame from "./Frames/RouteFrames/AuthenticationRouteFrame.tsx";
 import UserAuthenticatedRouteFrame from "./Frames/RouteFrames/UserAuthenticatedRouteFrame.tsx";
 import UserUnauthenticatedRouteFrame from "./Frames/RouteFrames/UserUnauthenticatedRouteFrame.tsx";
+import AuthenticationFrame from "./Frames/AuthenticationFrame.tsx";
 
 function App() {
   return (
@@ -11,7 +12,8 @@ function App() {
       <Header/>
       <main className={'mb-10 mt-3'}>
         <Routes>
-          <Route path={'/'} element={<div>Home</div>}/>
+
+          <Route path={'/'} element={<AuthenticationFrame><div>Hello, World!</div></AuthenticationFrame>}/>
 
           <Route path={'/auth/*'} element={<AuthenticationRouteFrame/>}/>
           <Route path={'/user/n/*'} element={<UserUnauthenticatedRouteFrame/>}/>
