@@ -117,7 +117,7 @@ function PasswordSignin() {
         <ButtonLink to={'/auth'} disabled={working}>다른 방법으로 로그인</ButtonLink>
         <Button onClick={validateForm} disabled={working}>로그인</Button>
       </Stack>
-      <Stack direction={'row'} className={'gap-4 text-blue-600 dark:text-blue-400'}>
+      <Stack direction={'row'} className={'gap-4 text-blue-600 dark:text-blue-300'}>
         <Link to={'/auth/iforgot'} className={'hover:underline'}>암호 찾기</Link>
         <Link to={'/auth/register'} className={'hover:underline'}>회원가입</Link>
       </Stack>

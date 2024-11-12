@@ -21,7 +21,7 @@ function CoreStudentVerification() {
       <Hr/>
 
       <Stack className={'gap-4 my-4'}>
-        <p>재학생 확인 신청을 제출합니다. 기존에 제출한 재학생 확인의 진행상황은 <Link className={'text-blue-600 dark:text-blue-400 hover:underline'}
+        <p>재학생 확인 신청을 제출합니다. 기존에 제출한 재학생 확인의 진행상황은 <Link className={'text-blue-600 dark:text-blue-300 hover:underline'}
                                                          to={'/user/student-verification/check'}>이곳</Link>에서 확인할 수 있습니다.
         </p>
         <FormSection title={'재학생 확인 방법'}>
@@ -33,7 +33,7 @@ function CoreStudentVerification() {
             />
           </Stack>
           <p>재학증명서와 학적에 관한 정보를 제출하여 재학생 신분을 확인하는 방법입니다. 재학증명서는 <Link
-            className={'text-blue-600 dark:text-blue-400 hover:underline'}
+            className={'text-blue-600 dark:text-blue-300 hover:underline'}
             to={'https://www.gov.kr/mw/AA020InfoCappView.do?HighCtgCD=A04007;A04001&CappBizCD=13410000017&tp_seq=01'}
             target={'_blank'}>정부 24</Link>에서 PDF로 방급받을 수 있습니다.</p>
         </FormSection>

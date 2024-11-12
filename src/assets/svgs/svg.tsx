@@ -11,6 +11,7 @@ import CheckIconLight from './check_light.svg';
 import CheckIconDark from './check_dark.svg';
 import CancelIconLight from './cancel_light.svg';
 import CancelIconDark from './cancel_dark.svg';
+import TrashBin from './trash_bin.svg'
 
 import PasskeyIocnBlack from './FIDO_Passkey_mark_A_black.svg';
 import PasskeyIocnWhite from './FIDO_Passkey_mark_A_white.svg';
@@ -21,6 +22,7 @@ import KeyIconBlack from './Key_black.svg';
 interface SVGProps {
   src: string;
   css?: boolean;
+  cssColor?: 'white' | 'gray';
   className?: string;
 }
 
@@ -28,7 +30,13 @@ function Svg(props: SVGProps) {
   return (
     <img
       src={props.src}
-      className={(props.className ? props.className : '') + (props.css ? ' svg-color-control' : '')}
+      className={
+        (props.className ? props.className : '') +
+        (props.css ? (
+          (props.cssColor === 'gray' ? ' svg-color-control-gray' : '') +
+          (props.cssColor === 'white' ? ' svg-color-control' : '')
+        ) : '')
+      }
     />
   )
 }
@@ -51,6 +59,7 @@ export {
   CheckIconDark,
   CancelIconLight,
   CancelIconDark,
+  TrashBin,
 
   Svg
 };

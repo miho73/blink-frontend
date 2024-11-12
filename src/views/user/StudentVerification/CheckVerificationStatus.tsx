@@ -25,7 +25,7 @@ function CheckVerificationStatus() {
           <tbody>
           <tr className={'text-center'}>
             <td>2332-3992</td>
-            <td className={'text-green-600 dark:text-green-300 font-bold'}>승인됨</td>
+            <td className={'text-green-700 dark:text-green-300 font-bold'}>승인됨</td>
             <td>2024.11.12 12:30:32 KST</td>
             <td>
               <Button size={'sm'}>확인</Button>
