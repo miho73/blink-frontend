@@ -28,7 +28,6 @@ function PasswordSignin() {
   }
 
   const {executeRecaptcha} = useGoogleReCaptcha();
-
   async function checkRecaptcha() {
     if (!executeRecaptcha) {
       throw new Error('recaptcha not ready');
@@ -38,6 +37,7 @@ function PasswordSignin() {
   }
 
   function completeRecaptcha() {
+    setFormState(0);
     checkRecaptcha().then(token => {
       completeSignin(token);
     }).catch(() => {
@@ -107,8 +107,8 @@ function PasswordSignin() {
         />
       </Stack>
 
-      {checkFlag(formState, 0) && <p className={'my-2 text-red-500 dark:text-red-300 text-center'}>ID는 255자 이하로 입력해주세요.</p>}
-      {checkFlag(formState, 1) && <p className={'my-2 text-red-500 dark:text-red-300 text-center'}>암호는 6자리 이상이여야 합니다.</p>}
+      {checkFlag(formState, 0) && <p className={'my-2 text-red-500 dark:text-red-300 text-center'}>ID 혹은 암호가 잘못되었습니다.</p>}
+      {checkFlag(formState, 1) && <p className={'my-2 text-red-500 dark:text-red-300 text-center'}>ID 혹은 암호가 잘못되었습니다.</p>}
       {checkFlag(formState, 2) && <p className={'my-2 text-red-500 dark:text-red-300 text-center'}>reCAPTCHA를 완료하지 못했습니다. 다시 시도해주세요.</p>}
       {checkFlag(formState, 3) && <p className={'my-2 text-red-500 dark:text-red-300 text-center'}>ID 혹은 암호가 잘못되었습니다.</p>}
       {checkFlag(formState, 4) && <p className={'my-2 text-red-500 dark:text-red-300 text-center'}>로그인하지 못했습니다.</p>}

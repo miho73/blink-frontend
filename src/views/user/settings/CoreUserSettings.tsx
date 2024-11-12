@@ -2,7 +2,7 @@ import Stack from "../../layout/Stack.tsx";
 import {ReactElement, ReactNode, useState} from "react";
 import AuthSettings from "./AuthSettings.tsx";
 import GeneralSettings from "./GeneralSettings.tsx";
-import {PencilIcon, ProfileIcon, Svg} from "../../../assets/svgs/svg.tsx";
+import {KeyIcon, PencilIcon, ProfileIcon, Svg} from "../../../assets/svgs/svg.tsx";
 import {Hr} from "../../fragments/Hr.tsx";
 import StudentCheckSettings from "./StudentCheckSettings.tsx";
 
@@ -39,7 +39,7 @@ function CoreUserSettings() {
         <SettingsTabButton
           selected={selectedTab === 1}
           setter={() => setSelectedTab(1)}
-          icon={<Svg src={ProfileIcon} css cssColor={'gray'}/>}
+          icon={<Svg src={KeyIcon} css cssColor={'gray'}/>}
         >
           인증 및 보안
         </SettingsTabButton>

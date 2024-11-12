@@ -45,6 +45,7 @@ function GoogleCompleteRegister() {
   }
 
   function completeRecaptcha() {
+    setFormState(0);
     checkRecaptcha().then(token => {
       completeRegister(token);
     }).catch(() => {

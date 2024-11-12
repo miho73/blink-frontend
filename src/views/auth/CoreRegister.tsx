@@ -60,6 +60,7 @@ function CoreRegister() {
   }
 
   function completeRecaptcha() {
+    setFormState(0);
     checkRecaptcha().then(token => {
       completeRegister(token);
     }).catch(() => {
@@ -145,7 +146,7 @@ function CoreRegister() {
               value={pwd}
               setter={setPwd}
               invalid={checkFlag(formState, 5)}
-              error={'암호는 6자 이상이여야 합니다.'}
+              error={'암호는 6자리 이상이여야 합니다.'}
               authComplete={'new-password'}
             />
           </FormGroup>

@@ -4,11 +4,30 @@ import {CancelIconDark, CancelIconLight, CheckIconDark, CheckIconLight, Svg} fro
 import Stack from "../../layout/Stack.tsx";
 import {Link} from "react-router-dom";
 import {Button} from "../../form/Button.tsx";
+import {useEffect, useState} from "react";
+import axios from "axios";
+import {useAppSelector} from "../../../modules/hook/ReduxHooks.ts";
 
 function StudentCheckSettings() {
+  const jwt = useAppSelector(state => state.userInfoReducer.jwt);
+
+  const [verified, setVerified] = useState<boolean>(false);
+
+  useEffect(() => {
+    axios.get(
+      '/api/sv/get',
+      {headers: {'Authorization': `Bearer ${jwt}`}}
+    ).then(res => {
+      setVerified(res.data?.verified);
+    }).catch(() => {
+
+    })
+  }, [jwt]);
+
   return (
     <FormSection title={'재학생 확인'}>
-      <CheckOk/>
+      { verified && <CheckOk/>}
+      { !verified && <CheckNotOk/>}
     </FormSection>
   )
 }
