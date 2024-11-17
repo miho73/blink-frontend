@@ -5,8 +5,10 @@ import {
   KeyIconBlack,
   KeyIconWhite,
   PasskeyIocnBlack,
-  PasskeyIocnWhite, PencilIcon,
-  Svg, TrashBinIcon
+  PasskeyIocnWhite,
+  PencilIcon,
+  Svg,
+  TrashBinIcon
 } from "../../../assets/svgs/svg.tsx";
 import ThemeSelector from "../../../css/ThemeSelector.tsx";
 import {Button} from "../../form/Button.tsx";
@@ -54,29 +56,28 @@ function AuthSettings() {
   }, [jwt]);
 
   // TODO: 텍스트 다듬기
-  if(pageState === 1) {
+  if (pageState === 1) {
     return (
       <FormSection title={'인증 및 보안'}>
         <Alert variant={'error'}>인증 정보를 로딩하지 못했습니다.</Alert>
       </FormSection>
     )
-  }
-  else if(pageState === 0 || pageState === 2) {
+  } else if (pageState === 0 || pageState === 2) {
     return (
       <FormSection title={'인증 및 보안'}>
         <FormGroup label={'인증 방법'} strong>
           <Stack direction={'row'} className={'h-[48px] gap-3 justify-start'}>
-            { authInfo?.google &&
+            {authInfo?.google &&
               <Svg src={GoogleIcon} className={'w-[48px]'}/>
             }
-            { authInfo?.password &&
+            {authInfo?.password &&
               <ThemeSelector
                 className={'w-[48px]'}
                 light={<Svg src={KeyIconBlack}/>}
                 dark={<Svg src={KeyIconWhite}/>}
               />
             }
-            { authInfo?.passkey &&
+            {authInfo?.passkey &&
               <ThemeSelector
                 className={'w-[48px]'}
                 light={<Svg src={PasskeyIocnBlack}/>}
@@ -86,28 +87,33 @@ function AuthSettings() {
           </Stack>
         </FormGroup>
 
-        { authInfo?.password &&
+        {authInfo?.password &&
           <FormGroup label={'비밀번호 변경'} strong>
-            { !pwdChange &&
+            {!pwdChange &&
               <>
                 {pwdChangeSuccess && <p className={'text-green-700 dark:text-green-300 mb-3'}>암호가 변경되었습니다.</p>}
                 <Button className={'w-fit'} onClick={() => setPwdChange(true)}>비밀번호 변경</Button>
               </>
             }
-            { pwdChange && <ChangePassword cancel={() => setPwdChange(false)} success={() => {setPwdChange(false); setPwdChangeSuccess(true)}}/> }
+            {pwdChange && <ChangePassword cancel={() => setPwdChange(false)} success={() => {
+              setPwdChange(false);
+              setPwdChangeSuccess(true)
+            }}/>}
           </FormGroup>
         }
 
         <FormGroup label={'Passkey 관리'} strong>
-          <p>Passkeys를 사용하면 디바이스의 지문 인식, 얼굴 인식, 화면 잠금, 혹은 하드웨어 보안키를 사용하여 안전하게 IonID에 로그인할 수 있습니다. 본인 소유의 디바이스에서만 Passkeys를 설정해야 합니다.</p>
+          <p>Passkeys를 사용하면 디바이스의 지문 인식, 얼굴 인식, 화면 잠금, 혹은 하드웨어 보안키를 사용하여 안전하게 BLINK에 로그인할 수 있습니다. 본인 소유의 디바이스에서만
+            Passkeys를 설정해야 합니다.</p>
           <Stack direction={'row'} className={'my-3'}>
             <Button size={'custom'} className={'px-5 py-3'}>Passkey 등록</Button>
           </Stack>
 
-          { authInfo?.passkey &&
+          {authInfo?.passkey &&
             <FormGroup label={'계정에 등록된 Passkey'} strong>
               <Stack>
-                <Stack direction={'row'} className={'justify-between items-center border border-grey-400 dark:border-grey-600 px-4 py-2 rounded-2xl'}>
+                <Stack direction={'row'}
+                       className={'justify-between items-center border border-grey-400 dark:border-grey-600 px-4 py-2 rounded-2xl'}>
                   <Stack direction={'row'} className={'gap-2'}>
                     <Svg src={PasskeyIocnWhite} className={'w-[64px]'}/>
                     <Stack className={'gap-1'}>

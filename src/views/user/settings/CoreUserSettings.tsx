@@ -70,8 +70,8 @@ function SettingsTabButton(props: SettingsTabProps) {
     <button
       onClick={props.setter}
       className={
-        'my-1 py-2 pl-[20px] text-left font-medium flex justify-start items-center gap-3' +
-        (props.selected ? ' border-l-4 border-blue-600 dark:border-blue-500 !pl-[16px]' : '')
+        'my-1 py-2 pl-[20px] text-left font-medium flex justify-start items-center gap-3 transition border-l-4 border-transparent ' +
+        (props.selected ? ' border-blue-600 dark:border-blue-500' : '')
       }
     >
       {props.icon}

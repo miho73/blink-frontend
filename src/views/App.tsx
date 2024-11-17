@@ -13,7 +13,9 @@ function App() {
       <main className={'mb-10 mt-3'}>
         <Routes>
 
-          <Route path={'/'} element={<AuthenticationFrame><div>Hello, World!</div></AuthenticationFrame>}/>
+          <Route path={'/'} element={<AuthenticationFrame>
+            <div>Hello, World!</div>
+          </AuthenticationFrame>}/>
 
           <Route path={'/auth/*'} element={<AuthenticationRouteFrame/>}/>
           <Route path={'/user/n/*'} element={<UserUnauthenticatedRouteFrame/>}/>

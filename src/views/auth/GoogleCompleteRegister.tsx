@@ -46,11 +46,12 @@ function GoogleCompleteRegister() {
 
   function completeRecaptcha() {
     setFormState(0);
-    checkRecaptcha().then(token => {
-      completeRegister(token);
-    }).catch(() => {
-      setFormState(1 << 3);
-    });
+    checkRecaptcha()
+      .then(token => {
+        completeRegister(token);
+      }).catch(() => {
+        setFormState(1 << 3);
+      });
   }
 
   function completeRegister(token: string) {
@@ -60,8 +61,15 @@ function GoogleCompleteRegister() {
       recaptcha: token
     }).then(() => {
       navigate('/user/n/welcome');
-    }).catch(() => {
-      setFormState(1 << 4);
+    }).catch(err => {
+      const error = err.response.data?.message;
+      switch (error) {
+        case 'Recaptcha failed':
+          setFormState(1 << 4);
+          break;
+        default:
+          setFormState(1 << 5);
+      }
     });
   }
 
@@ -139,7 +147,9 @@ function GoogleCompleteRegister() {
 
       {checkFlag(formState, 3) &&
         <p className={'my-2 text-red-500 dark:text-red-300'}>reCAPTCHA를 완료하지 못했습니다. 다시 시도해주세요.</p>}
-      {checkFlag(formState, 4) && <p className={'my-2 text-red-500 dark:text-red-300'}>계정을 만들지 못했습니다.</p>}
+      {checkFlag(formState, 4) &&
+        <p className={'my-2 text-red-500 dark:text-red-300'}>사용자 보호를 위해 지금은 계정을 만들 수 없습니다.</p>}
+      {checkFlag(formState, 5) && <p className={'my-2 text-red-500 dark:text-red-300'}>계정을 만들지 못했습니다.</p>}
 
       <Button onClick={validateForm}>회원가입</Button>
     </div>

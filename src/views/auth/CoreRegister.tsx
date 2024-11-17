@@ -42,7 +42,7 @@ function CoreRegister() {
       lengthCheck(id, 1, 255, 4),
       lengthCheckMin(pwd, 6, 5),
 
-      assertValue(pwd, pwdConfirm, 8),
+      assertValue<string>(pwd, pwdConfirm, 8),
 
       assertValue<boolean>(consentCheck, true, 2),
       assertValue<boolean>(verifyCheck, true, 3)
@@ -61,11 +61,12 @@ function CoreRegister() {
 
   function completeRecaptcha() {
     setFormState(0);
-    checkRecaptcha().then(token => {
-      completeRegister(token);
-    }).catch(() => {
-      setFormState(1 << 6);
-    });
+    checkRecaptcha()
+      .then(token => {
+        completeRegister(token);
+      }).catch(() => {
+        setFormState(1 << 6);
+      });
   }
 
   function whenFormInvalid(formFlag: number) {
@@ -81,8 +82,15 @@ function CoreRegister() {
       recaptcha: token
     }).then(() => {
       navigate('/user/n/welcome');
-    }).catch(() => {
-      setFormState(1 << 7);
+    }).catch(err => {
+      const error = err.response.data?.message;
+      switch (error) {
+        case 'Recaptcha failed':
+          setFormState(1 << 7);
+          break;
+        default:
+          setFormState(1 << 8);
+      }
     });
   }
 
@@ -198,7 +206,9 @@ function CoreRegister() {
 
       {checkFlag(formState, 6) &&
         <p className={'my-2 text-red-500 dark:text-red-300'}>reCAPTCHA를 완료하지 못했습니다. 다시 시도해주세요.</p>}
-      {checkFlag(formState, 7) && <p className={'my-2 text-red-500 dark:text-red-300'}>계정을 만들지 못했습니다.</p>}
+      {checkFlag(formState, 7) &&
+        <p className={'my-2 text-red-500 dark:text-red-300'}>사용자 보호를 위해 지금은 계정을 만들 수 없습니다.</p>}
+      {checkFlag(formState, 8) && <p className={'my-2 text-red-500 dark:text-red-300'}>계정을 만들지 못했습니다.</p>}
 
       <Stack direction={'row'} className={'my-4 gap-4'}>
         <ButtonLink to={'/auth'}>기존 계정으로 로그인</ButtonLink>

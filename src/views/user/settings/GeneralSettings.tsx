@@ -15,9 +15,11 @@ function GeneralSettings() {
   const [email, setEmail] = useState<string>('');
   const [emailVerified, setEmailVerified] = useState<boolean>(false);
 
-  let emailSidecar = <ThemeSelector light={<Svg src={CancelIconLight}/>} dark={<Svg src={CancelIconDark}/>} className={'w-[20px]'}/>;
-  if(emailVerified) {
-    emailSidecar = <ThemeSelector light={<Svg src={CheckIconLight}/>} dark={<Svg src={CheckIconDark}/>} className={'w-[20px]'}/>;
+  let emailSidecar = <ThemeSelector light={<Svg src={CancelIconLight}/>} dark={<Svg src={CancelIconDark}/>}
+                                    className={'w-[20px]'}/>;
+  if (emailVerified) {
+    emailSidecar =
+      <ThemeSelector light={<Svg src={CheckIconLight}/>} dark={<Svg src={CheckIconDark}/>} className={'w-[20px]'}/>;
   }
 
   // TODO: 로딩중 애니메이션 다듬기
@@ -36,14 +38,13 @@ function GeneralSettings() {
   }, [jwt]);
 
   // TODO: 캡션 다듬기
-  if(pageState === 1) {
+  if (pageState === 1) {
     return (
       <FormSection title={'프로필'}>
         <Alert variant={'error'}>프로필을 로딩하지 못했습니다.</Alert>
       </FormSection>
     )
-  }
-  else if(pageState === 2 || pageState === 0) {
+  } else if (pageState === 2 || pageState === 0) {
     return (
       <FormSection title={'프로필'}>
         <FormGroup label={'이름'} strong>

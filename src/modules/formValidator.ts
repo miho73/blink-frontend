@@ -40,12 +40,31 @@ function lengthCheck(value: string, min: number, max: number, index: number) {
   return value.length >= min && value.length <= max ? -1 : index;
 }
 
+function rangeCheckMin(value: number, min: number, index: number) {
+  if (value < min) return index;
+  return -1;
+}
+
+function rangeCheckMax(value: number, max: number, index: number) {
+  if (value > max) return index;
+  return -1;
+}
+
+function rangeCheck(value: number, min: number, max: number, index: number) {
+  if (value < min || value > max) return index;
+  return -1;
+}
+
 function valueOneOf(value: string, values: string[], index: number) {
   return values.includes(value) ? -1 : index
 }
 
-function assertValue<TYPE>(value: TYPE, assertion: TYPE, index: number) {
+function assertValue<TYPE>(value: TYPE | null, assertion: TYPE | null, index: number) {
   return value === assertion ? -1 : index;
+}
+
+function assertNotValue<TYPE>(value: TYPE | null, assertion: TYPE | null, index: number) {
+  return value === assertion ? index : -1;
 }
 
 function checkSingle(flag: number, value: boolean, index: number) {
@@ -62,8 +81,12 @@ export {
   lengthCheckMax,
   lengthCheckMin,
   lengthCheck,
+  rangeCheckMin,
+  rangeCheckMax,
+  rangeCheck,
   valueOneOf,
   checkSingle,
   checkFlag,
-  assertValue
+  assertValue,
+  assertNotValue
 }

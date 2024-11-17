@@ -10,6 +10,7 @@ interface ButtonProps {
   className?: string;
   color?: 'default';
   size?: 'lg' | 'md' | 'sm' | 'custom';
+  target?: '_blank' | '_self' | '_parent' | '_top';
 }
 
 const buttonColors: { default: string } = {
@@ -38,11 +39,14 @@ function Button(props: ButtonProps) {
 }
 
 function ButtonLink(props: ButtonProps) {
-  if(props.disabled) {
+  if (props.disabled) {
     return (
       <p
         className={
-          'px-5 py-3 border rounded-xl transition bg-grey-200 dark:bg-grey-800 dark:text-grey-200 cursor-default ' +
+          'border rounded-xl bg-grey-200 dark:bg-grey-800 dark:text-grey-200 transition cursor-default ' +
+          (props.size === 'lg' ? 'px-8 py-4 text-lg ' : '') +
+          (props.size === 'sm' ? 'px-5 py-2 text-sm ' : '') +
+          (props.size === 'md' || !props.size ? 'px-5 py-3 ' : '') +
           buttonColors[props.color ? props.color : 'default'] +
           (props.className ? ' ' + props.className : '')
         }
@@ -56,10 +60,14 @@ function ButtonLink(props: ButtonProps) {
     <Link
       to={props.to ? props.to : '#'}
       className={
-        'px-5 py-3 border rounded-xl transition ' +
+        'border rounded-xl transition block w-fit ' +
+        (props.size === 'lg' ? 'px-8 py-4 text-lg ' : '') +
+        (props.size === 'sm' ? 'px-5 py-2 text-sm ' : '') +
+        (props.size === 'md' || !props.size ? 'px-5 py-3 ' : '') +
         buttonColors[props.color ? props.color : 'default'] +
         (props.className ? ' ' + props.className : '')
       }
+      target={props.target ? props.target : '_self'}
     >
       {props.children}
     </Link>

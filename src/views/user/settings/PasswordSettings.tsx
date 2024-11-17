@@ -31,11 +31,12 @@ function ChangePassword(props: ChangePasswordProps) {
       lengthCheckMin(oldPwd, 6, 0),
       lengthCheckMin(newPwd, 6, 1),
       lengthCheckMin(newPwdConfirm, 6, 2),
-      assertValue(newPwd, newPwdConfirm, 2)
+      assertValue<string>(newPwd, newPwdConfirm, 2)
     )
   }
 
   const {executeRecaptcha} = useGoogleReCaptcha();
+
   async function checkRecaptcha() {
     if (!executeRecaptcha) {
       throw new Error('recaptcha not ready');
@@ -46,13 +47,14 @@ function ChangePassword(props: ChangePasswordProps) {
 
   function completeRecaptcha() {
     setFormState(0);
-    checkRecaptcha().then(token => {
-      completeChange(token);
-    }).catch(() => {
-      setFormState(1 << 3);
-    }).finally(() => {
-      setWorking(false);
-    });
+    checkRecaptcha()
+      .then(token => {
+        completeChange(token);
+      }).catch(() => {
+        setFormState(1 << 3);
+      }).finally(() => {
+        setWorking(false);
+      });
   }
 
   function completeChange(token: string) {
@@ -139,11 +141,13 @@ function ChangePassword(props: ChangePasswordProps) {
         <Button className={'w-fit'} onClick={props.cancel}>취소</Button>
         <Button className={'w-fit'} onClick={validateForm}>암호 변경</Button>
       </Stack>
-      { checkFlag(formState, 3) && <p className={'my-2 text-red-500 dark:text-red-300'}>reCAPTCHA를 완료하지 못했습니다. 다시 시도해주세요.</p> }
-      { checkFlag(formState, 4) && <p className={'my-2 text-red-500 dark:text-red-300'}>암호가 잘못됐습니다.</p> }
-      { checkFlag(formState, 5) && <p className={'my-2 text-red-500 dark:text-red-300'}>reCAPTCHA를 완료하지 못했습니다. 다시 시도해주세요.</p> }
-      { checkFlag(formState, 6) && <p className={'my-2 text-red-500 dark:text-red-300'}>계정을 찾지 못했습니다.</p> }
-      { checkFlag(formState, 7) && <p className={'my-2 text-red-500 dark:text-red-300'}>암호를 바꾸지 못했습니다.</p> }
+      {checkFlag(formState, 3) &&
+        <p className={'my-2 text-red-500 dark:text-red-300'}>reCAPTCHA를 완료하지 못했습니다. 다시 시도해주세요.</p>}
+      {checkFlag(formState, 4) && <p className={'my-2 text-red-500 dark:text-red-300'}>암호가 잘못됐습니다.</p>}
+      {checkFlag(formState, 5) &&
+        <p className={'my-2 text-red-500 dark:text-red-300'}>사용자 보호를 위해 지금은 암호를 바꿀 수 없습니다.</p>}
+      {checkFlag(formState, 6) && <p className={'my-2 text-red-500 dark:text-red-300'}>계정을 찾지 못했습니다.</p>}
+      {checkFlag(formState, 7) && <p className={'my-2 text-red-500 dark:text-red-300'}>암호를 바꾸지 못했습니다.</p>}
     </Stack>
   )
 }

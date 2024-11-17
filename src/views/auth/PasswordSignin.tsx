@@ -28,6 +28,7 @@ function PasswordSignin() {
   }
 
   const {executeRecaptcha} = useGoogleReCaptcha();
+
   async function checkRecaptcha() {
     if (!executeRecaptcha) {
       throw new Error('recaptcha not ready');
@@ -38,13 +39,14 @@ function PasswordSignin() {
 
   function completeRecaptcha() {
     setFormState(0);
-    checkRecaptcha().then(token => {
-      completeSignin(token);
-    }).catch(() => {
-      setFormState(1 << 2);
-    }).finally(() => {
-      setWorking(false);
-    });
+    checkRecaptcha()
+      .then(token => {
+        completeSignin(token);
+      }).catch(() => {
+        setFormState(1 << 2);
+      }).finally(() => {
+        setWorking(false);
+      });
   }
 
   function completeSignin(token: string) {
@@ -59,12 +61,10 @@ function PasswordSignin() {
       const message = err.response.data['message'];
       if (status === 401) {
         setFormState(1 << 3);
-      }
-      else {
-        if(message === 'Recaptcha failed') {
+      } else {
+        if (message === 'Recaptcha failed') {
           setFormState(1 << 2);
-        }
-        else {
+        } else {
           setFormState(1 << 4);
         }
       }
@@ -107,10 +107,14 @@ function PasswordSignin() {
         />
       </Stack>
 
-      {checkFlag(formState, 0) && <p className={'my-2 text-red-500 dark:text-red-300 text-center'}>ID 혹은 암호가 잘못되었습니다.</p>}
-      {checkFlag(formState, 1) && <p className={'my-2 text-red-500 dark:text-red-300 text-center'}>ID 혹은 암호가 잘못되었습니다.</p>}
-      {checkFlag(formState, 2) && <p className={'my-2 text-red-500 dark:text-red-300 text-center'}>reCAPTCHA를 완료하지 못했습니다. 다시 시도해주세요.</p>}
-      {checkFlag(formState, 3) && <p className={'my-2 text-red-500 dark:text-red-300 text-center'}>ID 혹은 암호가 잘못되었습니다.</p>}
+      {checkFlag(formState, 0) &&
+        <p className={'my-2 text-red-500 dark:text-red-300 text-center'}>ID 혹은 암호가 잘못되었습니다.</p>}
+      {checkFlag(formState, 1) &&
+        <p className={'my-2 text-red-500 dark:text-red-300 text-center'}>ID 혹은 암호가 잘못되었습니다.</p>}
+      {checkFlag(formState, 2) &&
+        <p className={'my-2 text-red-500 dark:text-red-300 text-center'}>reCAPTCHA를 완료하지 못했습니다. 다시 시도해주세요.</p>}
+      {checkFlag(formState, 3) &&
+        <p className={'my-2 text-red-500 dark:text-red-300 text-center'}>ID 혹은 암호가 잘못되었습니다.</p>}
       {checkFlag(formState, 4) && <p className={'my-2 text-red-500 dark:text-red-300 text-center'}>로그인하지 못했습니다.</p>}
 
       <Stack direction={'row'} className={'my-2 gap-4'}>

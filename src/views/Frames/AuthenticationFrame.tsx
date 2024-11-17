@@ -19,7 +19,7 @@ function AuthenticationFrame(props: AuthenticationFrameProps) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if(userInfo.initialized) return;
+    if (userInfo.initialized) return;
 
     loadCredential().then(credential => {
       dispatch(actions.signIn(credential));
