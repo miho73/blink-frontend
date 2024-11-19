@@ -14,6 +14,8 @@ import CancelIconDark from './cancel_dark.svg';
 import TrashBinIcon from './trash_bin.svg'
 import KeyIcon from './key.svg'
 import CancelIcon from './x.svg';
+import SchoolCapIcon from './school_cap.svg';
+import SchoolIcon from './school.svg';
 
 import PasskeyIocnBlack from './FIDO_Passkey_mark_A_black.svg';
 import PasskeyIocnWhite from './FIDO_Passkey_mark_A_white.svg';
@@ -64,6 +66,8 @@ export {
   TrashBinIcon,
   KeyIcon,
   CancelIcon,
+  SchoolCapIcon,
+  SchoolIcon,
 
   Svg
 };

@@ -22,6 +22,7 @@ function Header() {
   if (userInfo.initialized && userInfo.authenticated) {
     links = (
       <>
+        {userInfo.role.includes('blink:admin') && <Link to={'/root'} className={'text-black dark:text-white'}>관리자</Link>}
         <Link to={'/user'} className={'text-black dark:text-white'}>프로필</Link>
         <LinkButton onClick={signOut} className={'text-black dark:text-white'}>로그아웃</LinkButton>
       </>

@@ -5,6 +5,7 @@ import AuthenticationRouteFrame from "./Frames/RouteFrames/AuthenticationRouteFr
 import UserAuthenticatedRouteFrame from "./Frames/RouteFrames/UserAuthenticatedRouteFrame.tsx";
 import UserUnauthenticatedRouteFrame from "./Frames/RouteFrames/UserUnauthenticatedRouteFrame.tsx";
 import AuthenticationFrame from "./Frames/AuthenticationFrame.tsx";
+import CoreRoot from "./root/CoreRoot.tsx";
 
 function App() {
   return (
@@ -20,6 +21,8 @@ function App() {
           <Route path={'/auth/*'} element={<AuthenticationRouteFrame/>}/>
           <Route path={'/user/n/*'} element={<UserUnauthenticatedRouteFrame/>}/>
           <Route path={'/user/*'} element={<UserAuthenticatedRouteFrame/>}/>
+
+          <Route path={'/root/*'} element={<CoreRoot/>}/>
 
           <Route path={'*'} element={<NotFound/>}/>
         </Routes>

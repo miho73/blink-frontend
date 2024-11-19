@@ -1,8 +1,8 @@
 import axios from "axios";
-import {UserInfoStateType} from "./redux/UserInfoReducer.ts";
+import {UserSignInType} from "./redux/UserInfoReducer.ts";
 
 function loadCredential() {
-  return new Promise((resolve: (credential: UserInfoStateType) => void, reject: () => void) => {
+  return new Promise((resolve: (credential: UserSignInType) => void, reject: () => void) => {
     const jwt: string | null = localStorage.getItem('with-authentication');
 
     if (jwt == null) reject();
@@ -13,11 +13,11 @@ function loadCredential() {
     ).then(response => {
       if (response.data['authorized'] == true) {
         getUserInfo(<string>jwt).then(response => {
-          const userInfo: UserInfoStateType = {
+          const userInfo: UserSignInType = {
             username: response.data['user']['username'],
             jwt: <string>jwt,
             authenticated: true,
-            initialized: true
+            initialized: true,
           }
           resolve(userInfo);
         }).catch(() => {

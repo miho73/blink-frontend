@@ -4,6 +4,10 @@ input, select {
   }
 }
 
+input.inward {
+  border-style: inset;
+}
+
 label {
   word-break: keep-all;
 }

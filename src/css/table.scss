@@ -13,11 +13,11 @@
   @media (prefers-color-scheme: dark) {
     scrollbar-color: #6B6B6B #2D2D2D;
   }
-}
 
-table {
-  width: 150%;
-  @apply sm:w-full;
+  table {
+    width: 150%;
+    @apply sm:w-full;
+  }
 }
 
 table, th, td {
