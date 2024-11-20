@@ -5,18 +5,20 @@ interface FormGroupProps {
   label: string;
   sidecar?: ReactNode;
   children: React.ReactNode;
-  strong?: boolean
+  strong?: boolean;
+  className?: string
 }
 
 interface FormSectionProps {
   title: string;
   children: React.ReactNode;
+  className?: string
 }
 
 function FormSection(props: FormSectionProps) {
   return (
     <Stack>
-      <p className={'text-xl font-bold mb-2'}>{props.title}</p>
+      <p className={'text-xl font-bold mb-2' + (props.className ? ' ' + props.className : '')}>{props.title}</p>
       {props.children}
     </Stack>
   )
@@ -24,7 +26,7 @@ function FormSection(props: FormSectionProps) {
 
 function FormGroup(props: FormGroupProps) {
   return (
-    <div className={'flex flex-col justify-start my-2'}>
+    <div className={'flex flex-col justify-start my-2' + (props.className ? ' ' + props.className : '')}>
       {props.sidecar &&
         <div className={'flex justify-start items-center gap-3 mb-3'}>
           <p className={props.strong ? 'text-lg font-medium' : ''}>{props.label}</p>

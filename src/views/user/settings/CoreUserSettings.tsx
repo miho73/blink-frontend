@@ -31,7 +31,7 @@ function CoreUserSettings() {
         <SettingsTabButton
           selected={selectedTab === 0}
           setter={() => setSelectedTab(0)}
-          icon={<Svg src={ProfileIcon} css cssColor={'gray'}/>}
+          icon={<Svg src={ProfileIcon} className={'w-[20px]'} css cssColor={'gray'}/>}
         >
           프로필
         </SettingsTabButton>
@@ -39,7 +39,7 @@ function CoreUserSettings() {
         <SettingsTabButton
           selected={selectedTab === 1}
           setter={() => setSelectedTab(1)}
-          icon={<Svg src={KeyIcon} css cssColor={'gray'}/>}
+          icon={<Svg src={KeyIcon} className={'w-[24px]'} css cssColor={'gray'}/>}
         >
           인증 및 보안
         </SettingsTabButton>
@@ -47,7 +47,7 @@ function CoreUserSettings() {
         <SettingsTabButton
           selected={selectedTab === 2}
           setter={() => setSelectedTab(2)}
-          icon={<Svg src={PencilIcon} css cssColor={'gray'}/>}
+          icon={<Svg src={PencilIcon} className={'w-[24px]'} css cssColor={'gray'}/>}
         >
           재학생 확인
         </SettingsTabButton>

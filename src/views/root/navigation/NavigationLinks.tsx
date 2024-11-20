@@ -12,6 +12,15 @@ function SchoolNav() {
   );
 }
 
+function SvNav() {
+  return (
+    <>
+      <SmallTab to={'/root/sv/list'}>재학생 확인 목록</SmallTab>
+      <SmallTab to={'/root/sv/approve'}>재학생 확인 승인</SmallTab>
+    </>
+  )
+}
+
 function SmallTab(props: NavigationButtonProps) {
   return (
     <Link
@@ -29,5 +38,6 @@ function SmallTab(props: NavigationButtonProps) {
 }
 
 export {
-  SchoolNav
+  SchoolNav,
+  SvNav
 }

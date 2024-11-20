@@ -4,8 +4,10 @@ import Stack from "../layout/Stack.tsx";
 import {Link, Route, Routes} from "react-router-dom";
 import SchoolManagement from "./SchoolManagement.tsx";
 import {ReactNode} from "react";
-import {SchoolNav} from "../user/StudentVerification/NavigationLinks.tsx";
+import {SchoolNav, SvNav} from "./navigation/NavigationLinks.tsx";
 import {HomeIcon, ProfileIcon, SchoolCapIcon, SchoolIcon, Svg} from "../../assets/svgs/svg.tsx";
+import SvList from "./sv/SvList.tsx";
+import SvApprove from "./sv/SvApprove.tsx";
 
 function CoreRoot() {
   return (
@@ -24,11 +26,13 @@ function CoreRoot() {
           <Stack className={'w-[150px]'}>
             <Routes>
               <Route path={'/school/*'} element={<SchoolNav/>}/>
+              <Route path={'/sv/*'} element={<SvNav/>}/>
             </Routes>
           </Stack>
           <div className={'pl-5 pr-8'}>
             <Routes>
-              <Route path={'/sv'}/>
+              <Route path={'/sv/list'} element={<SvList/>}/>
+              <Route path={'/sv/approve'} element={<SvApprove/>}/>
               <Route path={'/school/db'} element={<SchoolManagement/>}/>
             </Routes>
           </div>

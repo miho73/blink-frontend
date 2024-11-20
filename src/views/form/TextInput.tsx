@@ -1,8 +1,8 @@
 interface TextInputProps {
   type?: 'text' | 'password' | 'email' | 'number';
 
-  value?: string;
-  setter?: (value: string) => void;
+  value?: string | number;
+  setter?: (value: string | number) => void;
 
   label?: string;
   placeholder?: string;

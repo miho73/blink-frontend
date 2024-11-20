@@ -77,7 +77,7 @@ function CheckVerificationStatus() {
       <Hr/>
       {formState === 0 &&
         <div className={'table-root'}>
-          <table>
+          <table className={'no-stripe'}>
             <thead>
             <tr>
               <th>신청 번호</th>
@@ -213,7 +213,7 @@ function RequestTr(props: request & { reload: () => void }) {
               <p>{props.school}</p>
 
               <p>학년</p>
-              <p>{props.grade}</p>
+              <p>{props.grade}학년</p>
 
               <p>신청 시각</p>
               <p>{rT}</p>

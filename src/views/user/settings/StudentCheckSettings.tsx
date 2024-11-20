@@ -50,6 +50,14 @@ function CheckOk() {
         <Button className={'w-fit mt-3'}>재학생 확인 철회</Button>
         <label className={'my-2 text-grey-600 dark:text-grey-400'}>전학, 자퇴, 퇴학 등의 이유로 학적이 변동된 경우 반드시 재학생 확인을 철회하고 필요에 따라
           다시 재학생 확인을 받아야 합니다.</label>
+        <ul className={'list-disc pl-8 pr-4 my-1'}>
+          <li className={'my-1'}><Link to={'/user/student-verification'}
+                                       className={'text-blue-600 dark:text-blue-300 hover:underline'}>재학생
+            확인 신청</Link></li>
+          <li className={'my-1'}><Link to={'/user/student-verification/check'}
+                                       className={'text-blue-600 dark:text-blue-300 hover:underline'}>재학생 확인 결과</Link>
+          </li>
+        </ul>
       </FormGroup>
     </>
   );

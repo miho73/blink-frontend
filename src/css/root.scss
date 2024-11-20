@@ -42,10 +42,6 @@ img.svg-color-control {
   }
 }
 
-tr:nth-child(even) {
-  @apply bg-grey-200 dark:bg-grey-800;
-}
-
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;

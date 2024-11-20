@@ -1,10 +1,10 @@
 import {Hr} from "../fragments/Hr.tsx";
-import {ReactNode, useState} from "react";
-import Stack from "../layout/Stack.tsx";
-import {ToolBarButton, ToolBarInput} from "./RootComponents.tsx";
+import {ReactNode, useEffect, useState} from "react";
+import {ToolBar, ToolBarButton, ToolBarInput} from "./RootComponents.tsx";
 import axios from "axios";
 import {useAppSelector} from "../../modules/hook/ReduxHooks.ts";
 import {checkFlag} from "../../modules/formValidator.ts";
+import {useSearchParams} from "react-router-dom";
 
 interface SchoolType {
   school_id: number | null;
@@ -22,6 +22,16 @@ function SchoolManagement() {
   const [formState, setFormState] = useState<number>(0);
 
   const [schoolData, setSchoolData] = useState<SchoolType[]>([]);
+
+  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    const sname = searchParams.get('schoolName')
+    if(sname !== null) {
+      setSchoolName(sname);
+      searchDb(sname);
+    }
+  }, []);
 
   function searchNeis() {
     axios.get(
@@ -52,11 +62,11 @@ function SchoolManagement() {
     });
   }
 
-  function searchDb() {
+  function searchDb(param_school_name?: string) {
     axios.get(
       '/api/school/access',
       {
-        params: {schoolName: schoolName},
+        params: {schoolName: param_school_name ? param_school_name : schoolName},
         headers: {Authorization: 'Bearer ' + jwt}
       }
     ).then(res => {
@@ -206,8 +216,7 @@ function SchoolManagement() {
       {checkFlag(formState, 12) && <p className={'my-2 text-red-500 dark:text-red-300'}>삭제할 학교가 존재하지 않습니다.</p>}
       {checkFlag(formState, 13) && <p className={'my-2 text-red-500 dark:text-red-300'}>학교를 삭제하지 못했습니다.</p>}
       {checkFlag(formState, 14) && <p className={'my-2 text-green-500 dark:text-green-300'}>학교를 삭제했습니다.</p>}
-
-      <Stack direction={'row'} className={'border-x border-t border-grey-400 dark:border-grey-600 overflow-clip'}>
+      <ToolBar>
         <ToolBarInput
           placeholder={'학교명'}
           value={schoolName}
@@ -216,10 +225,10 @@ function SchoolManagement() {
           onMetaEnter={searchDb}
         />
         <ToolBarButton onClick={searchNeis}>검색</ToolBarButton>
-        <ToolBarButton onClick={searchDb}>데이터베이스 검색</ToolBarButton>
+        <ToolBarButton onClick={() => searchDb(schoolName)}>데이터베이스 검색</ToolBarButton>
         <ToolBarButton onClick={addSchool}>추가</ToolBarButton>
         <ToolBarButton onClick={deleteAll}>삭제</ToolBarButton>
-      </Stack>
+      </ToolBar>
       <div className={'table-root'}>
         <table>
           <thead>

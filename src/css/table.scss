@@ -17,6 +17,16 @@
   table {
     width: 150%;
     @apply sm:w-full;
+
+    tr:nth-child(even) {
+      @apply bg-grey-200 dark:bg-grey-800;
+    }
+  }
+}
+
+table.no-stripe {
+  tr {
+    background: transparent !important;
   }
 }
 
