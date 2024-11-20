@@ -5,11 +5,21 @@ interface CheckboxProps {
   label?: string | number;
   checked?: boolean;
   setter?: (checked: boolean) => void;
+  toggle?: () => void;
   invalid?: boolean;
   className?: string;
 }
 
 function Checkbox(props: CheckboxProps) {
+  function onChange(flag: boolean) {
+    if(props.setter) {
+      props.setter(flag)
+    }
+    else if(props.toggle) {
+      props.toggle();
+    }
+  }
+
   return (
     <Stack direction={'row'} className={'gap-2 my-2' + (props.className ? ' ' + props.className : '')}>
       <label htmlFor={props.id} className={'cursor-pointer checkbox-cover'}>
@@ -18,7 +28,7 @@ function Checkbox(props: CheckboxProps) {
           type={'checkbox'}
           checked={props.checked}
           className={'cursor-pointer'}
-          onChange={e => props.setter?.(e.target.checked)}
+          onChange={e => onChange(e.target.checked)}
         />
 
         <span className={'ml-2'}>{props.label}</span>

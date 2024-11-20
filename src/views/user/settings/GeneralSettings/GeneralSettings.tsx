@@ -1,12 +1,12 @@
-import {FormGroup, FormSection} from "../../form/Form.tsx";
-import {TextInput} from "../../form/TextInput.tsx";
-import {Button} from "../../form/Button.tsx";
+import {FormGroup, FormSection} from "../../../form/Form.tsx";
+import {TextInput} from "../../../form/TextInput.tsx";
+import {Button} from "../../../form/Button.tsx";
 import {useEffect, useState} from "react";
 import axios from "axios";
-import {useAppSelector} from "../../../modules/hook/ReduxHooks.ts";
-import Alert from "../../form/Alert.tsx";
-import {CancelIconDark, CancelIconLight, CheckIconDark, CheckIconLight, Svg} from "../../../assets/svgs/svg.tsx";
-import ThemeSelector from "../../../css/ThemeSelector.tsx";
+import {useAppSelector} from "../../../../modules/hook/ReduxHooks.ts";
+import Alert from "../../../form/Alert.tsx";
+import {CancelIconDark, CancelIconLight, CheckIconDark, CheckIconLight, Svg} from "../../../../assets/svgs/svg.tsx";
+import ThemeSelector from "../../../../css/ThemeSelector.tsx";
 
 function GeneralSettings() {
   const jwt = useAppSelector(state => state.userInfoReducer.jwt);

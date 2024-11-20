@@ -2,7 +2,7 @@ interface TextInputProps {
   type?: 'text' | 'password' | 'email' | 'number';
 
   value?: string | number;
-  setter?: (value: string | number) => void;
+  setter?: ((value: number) => void) | ((value: string) => void);
 
   label?: string;
   placeholder?: string;
@@ -29,6 +29,7 @@ function TextInput(props: TextInputProps) {
       <input
         type={props.type || 'text'}
         value={props.value}
+        // @ts-expect-error value always can be converted to string or number
         onChange={e => props.setter?.(e.target.value)}
         disabled={props.disabled}
         placeholder={props.placeholder}

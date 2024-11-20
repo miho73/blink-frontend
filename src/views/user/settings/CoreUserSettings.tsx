@@ -1,10 +1,10 @@
 import Stack from "../../layout/Stack.tsx";
 import {ReactElement, ReactNode, useState} from "react";
-import AuthSettings from "./AuthSettings.tsx";
-import GeneralSettings from "./GeneralSettings.tsx";
+import AuthSettings from "./AuthSettings/AuthSettings.tsx";
+import GeneralSettings from "./GeneralSettings/GeneralSettings.tsx";
 import {KeyIcon, PencilIcon, ProfileIcon, Svg} from "../../../assets/svgs/svg.tsx";
 import {Hr} from "../../fragments/Hr.tsx";
-import StudentCheckSettings from "./StudentCheckSettings.tsx";
+import StudentCheckSettings from "./StudentVerificationSettings/StudentCheckSettings.tsx";
 
 function CoreUserSettings() {
   const [selectedTab, setSelectedTab] = useState<number>(0);

@@ -161,26 +161,6 @@ function SvApprove() {
       </>
     )
   }
-  if(
-    checkFlag(formState, 1) ||
-    checkFlag(formState, 2) ||
-    checkFlag(formState, 3) ||
-    checkFlag(formState, 4)
-  ) {
-    return (
-      <>
-        <p className={'text-xl font-bold my-3'}>재학생 확인</p>
-        <Hr/>
-        {checkFlag(formState, 1) && <p className={'my-2 text-red-500 dark:text-red-300'}>권한이 거부되었습니다.</p>}
-        {checkFlag(formState, 2) && <p className={'my-2 text-red-500 dark:text-red-300'}>재학생 확인 신청이 없습니다.</p>}
-        {checkFlag(formState, 3) && <p className={'my-2 text-red-500 dark:text-red-300'}>요청에 신청번호가 없습니다.</p>}
-        {checkFlag(formState, 4) && <p className={'my-2 text-red-500 dark:text-red-300'}>재학생 확인 신청을 받아오지 못했습니다.</p>}
-        {checkFlag(formState, 5) && <p className={'my-2 text-red-500 dark:text-red-300'}>학교 검색 요청에 학교명이 없습니다.</p>}
-        {checkFlag(formState, 6) && <p className={'my-2 text-red-500 dark:text-red-300'}>데이터베이스 무결성이 훼손되었습니다.</p>}
-        {checkFlag(formState, 7) && <p className={'my-2 text-red-500 dark:text-red-300'}>데이터베이스에서 학교를 찾지 못했습니다.</p>}
-      </>
-    )
-  }
 
   function determine(state: number) {
     if(checkList !== 15) {
@@ -193,7 +173,8 @@ function SvApprove() {
       {
         verification_id: verificationId,
         state: state,
-        school_id: schoolData?.school_id ?? null
+        school_id: schoolData?.school_id ?? null,
+        grade: req?.grade ?? null
       },
       {headers: {'Authorization': `Bearer ${jwt}`}}
     ).then(() => {
@@ -215,6 +196,27 @@ function SvApprove() {
           setWorkingState(1 << 4);
       }
     })
+  }
+
+  if(
+    checkFlag(formState, 1) ||
+    checkFlag(formState, 2) ||
+    checkFlag(formState, 3) ||
+    checkFlag(formState, 4)
+  ) {
+    return (
+      <>
+        <p className={'text-xl font-bold my-3'}>재학생 확인</p>
+        <Hr/>
+        {checkFlag(formState, 1) && <p className={'my-2 text-red-500 dark:text-red-300'}>권한이 거부되었습니다.</p>}
+        {checkFlag(formState, 2) && <p className={'my-2 text-red-500 dark:text-red-300'}>재학생 확인 신청이 없습니다.</p>}
+        {checkFlag(formState, 3) && <p className={'my-2 text-red-500 dark:text-red-300'}>요청에 신청번호가 없습니다.</p>}
+        {checkFlag(formState, 4) && <p className={'my-2 text-red-500 dark:text-red-300'}>재학생 확인 신청을 받아오지 못했습니다.</p>}
+        {checkFlag(formState, 5) && <p className={'my-2 text-red-500 dark:text-red-300'}>학교 검색 요청에 학교명이 없습니다.</p>}
+        {checkFlag(formState, 6) && <p className={'my-2 text-red-500 dark:text-red-300'}>데이터베이스 무결성이 훼손되었습니다.</p>}
+        {checkFlag(formState, 7) && <p className={'my-2 text-red-500 dark:text-red-300'}>데이터베이스에서 학교를 찾지 못했습니다.</p>}
+      </>
+    )
   }
 
   const docCode16 = req?.docCode.replaceAll('-', '');
@@ -248,7 +250,7 @@ function SvApprove() {
                 id={'check-name'}
                 label={req?.name}
                 checked={checkFlag(checkList, 0)}
-                setter={x => setCheckList(checkList ^ 1)}
+                toggle={() => setCheckList(checkList ^ 1)}
               />
 
               <p>학교명</p>
@@ -256,7 +258,7 @@ function SvApprove() {
                 id={'check-sname'}
                 label={req?.schoolName}
                 checked={checkFlag(checkList, 1)}
-                setter={x => setCheckList(checkList ^ 2)}
+                toggle={() => setCheckList(checkList ^ 2)}
               />
 
               <p>학년</p>
@@ -264,7 +266,7 @@ function SvApprove() {
                 id={'check-grade'}
                 label={req?.grade + '학년'}
                 checked={checkFlag(checkList, 2)}
-                setter={x => setCheckList(checkList ^ 4)}
+                toggle={() => setCheckList(checkList ^ 4)}
               />
               <p></p>
             </div>
@@ -276,7 +278,7 @@ function SvApprove() {
                 id={'check-dc'}
                 label={req?.docCode}
                 checked={checkFlag(checkList, 3)}
-                setter={x => setCheckList(checkList ^ 8)}
+                toggle={() => setCheckList(checkList ^ 8)}
               />
             </div>
             <Link

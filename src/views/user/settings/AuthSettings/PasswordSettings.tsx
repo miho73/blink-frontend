@@ -1,12 +1,12 @@
-import Stack from "../../layout/Stack.tsx";
-import {TextInput} from "../../form/TextInput.tsx";
+import Stack from "../../../layout/Stack.tsx";
+import {TextInput} from "../../../form/TextInput.tsx";
 import {useState} from "react";
-import {Button} from "../../form/Button.tsx";
-import {assertValue, checkFlag, lengthCheckMin, verifyAll} from "../../../modules/formValidator.ts";
+import {Button} from "../../../form/Button.tsx";
+import {assertValue, checkFlag, lengthCheckMin, verifyAll} from "../../../../modules/formValidator.ts";
 import {useGoogleReCaptcha} from "react-google-recaptcha-v3";
-import {FormGroup} from "../../form/Form.tsx";
+import {FormGroup} from "../../../form/Form.tsx";
 import axios from "axios";
-import {useAppSelector} from "../../../modules/hook/ReduxHooks.ts";
+import {useAppSelector} from "../../../../modules/hook/ReduxHooks.ts";
 
 interface ChangePasswordProps {
   cancel: () => void;

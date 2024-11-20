@@ -1,9 +1,9 @@
-import {Hr} from "../fragments/Hr.tsx";
+import {Hr} from "../../fragments/Hr.tsx";
 import {ReactNode, useEffect, useState} from "react";
-import {ToolBar, ToolBarButton, ToolBarInput} from "./RootComponents.tsx";
+import {ToolBar, ToolBarButton, ToolBarInput} from "../RootComponents.tsx";
 import axios from "axios";
-import {useAppSelector} from "../../modules/hook/ReduxHooks.ts";
-import {checkFlag} from "../../modules/formValidator.ts";
+import {useAppSelector} from "../../../modules/hook/ReduxHooks.ts";
+import {checkFlag} from "../../../modules/formValidator.ts";
 import {useSearchParams} from "react-router-dom";
 
 interface SchoolType {
@@ -245,7 +245,7 @@ function SchoolManagement() {
         </table>
       </div>
     </>
-  )
+  );
 }
 
 export default SchoolManagement;

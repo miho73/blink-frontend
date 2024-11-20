@@ -1,5 +1,6 @@
 import {Link} from "react-router-dom";
 import {ReactNode} from "react";
+import {Svg} from "../../assets/svgs/svg.tsx";
 
 interface NavigationButtonProps {
   to: string;
@@ -21,7 +22,36 @@ function SvNav() {
   )
 }
 
-function SmallTab(props: NavigationButtonProps) {
+interface NavigationButtonProps {
+  to: string;
+  children: ReactNode;
+  icon: string
+}
+
+interface SmallButtonProps {
+  to: string;
+  children: ReactNode;
+}
+
+function NavigationButton(props: NavigationButtonProps) {
+  return (
+    <Link
+      className={
+        'transition text-grey-900 hover:bg-grey-200 ' +
+        'dark:text-grey-50 dark:hover:bg-grey-800 ' +
+        'rounded-r-full text-left ' +
+        'flex justify-start items-center ' +
+        'whitespace-nowrap'
+      }
+      to={props.to}
+    >
+      <Svg src={props.icon} className={'w-[50px] p-[12px]'} css cssColor={'white'}/>
+      {props.children}
+    </Link>
+  );
+}
+
+function SmallTab(props: SmallButtonProps) {
   return (
     <Link
       className={
@@ -38,6 +68,7 @@ function SmallTab(props: NavigationButtonProps) {
 }
 
 export {
+  NavigationButton,
   SchoolNav,
   SvNav
 }

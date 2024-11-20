@@ -1,5 +1,5 @@
-import {FormGroup, FormSection} from "../../form/Form.tsx";
-import Stack from "../../layout/Stack.tsx";
+import {FormGroup, FormSection} from "../../../form/Form.tsx";
+import Stack from "../../../layout/Stack.tsx";
 import {
   GoogleIcon,
   KeyIconBlack,
@@ -9,14 +9,14 @@ import {
   PencilIcon,
   Svg,
   TrashBinIcon
-} from "../../../assets/svgs/svg.tsx";
-import ThemeSelector from "../../../css/ThemeSelector.tsx";
-import {Button} from "../../form/Button.tsx";
+} from "../../../../assets/svgs/svg.tsx";
+import ThemeSelector from "../../../../css/ThemeSelector.tsx";
+import {Button} from "../../../form/Button.tsx";
 import {useEffect, useState} from "react";
 import {ChangePassword} from "./PasswordSettings.tsx";
-import {useAppSelector} from "../../../modules/hook/ReduxHooks.ts";
+import {useAppSelector} from "../../../../modules/hook/ReduxHooks.ts";
 import axios from "axios";
-import Alert from "../../form/Alert.tsx";
+import Alert from "../../../form/Alert.tsx";
 
 interface AuthInfo {
   google: boolean;

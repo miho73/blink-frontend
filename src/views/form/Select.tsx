@@ -26,9 +26,11 @@ function Select(props: SelectProps) {
         className={
           'px-3 py-2 bg-transparent border outline-none rounded-lg transition ' +
           'border outline-none border-grey-400 shadow-blue-300 focus:border-blue-500 ' +
+          'disabled:bg-grey-200 disabled:dark:bg-grey-800 disabled:dark:text-grey-200 ' +
           'dark:bg-grey-900 dark:border-grey-700 dark:text-grey-100 dark:shadow-blue-400 dark:focus:border-blue-400' +
           (props.className ? ` ${props.className}` : '')
         }
+        disabled={props.disabled}
       >
         {options}
       </select>

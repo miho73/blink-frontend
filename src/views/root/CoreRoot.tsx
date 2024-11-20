@@ -1,13 +1,12 @@
 import RoleFrame from "../Frames/RoleFrame.tsx";
 import AuthenticationFrame from "../Frames/AuthenticationFrame.tsx";
 import Stack from "../layout/Stack.tsx";
-import {Link, Route, Routes} from "react-router-dom";
-import SchoolManagement from "./SchoolManagement.tsx";
-import {ReactNode} from "react";
-import {SchoolNav, SvNav} from "./navigation/NavigationLinks.tsx";
-import {HomeIcon, ProfileIcon, SchoolCapIcon, SchoolIcon, Svg} from "../../assets/svgs/svg.tsx";
-import SvList from "./sv/SvList.tsx";
-import SvApprove from "./sv/SvApprove.tsx";
+import {Route, Routes} from "react-router-dom";
+import SchoolManagement from "./SchoolManagement/SchoolManagement.tsx";
+import {NavigationButton, SchoolNav, SvNav} from "./NavigationLinks.tsx";
+import {HomeIcon, ProfileIcon, SchoolCapIcon, SchoolIcon} from "../../assets/svgs/svg.tsx";
+import SvList from "./SchoolVerification/SvList.tsx";
+import SvApprove from "./SchoolVerification/SvApprove.tsx";
 
 function CoreRoot() {
   return (
@@ -39,30 +38,6 @@ function CoreRoot() {
         </div>
       </RoleFrame>
     </AuthenticationFrame>
-  );
-}
-
-interface NavigationButtonProps {
-  to: string;
-  children: ReactNode;
-  icon: string
-}
-
-function NavigationButton(props: NavigationButtonProps) {
-  return (
-    <Link
-      className={
-        'transition text-grey-900 hover:bg-grey-200 ' +
-        'dark:text-grey-50 dark:hover:bg-grey-800 ' +
-        'rounded-r-full text-left ' +
-        'flex justify-start items-center ' +
-        'whitespace-nowrap'
-      }
-      to={props.to}
-    >
-      <Svg src={props.icon} className={'w-[50px] p-[12px]'} css cssColor={'white'}/>
-      {props.children}
-    </Link>
   );
 }
 
