@@ -297,10 +297,10 @@ function SvApprove() {
       <FormSection title={'학교'} className={'my-3'}>
         {checkFlag(schoolExists, 0) && <p className={'my-2 text-red-500 dark:text-red-300'}>데이터베이스에 학교가 없습니다. <Link
           className={'text-red-500 dark:text-red-300 hover:underline'}
-          to={`/root/school/db?school_name=${req?.schoolName}`} target={"_blank"}>이곳</Link>에서 학교를 추가해주세요.</p>}
+          to={`/root/school/db?schoolName=${req?.schoolName}`} target={"_blank"}>이곳</Link>에서 학교를 추가해주세요.</p>}
         {checkFlag(schoolExists, 1) && <p className={'my-2 text-red-500 dark:text-red-300'}>여러개의 학교가 검색되었습니다. <Link
           className={'text-red-500 dark:text-red-300 hover:underline'}
-          to={`/root/school/db?school_name=${req?.schoolName}`} target={"_blank"}>이곳</Link>에서 학교 정보를 확인해주세요.</p>}
+          to={`/root/school/db?schoolName=${req?.schoolName}`} target={"_blank"}>이곳</Link>에서 학교 정보를 확인해주세요.</p>}
         <div className={'table-root'}>
           <table>
             <thead>

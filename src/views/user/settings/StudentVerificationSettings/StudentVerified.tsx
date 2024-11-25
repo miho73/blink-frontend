@@ -48,7 +48,7 @@ function CheckOk(props: {school: SchoolInfo | null, reload: () => void}) {
 
   function withdraw(token: string) {
     axios.post(
-      '/api/sv/withdraw',
+      '/api/sv/user/withdraw',
       { recaptcha: token },
       { headers: {'Authorization': `Bearer ${jwt}`} }
     ).then(() => {
