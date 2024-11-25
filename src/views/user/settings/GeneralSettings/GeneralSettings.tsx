@@ -25,7 +25,7 @@ function GeneralSettings() {
   // TODO: 로딩중 애니메이션 다듬기
   useEffect(() => {
     axios.get(
-      '/api/user/get',
+      '/api/user',
       {headers: {'Authorization': `Bearer ${jwt}`}}
     ).then(res => {
       setUsername(res.data.user.username);

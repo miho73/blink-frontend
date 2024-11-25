@@ -26,7 +26,7 @@ function StudentCheckSettings() {
 
   function load() {
     axios.get(
-      '/api/sv/get',
+      '/api/user/sv',
       {headers: {'Authorization': `Bearer ${jwt}`}}
     ).then(res => {
       setVerified(res.data?.verified);

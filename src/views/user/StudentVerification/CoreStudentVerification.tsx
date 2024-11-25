@@ -68,7 +68,7 @@ function CoreStudentVerification() {
 
   function completeSubmit(token: string) {
     axios.post(
-      '/api/sv/clearance/draft',
+      '/api/sv/draft',
       {
         name: name,
         school_name: schoolName,
@@ -114,7 +114,7 @@ function CoreStudentVerification() {
     formData.append('evidence', selectedFile as Blob);
 
     axios.post(
-      '/api/sv/clearance/evidence',
+      '/api/sv/evidence',
       formData,
       {headers: {'Authorization': `Bearer ${jwt}`}}
     ).then(() => {

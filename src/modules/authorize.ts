@@ -32,7 +32,7 @@ function loadCredential() {
 
 function getUserInfo(jwt: string) {
   return axios.get(
-    '/api/user/get',
+    '/api/user',
     {headers: {'Authorization': `Bearer ${jwt}`}}
   );
 }

@@ -50,7 +50,7 @@ function PasswordSignin() {
   }
 
   function completeSignin(token: string) {
-    axios.post('/api/auth/password/signin', {
+    axios.post('/api/auth/password/login', {
       id: id,
       password: password,
       recaptcha: token

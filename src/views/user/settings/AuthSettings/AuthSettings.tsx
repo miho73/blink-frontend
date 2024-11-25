@@ -45,7 +45,7 @@ function AuthSettings() {
 
   useEffect(() => {
     axios.get(
-      '/api/user/auth/get',
+      '/api/user/auth',
       {headers: {'Authorization': `Bearer ${jwt}`}}
     ).then(res => {
       setAuthInfo(res.data);

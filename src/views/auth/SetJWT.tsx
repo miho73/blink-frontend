@@ -6,7 +6,7 @@ import ErrorPage from "../error/ErrorPage.tsx";
 import {actions} from "../../modules/redux/UserInfoReducer.ts";
 
 function getUserInfo(jwt: string) {
-  return axios.get('/api/user/get',
+  return axios.get('/api/user',
     {headers: {'Authorization': `Bearer ${jwt}`}});
 }
 

@@ -62,7 +62,7 @@ function SvApprove() {
 
   function reload(vid: number) {
     axios.get(
-      '/api/sv/approve',
+      '/api/sv/evaluation/request',
       {
         headers: {
           Authorization: `Bearer ${jwt}`,
@@ -168,8 +168,8 @@ function SvApprove() {
       return;
     }
 
-    axios.post(
-      '/api/sv/approve',
+    axios.patch(
+      '/api/sv/evaluation',
       {
         verification_id: verificationId,
         state: state,
@@ -290,7 +290,7 @@ function SvApprove() {
         </Stack>
         <iframe
           className={'my-3 w-full h-[400px]'}
-          src={`/api/sv/approve/evidence?vid=${verificationId}&jwt=Bearer ${jwt}`}
+          src={`/api/sv/evaluation/evidence?vid=${verificationId}&jwt=Bearer ${jwt}`}
         />
       </div>
 

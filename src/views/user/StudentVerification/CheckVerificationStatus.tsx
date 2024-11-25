@@ -41,7 +41,7 @@ function CheckVerificationStatus() {
 
   function reload() {
     axios.get(
-      '/api/sv/request',
+      '/api/sv/user/requests',
       {headers: {'Authorization': `Bearer ${jwt}`}}
     ).then(res => {
       if(res.data.requests.length === 0) {
@@ -55,7 +55,7 @@ function CheckVerificationStatus() {
 
   useEffect(() => {
     axios.get(
-      '/api/sv/request',
+      '/api/sv/user/requests',
       {headers: {'Authorization': `Bearer ${jwt}`}}
     ).then(res => {
       if(res.data.requests.length === 0) {
@@ -157,7 +157,7 @@ function RequestTr(props: request & { reload: () => void }) {
 
   function cancel(token: string, idx: number) {
     axios.delete(
-      '/api/sv/request',
+      '/api/sv/user/requests',
       {
         headers: {
           Authorization: `Bearer ${jwt}`,

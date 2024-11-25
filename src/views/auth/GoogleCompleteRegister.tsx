@@ -33,7 +33,7 @@ function GoogleCompleteRegister() {
       assertValue<boolean>(verifyCheck, true, 2)
     );
   }
-
+//TODO: block user interaction when register is in progress
   const {executeRecaptcha} = useGoogleReCaptcha();
 
   async function checkRecaptcha() {

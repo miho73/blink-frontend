@@ -35,7 +35,7 @@ function SchoolManagement() {
 
   function searchNeis() {
     axios.get(
-      '/api/school/neis/query',
+      '/api/school/neis',
       {
         params: {schoolName: schoolName},
         headers: {Authorization: 'Bearer ' + jwt}
