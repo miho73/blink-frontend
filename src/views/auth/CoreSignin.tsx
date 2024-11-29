@@ -4,13 +4,12 @@ import {
   GoogleIcon,
   KeyIconBlack,
   KeyIconWhite,
-  PasskeyIocnBlack,
-  PasskeyIocnWhite,
   Svg
 } from "../../assets/svgs/svg.tsx";
 import {Link} from "react-router-dom";
 import ThemeSelector from "../../css/ThemeSelector.tsx";
 import Alert from "../form/Alert.tsx";
+import PasskeyAuthentication from "./PasskeyAuthentication.tsx";
 
 function CoreSignin() {
   const [error, setError] = React.useState<string | null>(null);
@@ -33,7 +32,6 @@ function CoreSignin() {
         <LoginLink
           img={<Svg src={GoogleIcon}/>}
           text={'Google로 로그인'}
-          context={'default'}
           to={'/api/auth/google/login'}
         />
         <LoginLink
@@ -43,23 +41,11 @@ function CoreSignin() {
               dark={<Svg src={KeyIconWhite} className={'p-[4px]'}/>}
             />
           }
-          useLink={true}
+          useLink
           text={'비밀번호로 로그인'}
-          context={'default'}
           to={'/auth/password'}
         />
-        <LoginLink
-          img={
-            <ThemeSelector
-              light={<Svg src={PasskeyIocnBlack}/>}
-              dark={<Svg src={PasskeyIocnWhite}/>}
-            />
-          }
-          useLink={true}
-          text={'Passkey로 로그인'}
-          context={'default'}
-          to={'/auth/passkey'}
-        />
+        <PasskeyAuthentication errorReporter={setError}/>
       </Stack>
 
       {error === 'state_unset' && <Alert variant={'error'}>state가 설정되지 않았습니다.</Alert>}
@@ -67,34 +53,33 @@ function CoreSignin() {
       {error === 'code_unset' && <Alert variant={'error'}>OAuth 응답이 잘못되었습니다.</Alert>}
       {error === 'google_error' && <Alert variant={'error'}>Google로 로그인할 수 없습니다.</Alert>}
       {error === 'internal_server_error' && <Alert variant={'error'}>로그인하지 못했습니다.</Alert>}
+      {error === 'recaptcha-error' && <Alert variant={'error'}>사용자 보호를 위해 지금은 로그인할 수 없습니다.</Alert>}
+      {error === 'recaptcha-not-ready' && <Alert variant={'error'}>reCAPTCHA를 완료하지 못했습니다. 다시 시도해주세요.</Alert>}
+      {error === 'passkey-option-error' && <Alert variant={'error'}>Passkey 인증 정보를 받아오지 못했습니다.</Alert>}
+      {error === 'auth-error' && <Alert variant={'error'}>로그인하지 못했습니다.</Alert>}
     </div>
   )
 }
-
+//       {error === 'passkey-error' && <Alert variant={'error'}>Passkey로 인증하지 못했습니다.</Alert>}
 interface LoginLinkProps {
   img: React.ReactElement;
   text: string;
-  to: string
-  context: 'default';
+  to?: string
+  onClick?: () => void;
 
   useLink?: boolean;
 }
 
-const colorClasses: { default: string } = {
-  default: 'bg-transparent border-grey-300 text-grey-900 hover:bg-grey-200 hover:border-grey-300 hover:text-black ' +
-    'dark:border-grey-800 dark:text-grey-100 dark:hover:bg-grey-800 dark:hover:border-grey-700 dark:hover:text-grey-200',
-}
-
 function LoginLink(props: LoginLinkProps) {
-
   if (props.useLink) {
     return (
       <Link
         className={
           'relative px-4 py-2 border rounded-lg flex justify-center items-center h-[50px] transition-colors ' +
-          colorClasses[props.context]
+          'bg-transparent border-grey-300 text-grey-900 hover:bg-grey-200 hover:border-grey-300 hover:text-black ' +
+          'dark:border-grey-800 dark:text-grey-100 dark:hover:bg-grey-800 dark:hover:border-grey-700 dark:hover:text-grey-200'
         }
-        to={props.to}
+        to={props.to ? props.to : '/'}
       >
         <div className={'absolute left-[12px] top-[3px] w-[40px]'}>
           {props.img}
@@ -107,7 +92,8 @@ function LoginLink(props: LoginLinkProps) {
       <a
         className={
           'relative px-4 py-2 border rounded-lg flex justify-center items-center h-[50px] transition-colors ' +
-          colorClasses[props.context]
+          'bg-transparent border-grey-300 text-grey-900 hover:bg-grey-200 hover:border-grey-300 hover:text-black ' +
+          'dark:border-grey-800 dark:text-grey-100 dark:hover:bg-grey-800 dark:hover:border-grey-700 dark:hover:text-grey-200'
         }
         href={props.to}
       >
