@@ -14,9 +14,10 @@ interface ButtonProps {
 }
 
 const buttonColors: { default: string } = {
-  default: 'bg-transparent border-neutral-300 text-neutral-900 hover:bg-neutral-200 hover:border-neutral-300 hover:text-black ' +
-    'dark:border-neutral-800 dark:text-neutral-100 dark:hover:bg-neutral-800 dark:hover:border-neutral-700 dark:hover:text-neutral-200 ' +
-    'disabled:bg-neutral-200 disabled:dark:bg-neutral-800 disabled:dark:text-neutral-200'
+  default: 'bg-transparent border-neutral-400 hover:bg-neutral-100 ' +
+    'dark:border-neutral-700 dark:hover:bg-neutral-800 ' +
+    'disabled:bg-neutral-200 disabled:dark:bg-neutral-800 disabled:text-neutral-500 disabled:dark:text-neutral-400 ' +
+    'shadow-blue-300 focus:border-blue-500 dark:shadow-blue-400 dark:focus:border-blue-400'
 };
 
 function Button(props: ButtonProps) {
@@ -24,7 +25,7 @@ function Button(props: ButtonProps) {
     <button
       onClick={props.onClick}
       className={
-        'border rounded-xl transition ' +
+        'border rounded-xl transition outline-none ' +
         (props.size === 'lg' ? 'px-8 py-4 text-lg ' : '') +
         (props.size === 'sm' ? 'px-5 py-2 text-sm ' : '') +
         (props.size === 'md' || !props.size ? 'px-5 py-3 ' : '') +

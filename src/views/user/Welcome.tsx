@@ -49,6 +49,8 @@ function WelcomeUser() {
         <Button/>
       </InputGroup>
 
+      <p className={'p-5 border'}>BORDERED</p>
+
       <Button onClick={() => setDialog(true)}>Open Dialog</Button>
 
       <Dialog

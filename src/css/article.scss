@@ -1,0 +1,5 @@
+@layer components {
+  a.href-blue {
+    @apply text-blue-600 dark:text-blue-300 hover:underline;
+  }
+}

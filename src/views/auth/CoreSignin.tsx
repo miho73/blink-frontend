@@ -6,10 +6,10 @@ import {
   KeyIconWhite,
   Svg
 } from "../../assets/svgs/svg.tsx";
-import {Link} from "react-router-dom";
 import ThemeSelector from "../../css/ThemeSelector.tsx";
 import Alert from "../form/Alert.tsx";
 import PasskeyAuthentication from "./PasskeyAuthentication.tsx";
+import LoginLink from "./LoginLink.tsx";
 
 function CoreSignin() {
   const [error, setError] = React.useState<string | null>(null);
@@ -28,7 +28,7 @@ function CoreSignin() {
     >
       <p className={'!text-5xl logo'}>BLINK</p>
 
-      <Stack className={'my-6 min-w-[330px] gap-1'}>
+      <Stack className={'my-6 w-[300px] gap-2'}>
         <LoginLink
           img={<Svg src={GoogleIcon}/>}
           text={'Google로 로그인'}
@@ -48,12 +48,12 @@ function CoreSignin() {
         <PasskeyAuthentication errorReporter={setError}/>
       </Stack>
 
-      <p className={'w-[400px] text-center'}>
-        <span>This site is protected by reCAPTCHA and the Google </span>
-        <a href="https://policies.google.com/privacy">Privacy Policy</a>
-        <span> and </span>
-        <a href="https://policies.google.com/terms">Terms of Service</a>
-        <span> apply.</span>
+      <p className={'w-[400px] text-center text-sm'}>
+        <span className={'text-caption dark:text-caption-dark'}>This site is protected by reCAPTCHA and the Google </span>
+        <a className={'href-blue'} href="https://policies.google.com/privacy">Privacy Policy</a>
+        <span className={'text-caption dark:text-caption-dark'}> and </span>
+        <a className={'href-blue'} href="https://policies.google.com/terms">Terms of Service</a>
+        <span className={'text-caption dark:text-caption-dark'}> apply.</span>
       </p>
 
       {error === 'state-unset' && <Alert variant={'error'}>state가 설정되지 않았습니다.</Alert>}
@@ -68,50 +68,7 @@ function CoreSignin() {
     </div>
   )
 }
+
 //       {error === 'passkey-error' && <Alert variant={'error'}>Passkey로 인증하지 못했습니다.</Alert>}
-interface LoginLinkProps {
-  img: React.ReactElement;
-  text: string;
-  to?: string
-  onClick?: () => void;
-
-  useLink?: boolean;
-}
-
-function LoginLink(props: LoginLinkProps) {
-  if (props.useLink) {
-    return (
-      <Link
-        className={
-          'relative px-4 py-2 border rounded-lg flex justify-center items-center h-[50px] transition-colors ' +
-          'bg-transparent border-neutral-300 text-neutral-900 hover:bg-neutral-200 hover:border-neutral-300 hover:text-black ' +
-          'dark:border-neutral-800 dark:text-neutral-100 dark:hover:bg-neutral-800 dark:hover:border-neutral-700 dark:hover:text-neutral-200'
-        }
-        to={props.to ? props.to : '/'}
-      >
-        <div className={'absolute left-[12px] top-[3px] w-[40px]'}>
-          {props.img}
-        </div>
-        <p>{props.text}</p>
-      </Link>
-    );
-  } else {
-    return (
-      <a
-        className={
-          'relative px-4 py-2 border rounded-lg flex justify-center items-center h-[50px] transition-colors ' +
-          'bg-transparent border-neutral-300 text-neutral-900 hover:bg-neutral-200 hover:border-neutral-300 hover:text-black ' +
-          'dark:border-neutral-800 dark:text-neutral-100 dark:hover:bg-neutral-800 dark:hover:border-neutral-700 dark:hover:text-neutral-200'
-        }
-        href={props.to}
-      >
-        <div className={'absolute left-[12px] top-[3px] w-[40px]'}>
-          {props.img}
-        </div>
-        <p>{props.text}</p>
-      </a>
-    );
-  }
-}
 
 export default CoreSignin;

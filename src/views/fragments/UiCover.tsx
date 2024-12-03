@@ -22,16 +22,16 @@ function Header() {
   if (userInfo.initialized && userInfo.authenticated) {
     links = (
       <>
-        {userInfo.role.includes('blink:admin') && <Link to={'/root'} className={'text-black dark:text-white'}>관리자</Link>}
-        <Link to={'/user'} className={'text-black dark:text-white'}>프로필</Link>
-        <LinkButton onClick={signOut} className={'text-black dark:text-white'}>로그아웃</LinkButton>
+        {userInfo.role.includes('blink:admin') && <Link to={'/root'} className={'href-none'}>관리자</Link>}
+        <Link to={'/user'} className={'href-none'}>프로필</Link>
+        <LinkButton onClick={signOut} className={'href-none'}>로그아웃</LinkButton>
       </>
     );
   } else {
     links = (
       <>
-        <Link to={'/auth'} className={'text-black dark:text-white'}>로그인</Link>
-        <Link to={'/auth/register'} className={'text-black dark:text-white'}>회원가입</Link>
+        <Link to={'/auth'} className={'href-none'}>로그인</Link>
+        <Link to={'/auth/register'} className={'href-none'}>회원가입</Link>
       </>
     )
   }
@@ -39,9 +39,9 @@ function Header() {
   return (
     <header
       className={
-        'border-b-2 px-6 py-4 flex items-center justify-between ' +
-        'border-neutral-300 ' +
-        'dark:border-neutral-800'
+        'border-b dark:border-b-2 px-6 py-4 ' +
+        'flex items-center justify-between ' +
+        'border-neutral-300 dark:border-neutral-800'
       }
     >
       <Link to={'/'} className={'logo'}>BLINK</Link>
@@ -56,18 +56,19 @@ function Footer() {
   return (
     <footer
       className={
-        'border-t-2 px-6 py-4 text-sm flex flex-col justify-between ' +
-        'border-neutral-300 text-neutral-600 ' +
-        'dark:bg-neutral-800 dark:border-neutral-600 dark:text-neutral-400'
+        'border-t dark:border-t-2 px-6 py-4 ' +
+        'flex flex-col justify-between text-sm ' +
+        'border-neutral-300 dark:border-neutral-800 ' +
+        'dark:bg-neutral-800'
       }
     >
       <Stack direction="row" className={'gap-4'}>
-        <Link className={'text-white'} to="/">블링크 소개</Link>
-        <Link className={'text-white'} to="/docs/eula">이용약관</Link>
-        <Link className={'text-white'} to="/docs/privacy">개인정보 처리방침</Link>
-        <Link className={'text-white'} to="/docs/report">신고 가이드</Link>
+        <Link className={'text-neutral-600 dark:text-neutral-300'} to="/">블링크 소개</Link>
+        <Link className={'text-neutral-600 dark:text-neutral-300'} to="/docs/eula">이용약관</Link>
+        <Link className={'text-neutral-600 dark:text-neutral-300'} to="/docs/privacy">개인정보 처리방침</Link>
+        <Link className={'text-neutral-600 dark:text-neutral-300'} to="/docs/report">신고 가이드</Link>
       </Stack>
-      <p>COPYRIGHT 2024. BLINK. ALL RIGHTS RESERVED.</p>
+      <p className={'text-neutral-600 dark:text-neutral-300'}>COPYRIGHT 2024. BLINK. ALL RIGHTS RESERVED.</p>
     </footer>
   )
 }

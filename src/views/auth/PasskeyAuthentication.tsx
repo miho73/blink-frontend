@@ -68,9 +68,9 @@ function LoginButton(props: LoginButtonProps) {
   return (
     <button
       className={
-        'relative px-4 py-2 border rounded-lg flex justify-center items-center h-[50px] transition-colors ' +
-        'bg-transparent border-neutral-300 text-neutral-900 hover:bg-neutral-200 hover:border-neutral-300 hover:text-black ' +
-        'dark:border-neutral-800 dark:text-neutral-100 dark:hover:bg-neutral-800 dark:hover:border-neutral-700 dark:hover:text-neutral-200'
+        'relative px-4 py-2 ' +
+        'border rounded-lg flex justify-center items-center h-[50px] transition-colors ' +
+        'bg-transparent hover:bg-neutral-100 dark:hover:bg-neutral-800'
       }
       onClick={props.onClick}
     >
