@@ -146,7 +146,7 @@ function PasskeyRow({passkey}: {passkey: Passkey}) {
   return (
     <>
     <Stack direction={'row'}
-           className={'justify-between items-center border border-grey-400 dark:border-grey-600 px-4 py-2 rounded-2xl'}>
+           className={'justify-between items-center border border-neutral-400 dark:border-neutral-600 px-4 py-2 rounded-2xl'}>
       <ThemeSelector
         light={<Svg src={icon[0]}/>}
         dark={<Svg src={icon[1]}/>}

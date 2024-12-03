@@ -37,8 +37,8 @@ function NavigationButton(props: NavigationButtonProps) {
   return (
     <Link
       className={
-        'transition text-grey-900 hover:bg-grey-200 ' +
-        'dark:text-grey-50 dark:hover:bg-grey-800 ' +
+        'transition text-neutral-900 hover:bg-neutral-200 ' +
+        'dark:text-neutral-50 dark:hover:bg-neutral-800 ' +
         'rounded-r-full text-left ' +
         'flex justify-start items-center ' +
         'whitespace-nowrap'
@@ -55,8 +55,8 @@ function SmallTab(props: SmallButtonProps) {
   return (
     <Link
       className={
-        'transition text-grey-900 hover:bg-grey-200 ' +
-        'dark:text-grey-50 dark:hover:bg-grey-800 ' +
+        'transition text-neutral-900 hover:bg-neutral-200 ' +
+        'dark:text-neutral-50 dark:hover:bg-neutral-800 ' +
         'rounded-lg px-3 py-2 text-left ' +
         'whitespace-nowrap'
       }

@@ -12,7 +12,7 @@ function ErrorPage(props: ErrorPageProps) {
     <div
       className={
         'w-full h-full flex flex-col gap-5 justify-center items-center ' +
-        'text-grey-900 dark:text-grey-100'
+        'text-neutral-900 dark:text-neutral-100'
       }
     >
       <p className={'text-6xl font-bold'}>

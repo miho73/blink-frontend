@@ -29,8 +29,8 @@ function ToolBarInput(props: ToolBarInputProps) {
       className={
         'px-2 py-1' +
         'transition bg-transparent text-sm ' +
-        'outline-none dark:text-grey-100 ' +
-        'disabled:bg-grey-200 disabled:dark:bg-grey-800 disabled:dark:text-grey-200 shadow-none' +
+        'outline-none dark:text-neutral-100 ' +
+        'disabled:bg-neutral-200 disabled:dark:bg-neutral-800 disabled:dark:text-neutral-200 shadow-none' +
         (props.className ? ' ' + props.className : '')
       }
       onKeyDown={e => {
@@ -52,8 +52,8 @@ function ToolBarButton(props: ToolBarButtonProps) {
     <button
       className={
         'px-4 py-1 transition ' +
-        'bg-transparent hover:bg-grey-200 dark:hover:bg-grey-800 ' +
-        'outline-none focus:bg-grey-200 dark:focus:bg-grey-800 '
+        'bg-transparent hover:bg-neutral-200 dark:hover:bg-neutral-800 ' +
+        'outline-none focus:bg-neutral-200 dark:focus:bg-neutral-800 '
       }
       onClick={props.onClick}
     >{props.children}</button>
@@ -65,8 +65,8 @@ function ToolBar(props: {children?: ReactNode}) {
     <Stack
       direction={'row'}
       className={
-        'border border-grey-400 dark:border-grey-600 ' +
-        'divide-x divide-grey-400 dark:divide-grey-600 overflow-clip'
+        'border border-neutral-400 dark:border-neutral-600 ' +
+        'divide-x divide-neutral-400 dark:divide-neutral-600 overflow-clip'
       }
     >
       {props.children}

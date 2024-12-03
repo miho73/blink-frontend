@@ -10,7 +10,8 @@ export default {
         transparent: 'transparent',
         white: '#ffffff',
         black: '#000000',
-        grey: {
+        text: '#333333',
+        neutral: {
           50: '#FAFAFA',
           100: '#F5F5F5',
           200: '#EEEEEE',

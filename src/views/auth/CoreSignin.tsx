@@ -28,7 +28,7 @@ function CoreSignin() {
     >
       <p className={'!text-5xl logo'}>BLINK</p>
 
-      <Stack className={'mt-6 min-w-[330px] gap-1'}>
+      <Stack className={'my-6 min-w-[330px] gap-1'}>
         <LoginLink
           img={<Svg src={GoogleIcon}/>}
           text={'Google로 로그인'}
@@ -48,8 +48,16 @@ function CoreSignin() {
         <PasskeyAuthentication errorReporter={setError}/>
       </Stack>
 
-      {error === 'state_unset' && <Alert variant={'error'}>state가 설정되지 않았습니다.</Alert>}
-      {error === 'state_mismatch' && <Alert variant={'error'}>state가 일치하지 않습니다.</Alert>}
+      <p className={'w-[400px] text-center'}>
+        <span>This site is protected by reCAPTCHA and the Google </span>
+        <a href="https://policies.google.com/privacy">Privacy Policy</a>
+        <span> and </span>
+        <a href="https://policies.google.com/terms">Terms of Service</a>
+        <span> apply.</span>
+      </p>
+
+      {error === 'state-unset' && <Alert variant={'error'}>state가 설정되지 않았습니다.</Alert>}
+      {error === 'state-mismatch' && <Alert variant={'error'}>state가 일치하지 않습니다.</Alert>}
       {error === 'code_unset' && <Alert variant={'error'}>OAuth 응답이 잘못되었습니다.</Alert>}
       {error === 'google_error' && <Alert variant={'error'}>Google로 로그인할 수 없습니다.</Alert>}
       {error === 'internal_server_error' && <Alert variant={'error'}>로그인하지 못했습니다.</Alert>}
@@ -76,8 +84,8 @@ function LoginLink(props: LoginLinkProps) {
       <Link
         className={
           'relative px-4 py-2 border rounded-lg flex justify-center items-center h-[50px] transition-colors ' +
-          'bg-transparent border-grey-300 text-grey-900 hover:bg-grey-200 hover:border-grey-300 hover:text-black ' +
-          'dark:border-grey-800 dark:text-grey-100 dark:hover:bg-grey-800 dark:hover:border-grey-700 dark:hover:text-grey-200'
+          'bg-transparent border-neutral-300 text-neutral-900 hover:bg-neutral-200 hover:border-neutral-300 hover:text-black ' +
+          'dark:border-neutral-800 dark:text-neutral-100 dark:hover:bg-neutral-800 dark:hover:border-neutral-700 dark:hover:text-neutral-200'
         }
         to={props.to ? props.to : '/'}
       >
@@ -92,8 +100,8 @@ function LoginLink(props: LoginLinkProps) {
       <a
         className={
           'relative px-4 py-2 border rounded-lg flex justify-center items-center h-[50px] transition-colors ' +
-          'bg-transparent border-grey-300 text-grey-900 hover:bg-grey-200 hover:border-grey-300 hover:text-black ' +
-          'dark:border-grey-800 dark:text-grey-100 dark:hover:bg-grey-800 dark:hover:border-grey-700 dark:hover:text-grey-200'
+          'bg-transparent border-neutral-300 text-neutral-900 hover:bg-neutral-200 hover:border-neutral-300 hover:text-black ' +
+          'dark:border-neutral-800 dark:text-neutral-100 dark:hover:bg-neutral-800 dark:hover:border-neutral-700 dark:hover:text-neutral-200'
         }
         href={props.to}
       >

@@ -40,8 +40,8 @@ function Header() {
     <header
       className={
         'border-b-2 px-6 py-4 flex items-center justify-between ' +
-        'border-grey-300 ' +
-        'dark:border-grey-800'
+        'border-neutral-300 ' +
+        'dark:border-neutral-800'
       }
     >
       <Link to={'/'} className={'logo'}>BLINK</Link>
@@ -57,15 +57,15 @@ function Footer() {
     <footer
       className={
         'border-t-2 px-6 py-4 text-sm flex flex-col justify-between ' +
-        'border-grey-300 text-grey-600 ' +
-        'dark:bg-grey-800 dark:border-grey-600 dark:text-grey-400'
+        'border-neutral-300 text-neutral-600 ' +
+        'dark:bg-neutral-800 dark:border-neutral-600 dark:text-neutral-400'
       }
     >
       <Stack direction="row" className={'gap-4'}>
-        <Link to="/">블링크 소개</Link>
-        <Link to="/docs/eula">이용약관</Link>
-        <Link to="/docs/privacy">개인정보 처리방침</Link>
-        <Link to="/docs/report">신고 가이드</Link>
+        <Link className={'text-white'} to="/">블링크 소개</Link>
+        <Link className={'text-white'} to="/docs/eula">이용약관</Link>
+        <Link className={'text-white'} to="/docs/privacy">개인정보 처리방침</Link>
+        <Link className={'text-white'} to="/docs/report">신고 가이드</Link>
       </Stack>
       <p>COPYRIGHT 2024. BLINK. ALL RIGHTS RESERVED.</p>
     </footer>

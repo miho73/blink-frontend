@@ -14,9 +14,9 @@ interface ButtonProps {
 }
 
 const buttonColors: { default: string } = {
-  default: 'bg-transparent border-grey-300 text-grey-900 hover:bg-grey-200 hover:border-grey-300 hover:text-black ' +
-    'dark:border-grey-800 dark:text-grey-100 dark:hover:bg-grey-800 dark:hover:border-grey-700 dark:hover:text-grey-200 ' +
-    'disabled:bg-grey-200 disabled:dark:bg-grey-800 disabled:dark:text-grey-200'
+  default: 'bg-transparent border-neutral-300 text-neutral-900 hover:bg-neutral-200 hover:border-neutral-300 hover:text-black ' +
+    'dark:border-neutral-800 dark:text-neutral-100 dark:hover:bg-neutral-800 dark:hover:border-neutral-700 dark:hover:text-neutral-200 ' +
+    'disabled:bg-neutral-200 disabled:dark:bg-neutral-800 disabled:dark:text-neutral-200'
 };
 
 function Button(props: ButtonProps) {
@@ -43,7 +43,7 @@ function ButtonLink(props: ButtonProps) {
     return (
       <p
         className={
-          'border rounded-xl bg-grey-200 dark:bg-grey-800 dark:text-grey-200 transition cursor-default ' +
+          'border rounded-xl bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-200 transition cursor-default ' +
           (props.size === 'lg' ? 'px-8 py-4 text-lg ' : '') +
           (props.size === 'sm' ? 'px-5 py-2 text-sm ' : '') +
           (props.size === 'md' || !props.size ? 'px-5 py-3 ' : '') +

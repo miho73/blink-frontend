@@ -3,11 +3,17 @@ import {CancelIcon, Svg} from "../../assets/svgs/svg.tsx";
 import Stack from "../layout/Stack.tsx";
 import {CSSTransition} from "react-transition-group";
 import {ReactNode} from "react";
+import {Button} from "../form/Button.tsx";
 
 interface DialogProps {
   open: boolean;
   close: () => void;
   title?: string;
+  onOk?: () => void;
+  onCancel?: () => void;
+  okText?: string;
+  cancelText?: string;
+
   children: ReactNode;
   closeByBackdrop?: boolean;
 }
@@ -35,11 +41,17 @@ function Dialog(props: DialogProps) {
         onClick={() => props.closeByBackdrop && props.close()}
       >
         <div
-          className={'p-5 rounded-2xl border bg-grey-50 border-grey-100 dark:bg-grey-900 dark:border-grey-800'}
+          className={
+            'py-3 rounded-2xl border bg-neutral-50 dark:bg-neutral-900 dark:border-neutral-800 ' +
+            'w-full mx-5 sm:w-1/2 md:w-[450px]'
+          }
           onClick={e => e.stopPropagation()}
         >
-          <Stack direction={'row'} className={'justify-between items-center'}>
-            <p className={'text-xl font-bold mr-16'}>{props.title}</p>
+          <Stack
+            direction={'row'}
+            className={'px-5 justify-between items-center'}
+          >
+            <p className={'text-2xl font-medium mr-16'}>{props.title}</p>
             <button
               onClick={props.close}
             >
@@ -47,7 +59,12 @@ function Dialog(props: DialogProps) {
             </button>
           </Stack>
           <Hr/>
-          {props.children}
+          <div className={'px-5'}>{props.children}</div>
+          <Hr/>
+          <Stack direction={'row'} className={'px-5 gap-2 justify-end'}>
+            <Button onClick={props.onCancel}>{props.cancelText}</Button>
+            <Button onClick={props.onOk}>{props.okText}</Button>
+          </Stack>
         </div>
       </div>
     </CSSTransition>

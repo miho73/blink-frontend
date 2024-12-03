@@ -145,13 +145,13 @@ function GeneralSettings() {
             />
             <Button
               size={'custom'}
-              className={'w-fit px-5 py-3 !border-grey-400 dark:!border-grey-700'}
+              className={'w-fit px-5 py-3 !border-neutral-400 dark:!border-neutral-700'}
               onClick={randomName}
             >
               무작위
             </Button>
           </Stack>
-          <label className={'my-2 text-grey-600 dark:text-grey-400'}>이 이름은 BLINK 내에서 사용되는 이름입니다.</label>
+          <label className={'my-2 text-neutral-600 dark:text-neutral-400'}>이 이름은 BLINK 내에서 사용되는 이름입니다.</label>
         </FormGroup>
         <FormGroup
           label={'이메일'}
@@ -166,7 +166,7 @@ function GeneralSettings() {
             size={'sm'}
             authComplete={'email'}
           />
-          <label className={'my-2 text-grey-600 dark:text-grey-400'}>이메일은 BLINK 내에서 사용되는 식별자입니다.</label>
+          <label className={'my-2 text-neutral-600 dark:text-neutral-400'}>이메일은 BLINK 내에서 사용되는 식별자입니다.</label>
         </FormGroup>
 
         {checkFlag(formState, 2) && <p className={'mb-2 text-red-500 dark:text-red-300'}>reCAPTCHA를 완료하지 못했습니다. 다시 시도해주세요.</p>}

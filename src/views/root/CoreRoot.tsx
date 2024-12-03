@@ -1,5 +1,5 @@
-import RoleFrame from "../Frames/RoleFrame.tsx";
-import AuthenticationFrame from "../Frames/AuthenticationFrame.tsx";
+import RoleFrame from "../frames/RoleFrame.tsx";
+import AuthenticationFrame from "../frames/AuthenticationFrame.tsx";
 import Stack from "../layout/Stack.tsx";
 import {Route, Routes} from "react-router-dom";
 import SchoolManagement from "./SchoolManagement/SchoolManagement.tsx";

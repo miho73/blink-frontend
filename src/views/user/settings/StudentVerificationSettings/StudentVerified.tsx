@@ -84,9 +84,9 @@ function CheckOk(props: {school: SchoolInfo | null, reload: () => void}) {
         <p className={'text-lg font-medium text-green-700 dark:text-green-300'}>이 계정은 {props.school.name}의 재학생으로 확인되었습니다.</p>
       </Stack>
       <FormGroup label={'학적 확인'} strong>
-        <div className={'grid grid-cols-[150px_1fr] border border-grey-400 dark:border-grey-600 px-4 py-1 rounded-lg'}>
-          <p className={'py-2 border-b border-grey-400 dark:border-grey-600'}>학교명</p>
-          <p className={'py-2 border-b border-grey-400 dark:border-grey-600'}>{props.school.name}</p>
+        <div className={'grid grid-cols-[150px_1fr] border border-neutral-400 dark:border-neutral-600 px-4 py-1 rounded-lg'}>
+          <p className={'py-2 border-b border-neutral-400 dark:border-neutral-600'}>학교명</p>
+          <p className={'py-2 border-b border-neutral-400 dark:border-neutral-600'}>{props.school.name}</p>
 
           <p className={'py-2'}>학년</p>
           <p className={'py-2'}>{props.school.grade}학년</p>
@@ -96,7 +96,7 @@ function CheckOk(props: {school: SchoolInfo | null, reload: () => void}) {
         {checkFlag(formState, 1) && <p className={'my-2 text-red-500 dark:text-red-300'}>재학생 확인을 철회하지 못했습니다.</p>}
         {checkFlag(formState, 2) && <p className={'my-2 text-red-500 dark:text-red-300'}>reCAPTCHA를 완료하지 못했습니다. 다시 시도해주세요.</p>}
         {checkFlag(formState, 3) && <p className={'my-2 text-red-500 dark:text-red-300'}>재학생 확인되지 않은 사용자입니다.</p>}
-        <label className={'my-2 text-grey-600 dark:text-grey-400'}>전학, 자퇴, 퇴학 등의 이유로 학적이 변동된 경우 반드시 재학생 확인을 철회하고 필요에 따라
+        <label className={'my-2 text-neutral-600 dark:text-neutral-400'}>전학, 자퇴, 퇴학 등의 이유로 학적이 변동된 경우 반드시 재학생 확인을 철회하고 필요에 따라
           다시 재학생 확인을 받아야 합니다.</label>
         <ul className={'list-disc pl-8 pr-4 my-1'}>
           <li className={'my-1'}><Link to={'/user/student-verification'}

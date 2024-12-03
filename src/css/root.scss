@@ -27,7 +27,7 @@ html {
 }
 
 p, label, a, li, span, td, th, button, caption, input {
-  @apply text-grey-900 dark:text-grey-100;
+  @apply text-neutral-900 dark:text-neutral-100;
 }
 
 img.svg-color-control-gray {
@@ -50,6 +50,10 @@ input::-webkit-inner-spin-button {
 
 input[type=number] {
   -moz-appearance: textfield;
+}
+
+a {
+  @apply text-blue-600 dark:text-blue-300 hover:underline;
 }
 
 #root {

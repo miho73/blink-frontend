@@ -252,7 +252,7 @@ function CoreStudentVerification() {
           </FormGroup>
         </FormSection>
         <FormSection title={'재학증명서 제출'}>
-          <ol className={'list-disc pl-8 pr-4 py-3 border border-grey-400 dark:border-grey-600 rounded-lg'}>
+          <ol className={'list-disc pl-8 pr-4 py-3 border border-neutral-400 dark:border-neutral-600 rounded-lg'}>
             <li className={'my-1'}>재학증명서는 발급받은지 1개월 이내여야 합니다.</li>
             <li className={'my-1'}>재학증명서는 국문(한국어)로 발급받아야 합니다.</li>
             <li className={'my-1'}>재학증명서에 사진과 주민번호 뒷자리를 포함하지 말아야 합니다.</li>
@@ -263,8 +263,8 @@ function CoreStudentVerification() {
             htmlFor={'file-upload'}
             className={
               'border my-2 py-2 px-4 w-fit rounded-lg cursor-pointer ' +
-              'bg-transparent border-grey-300 text-grey-900 hover:bg-grey-200 hover:border-grey-300 hover:text-black ' +
-              'dark:border-grey-800 dark:text-grey-100 dark:hover:bg-grey-800 dark:hover:border-grey-700 dark:hover:text-grey-200'
+              'bg-transparent border-neutral-300 text-neutral-900 hover:bg-neutral-200 hover:border-neutral-300 hover:text-black ' +
+              'dark:border-neutral-800 dark:text-neutral-100 dark:hover:bg-neutral-800 dark:hover:border-neutral-700 dark:hover:text-neutral-200'
             }
           >
             재학증명서 업로드

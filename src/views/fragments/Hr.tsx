@@ -1,6 +1,6 @@
 function Hr() {
   return (
-    <hr className={'my-3 border-black dark:border-grey-400'}/>
+    <hr className={'my-3 border-neutral-400 dark:border-neutral-700'}/>
   )
 }
 

@@ -115,7 +115,7 @@ function GoogleCompleteRegister() {
         </FormSection>
 
         <FormSection title={'약관 및 확인사항'}>
-          <Stack className={'border border-grey-400 dark:border-grey-600 px-4 py-3 gap-2 rounded-lg'}>
+          <Stack className={'border border-neutral-400 dark:border-neutral-600 px-4 py-3 gap-2 rounded-lg'}>
             <Link to={'/docs/eula'}>BLINK 이용약관 &gt;</Link>
             <Link to={'/docs/privacy'}>BLINK 개인정보 처리방침 &gt;</Link>
           </Stack>
@@ -130,7 +130,7 @@ function GoogleCompleteRegister() {
 
         <FormSection title={'BLINK 재학생 확인에 관한 사항'}>
           <ul
-            className={'list-outside list-disc border border-grey-400 dark:border-grey-600 pl-8 pr-4 py-3 rounded-lg'}>
+            className={'list-outside list-disc border border-neutral-400 dark:border-neutral-600 pl-8 pr-4 py-3 rounded-lg'}>
             <li className={'my-1'}>BLINK 서비스는 서비스 이용 당시 대한민국의 중등교육기관(중학교 및 고등학교)에 재학중인 학생만 이용 가능합니다.</li>
             <li className={'my-1'}>BLINK 서비스를 사용하려면 BLINK 계정을 만든 후 재학생 확인을 받아야 합니다.</li>
             <li className={'my-1'}>계정이 만들어진 후 1년간 재학생 확인이 이루어지지 않은 계정은 임의로 삭제될 수 있습니다.</li>

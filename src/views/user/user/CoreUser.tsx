@@ -1,4 +1,4 @@
-import DocumentFrame from "../../Frames/DocumentFrame.tsx";
+import DocumentFrame from "../../frames/DocumentFrame.tsx";
 import {Hr} from "../../fragments/Hr.tsx";
 import Stack from "../../layout/Stack.tsx";
 import {ButtonLink} from "../../form/Button.tsx";
