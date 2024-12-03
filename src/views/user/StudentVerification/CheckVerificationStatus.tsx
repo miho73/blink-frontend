@@ -12,10 +12,10 @@ import {Link} from "react-router-dom";
 
 interface request {
   vid: number;
-  doc_code: string;
-  evidence_type: number;
-  examined_at: string | null;
-  requested_at: string;
+  docCode: string;
+  evidenceType: number;
+  examinedAt: string | null;
+  requestedAt: string;
   grade: number;
   name: string;
   school: string;
@@ -128,8 +128,8 @@ function RequestTr(props: request & { reload: () => void }) {
     <td className={'text-red-700 dark:text-red-300 font-bold'}>거절(유효하지 않은 재학증명)</td>);
   else if (props.state === 7) state = (<td className={'text-red-700 dark:text-red-300 font-bold'}>거절</td>);
 
-  const requestTime = new Date(Date.parse(props.requested_at));
-  const examineTime = props.examined_at ? new Date(Date.parse(props.examined_at)) : null;
+  const requestTime = new Date(Date.parse(props.requestedAt));
+  const examineTime = props.examinedAt ? new Date(Date.parse(props.examinedAt)) : null;
 
   const rT = `${requestTime.getFullYear()}/${String(requestTime.getMonth()).padStart(2, '0')}/${String(requestTime.getDate()).padStart(2, '0')} ${String(requestTime.getHours()).padStart(2, '0')}:${String(requestTime.getMinutes()).padStart(2, '0')}:${String(requestTime.getSeconds()).padStart(2, '0')}`;
   const eT = examineTime ? `${examineTime.getFullYear()}/${String(examineTime.getMonth()).padStart(2, '0')}/${String(examineTime.getDate()).padStart(2, '0')} ${String(examineTime.getHours()).padStart(2, '0')}:${String(examineTime.getMinutes()).padStart(2, '0')}:${String(examineTime.getSeconds()).padStart(2, '0')}` : 'N/A';
@@ -222,7 +222,7 @@ function RequestTr(props: request & { reload: () => void }) {
               <p>{eT}</p>
 
               <p>재학증명서 문서확인번호</p>
-              <p>{props.doc_code}</p>
+              <p>{props.docCode}</p>
 
               <p>진행 상태</p>
               <p>{stateLookup[props.state]}</p>

@@ -20,7 +20,7 @@ import PasskeySettings from "./PasskeySettings.tsx";
 interface AuthInfo {
   google: boolean;
   password: boolean;
-  passkey: boolean;
+  passkey: number;
   auth: {
     google: {
       last_used: string;
@@ -29,14 +29,13 @@ interface AuthInfo {
       last_used: string;
       last_changed: string;
     } | null,
-    passkey: {
-      keys: [{
-        created: string;
-        last_used: string;
-        key_name: string;
-      }]
-    }
-  }
+    passkey: [{
+      createdAt: string;
+      lastUsed: string;
+      name: string;
+      aaguid: string;
+    }]
+  } | null
 }
 
 // TODO: 로딩중 애니메이션 다듬기
@@ -83,7 +82,7 @@ function AuthSettings() {
                 dark={<Svg src={KeyIconWhite}/>}
               />
             }
-            {authInfo?.passkey &&
+            {authInfo?.passkey !== 0 &&
               <ThemeSelector
                 className={'w-[48px]'}
                 light={<Svg src={PasskeyIocnBlack}/>}

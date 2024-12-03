@@ -8,8 +8,8 @@ import {checkFlag} from "../../../modules/formValidator.ts";
 
 interface SvRequest {
   verificationId: number;
-  user_id: number;
-  request_time: string;
+  userId: number;
+  requestTime: string;
   name: string;
   evidence: boolean;
   grade: number;
@@ -56,8 +56,8 @@ function SvList() {
     rows.push(
       <tr key={index}>
         <td><Link to={`/root/sv/approve?vid=${sv.verificationId}`}>{sv.verificationId}</Link></td>
-        <td>{sv.user_id}</td>
-        <td>{sv.request_time}</td>
+        <td>{sv.userId}</td>
+        <td>{sv.requestTime}</td>
         <td>{sv.name}</td>
         <td>{sv.evidence ? '제출' : '미제출'}</td>
         <td>{sv.grade}</td>

@@ -7,10 +7,10 @@ import {checkFlag} from "../../../modules/formValidator.ts";
 import {useSearchParams} from "react-router-dom";
 
 interface SchoolType {
-  school_id: number | null;
-  school_name: string;
-  school_type: string;
-  neis_code: string;
+  schoolId: number | null;
+  schoolName: string;
+  schoolType: string;
+  neisCode: string;
   address: string;
   sex: string;
 }
@@ -97,7 +97,7 @@ function SchoolManagement() {
       {
         headers: {
           Authorization: 'Bearer ' + jwt,
-          'School-Uid': schoolData[selectedRow].neis_code
+          'School-Uid': schoolData[selectedRow].neisCode
         }
       }
     ).then(() => {
@@ -131,9 +131,9 @@ function SchoolManagement() {
     axios.post(
       '/api/school/access',
       {
-        school_name: school.school_name,
-        school_type: school.school_type,
-        neis_code: school.neis_code,
+        school_name: school.schoolName,
+        school_type: school.schoolType,
+        neis_code: school.neisCode,
         address: school.address,
         sex: school.sex
       },
@@ -172,11 +172,11 @@ function SchoolManagement() {
           }
           onClick={() => setSelectedRow(index)}
         >
-          {school.school_id && <td>{school.school_id}</td>}
-          {!school.school_id && <td>N/A</td>}
-          <td>{school.school_name}</td>
-          <td>{school.school_type}</td>
-          <td>{school.neis_code}</td>
+          {school.schoolId && <td>{school.schoolId}</td>}
+          {!school.schoolId && <td>N/A</td>}
+          <td>{school.schoolName}</td>
+          <td>{school.schoolType}</td>
+          <td>{school.neisCode}</td>
           <td>{school.address}</td>
           <td>{school.sex}</td>
         </tr>
@@ -185,11 +185,11 @@ function SchoolManagement() {
     else {
       rows.push(
         <tr onClick={() => setSelectedRow(index)} className={'transition cursor-pointer'}>
-          {school.school_id && <td>{school.school_id}</td>}
-          {!school.school_id && <td>N/A</td>}
-          <td>{school.school_name}</td>
-          <td>{school.school_type}</td>
-          <td>{school.neis_code}</td>
+          {school.schoolId && <td>{school.schoolId}</td>}
+          {!school.schoolId && <td>N/A</td>}
+          <td>{school.schoolName}</td>
+          <td>{school.schoolType}</td>
+          <td>{school.neisCode}</td>
           <td>{school.address}</td>
           <td>{school.sex}</td>
         </tr>
