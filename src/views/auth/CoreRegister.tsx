@@ -16,8 +16,12 @@ import {
 } from "../../modules/formValidator.ts";
 import {useGoogleReCaptcha} from "react-google-recaptcha-v3";
 import axios from "axios";
+import startRecaptcha from "../../modules/recaptcha.ts";
+import Alert from "../form/Alert.tsx";
 
 function CoreRegister() {
+  const {executeRecaptcha} = useGoogleReCaptcha();
+
   const [username, setUsername] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [id, setId] = useState<string>('');
@@ -27,12 +31,14 @@ function CoreRegister() {
   const [verifyCheck, setVerifyCheck] = useState<boolean>(false);
 
   const [formState, setFormState] = useState<number>(0);
+  const [working, setWorking] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
   function validateForm() {
+    setWorking(true);
     verifyAll(
-      completeRecaptcha,
+      completeRegister,
       whenFormInvalid,
 
       lengthCheck(username, 1, 100, 0),
@@ -49,49 +55,38 @@ function CoreRegister() {
     );
   }
 
-  const {executeRecaptcha} = useGoogleReCaptcha();
-
-  async function checkRecaptcha() {
-    if (!executeRecaptcha) {
-      throw new Error('recaptcha not ready');
-    }
-
-    return await executeRecaptcha('signup/password');
-  }
-
-  function completeRecaptcha() {
-    setFormState(0);
-    checkRecaptcha()
+  function completeRegister() {
+    startRecaptcha({executeRecaptcha}, 'signup/password')
       .then(token => {
-        completeRegister(token);
+        axios.post('/api/auth/password/register', {
+          username: username,
+          email: email,
+          id: id,
+          password: pwd,
+          recaptcha: token
+        }).then(() => {
+          navigate('/user/n/welcome');
+        }).catch(err => {
+          const error = err.response.data?.message;
+          switch (error) {
+            case 'Recaptcha failed':
+              setFormState(1 << 7);
+              break;
+            default:
+              setFormState(1 << 8);
+          }
+        }).finally(() => {
+          setWorking(false);
+        });
       }).catch(() => {
         setFormState(1 << 6);
+        setWorking(false);
       });
   }
 
   function whenFormInvalid(formFlag: number) {
     setFormState(formFlag);
-  }
-
-  function completeRegister(token: string) {
-    axios.post('/api/auth/password/register', {
-      username: username,
-      email: email,
-      id: id,
-      password: pwd,
-      recaptcha: token
-    }).then(() => {
-      navigate('/user/n/welcome');
-    }).catch(err => {
-      const error = err.response.data?.message;
-      switch (error) {
-        case 'Recaptcha failed':
-          setFormState(1 << 7);
-          break;
-        default:
-          setFormState(1 << 8);
-      }
-    });
+    setWorking(false);
   }
 
   return (
@@ -108,26 +103,28 @@ function CoreRegister() {
           <FormGroup label={'이름'}>
             <TextInput
               placeholder={'이름'}
-              size={'sm'}
+              size={'md'}
               label={'이름'}
               value={username}
               setter={setUsername}
               invalid={checkFlag(formState, 0)}
               error={'이름은 100자 이하로 입력해주세요.'}
               authComplete={'nickname'}
+              disabled={working}
             />
           </FormGroup>
           <FormGroup label={'이메일'}>
             <TextInput
               type={'email'}
               placeholder={'이메일'}
-              size={'sm'}
+              size={'md'}
               label={'이메일'}
               value={email}
               setter={setEmail}
               invalid={checkFlag(formState, 1)}
               error={'올바른 이메일을 입력해주세요.'}
               authComplete={'email'}
+              disabled={working}
             />
           </FormGroup>
         </FormSection>
@@ -136,44 +133,47 @@ function CoreRegister() {
           <FormGroup label={'ID'}>
             <TextInput
               placeholder={'ID'}
-              size={'sm'}
+              size={'md'}
               label={'ID'}
               value={id}
               setter={setId}
               invalid={checkFlag(formState, 4)}
               error={'ID는 255자 이하여야 합니다.'}
               authComplete={'username'}
+              disabled={working}
             />
           </FormGroup>
           <FormGroup label={'암호'}>
             <TextInput
               type={'password'}
               placeholder={'암호'}
-              size={'sm'}
+              size={'md'}
               label={'암호'}
               value={pwd}
               setter={setPwd}
               invalid={checkFlag(formState, 5)}
               error={'암호는 6자리 이상이여야 합니다.'}
               authComplete={'new-password'}
+              disabled={working}
             />
           </FormGroup>
           <FormGroup label={'암호 확인'}>
             <TextInput
               type={'password'}
               placeholder={'암호 확인'}
-              size={'sm'}
+              size={'md'}
               label={'암호 확인'}
               value={pwdConfirm}
               setter={setPwdConfirm}
               invalid={checkFlag(formState, 8)}
               error={'암호를 확인해주세요.'}
               authComplete={'new-password'}
+              disabled={working}
             />
           </FormGroup>
         </FormSection>
 
-        <FormSection title={'약관 및 확인사항'}>
+        <FormSection title={'필수 약관'}>
           <Stack className={'border border-neutral-400 dark:border-neutral-600 px-4 py-3 gap-2 rounded-lg'}>
             <Link to={'/docs/eula'}>BLINK 이용약관 &gt;</Link>
             <Link to={'/docs/privacy'}>BLINK 개인정보 처리방침 &gt;</Link>
@@ -184,6 +184,8 @@ function CoreRegister() {
             checked={consentCheck}
             setter={setConsentCheck}
             invalid={checkFlag(formState, 2)}
+            error={'약관에 동의해야 회원가입할 수 있습니다.'}
+            disabled={working}
           />
         </FormSection>
 
@@ -200,19 +202,21 @@ function CoreRegister() {
             checked={verifyCheck}
             setter={setVerifyCheck}
             invalid={checkFlag(formState, 3)}
+            error={'내용을 확인해주세요.'}
+            disabled={working}
           />
         </FormSection>
       </Stack>
 
       {checkFlag(formState, 6) &&
-        <p className={'my-2 text-red-500 dark:text-red-300'}>reCAPTCHA를 완료하지 못했습니다. 다시 시도해주세요.</p>}
+        <Alert variant={'error'} className={'my-2'}>reCAPTCHA를 완료하지 못했습니다. 다시 시도해주세요.</Alert>}
       {checkFlag(formState, 7) &&
-        <p className={'my-2 text-red-500 dark:text-red-300'}>사용자 보호를 위해 지금은 계정을 만들 수 없습니다.</p>}
-      {checkFlag(formState, 8) && <p className={'my-2 text-red-500 dark:text-red-300'}>계정을 만들지 못했습니다.</p>}
+        <Alert variant={'error'} className={'my-2'}>사용자 보호를 위해 지금은 계정을 만들 수 없습니다.</Alert>}
+      {checkFlag(formState, 8) && <p className={'my-2'}>계정을 만들지 못했습니다.</p>}
 
       <Stack direction={'row'} className={'my-4 gap-4'}>
-        <ButtonLink to={'/auth'}>기존 계정으로 로그인</ButtonLink>
-        <Button onClick={validateForm}>회원가입</Button>
+        <ButtonLink to={'/auth'} disabled={working}>기존 계정으로 로그인</ButtonLink>
+        <Button onClick={validateForm} disabled={working}>회원가입</Button>
       </Stack>
     </div>
   )

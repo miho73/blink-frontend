@@ -4,6 +4,10 @@ input, select, button {
   }
 }
 
+a.button:focus {
+  box-shadow: var(--tw-shadow-color) 0 0 1px 1px;
+}
+
 input.inward {
   border-style: inset;
 }

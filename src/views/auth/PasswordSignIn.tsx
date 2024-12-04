@@ -10,7 +10,7 @@ import startRecaptcha from "../../modules/recaptcha.ts";
 import Alert from "../form/Alert.tsx";
 import {Hr} from "../fragments/Hr.tsx";
 
-function PasswordSignin() {
+function PasswordSignIn() {
 
   const {executeRecaptcha} = useGoogleReCaptcha();
   const [id, setId] = useState<string>('');
@@ -120,4 +120,4 @@ function PasswordSignin() {
   );
 }
 
-export default PasswordSignin;
+export default PasswordSignIn;

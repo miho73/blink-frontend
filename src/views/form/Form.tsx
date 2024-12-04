@@ -34,7 +34,7 @@ function FormGroup(props: FormGroupProps) {
         </div>
       }
       {!props.sidecar &&
-        <p className={'mb-3' + (props.strong ? ' text-lg font-medium' : '')}>{props.label}</p>
+        <p className={'mb-2' + (props.strong ? ' text-lg font-medium' : '')}>{props.label}</p>
       }
       {props.children}
     </div>

@@ -1,4 +1,5 @@
 import Stack from "../layout/Stack.tsx";
+import Alert from "./Alert.tsx";
 
 interface CheckboxProps {
   id?: string
@@ -8,6 +9,8 @@ interface CheckboxProps {
   toggle?: () => void;
   invalid?: boolean;
   className?: string;
+  error?: string;
+  disabled?: boolean;
 }
 
 function Checkbox(props: CheckboxProps) {
@@ -21,7 +24,7 @@ function Checkbox(props: CheckboxProps) {
   }
 
   return (
-    <Stack direction={'row'} className={'gap-2 my-2' + (props.className ? ' ' + props.className : '')}>
+    <div className={'my-2' + (props.className ? ' ' + props.className : '')}>
       <label htmlFor={props.id} className={'cursor-pointer checkbox-cover'}>
         <input
           id={props.id}
@@ -29,11 +32,13 @@ function Checkbox(props: CheckboxProps) {
           checked={props.checked}
           className={'cursor-pointer'}
           onChange={e => onChange(e.target.checked)}
+          disabled={props.disabled}
         />
 
         <span className={'ml-2'}>{props.label}</span>
       </label>
-    </Stack>
+      { props.invalid && <Alert variant={'error'} className={'!mb-0'}>{props.error}</Alert> }
+    </div>
   )
 }
 
@@ -47,8 +52,9 @@ function RadioButton(props: CheckboxProps) {
           checked={props.checked}
           className={'cursor-pointer'}
           onChange={e => props.setter?.(e.target.checked)}
+          disabled={props.disabled}
         />
-        <span className={'ml-2'}>{props.label}</span>
+        <span className={'ml-2 !mb-0'}>{props.label}</span>
       </label>
     </Stack>
   )

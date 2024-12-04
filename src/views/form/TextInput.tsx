@@ -1,3 +1,5 @@
+import Alert from "./Alert.tsx";
+
 interface TextInputProps {
   type?: 'text' | 'password' | 'email' | 'number';
 
@@ -47,7 +49,7 @@ function TextInput(props: TextInputProps) {
         onKeyDown={onKeyPress}
       />
       {props.invalid &&
-        <p className={'my-2 text-red-500 dark:text-red-300'}>{props.error}</p>
+        <Alert variant={'error'} className={'!mb-0'}>{props.error}</Alert>
       }
     </>
   );

@@ -61,7 +61,8 @@ function ButtonLink(props: ButtonProps) {
     <Link
       to={props.to ? props.to : '#'}
       className={
-        'border rounded-xl transition block w-fit ' +
+        'border rounded-xl transition block w-fit outline-none button ' +
+        'shadow-blue-300 focus:border-blue-500 dark:shadow-blue-400 dark:focus:border-blue-400 ' +
         (props.size === 'lg' ? 'px-8 py-4 text-lg ' : '') +
         (props.size === 'sm' ? 'px-5 py-2 text-sm ' : '') +
         (props.size === 'md' || !props.size ? 'px-5 py-3 ' : '') +

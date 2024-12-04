@@ -9,13 +9,18 @@ import {useState} from "react";
 import {assertValue, checkFlag, lengthCheck, verifyAll} from "../../modules/formValidator.ts";
 import axios from "axios";
 import {useGoogleReCaptcha} from "react-google-recaptcha-v3";
+import startRecaptcha from "../../modules/recaptcha.ts";
+import Alert from "../form/Alert.tsx";
 
 function GoogleCompleteRegister() {
+  const {executeRecaptcha} = useGoogleReCaptcha();
+
   const [username, setUsername] = useState<string>('');
   const [consentCheck, setConsentCheck] = useState<boolean>(false);
   const [verifyCheck, setVerifyCheck] = useState<boolean>(false);
 
   const [formState, setFormState] = useState<number>(0);
+  const [working, setWorking] = useState(false);
 
   const [searchParams] = useSearchParams();
   const code = searchParams.get('code');
@@ -24,8 +29,9 @@ function GoogleCompleteRegister() {
   const navigate = useNavigate();
 
   function validateForm() {
+    setWorking(true);
     verifyAll(
-      completeRecaptcha,
+      completeRegister,
       whenFormInvalid,
 
       lengthCheck(username, 1, 100, 0),
@@ -33,48 +39,37 @@ function GoogleCompleteRegister() {
       assertValue<boolean>(verifyCheck, true, 2)
     );
   }
-//TODO: block user interaction when register is in progress
-  const {executeRecaptcha} = useGoogleReCaptcha();
 
-  async function checkRecaptcha() {
-    if (!executeRecaptcha) {
-      throw new Error('recaptcha not ready');
-    }
-
-    return await executeRecaptcha('signup/google');
-  }
-
-  function completeRecaptcha() {
-    setFormState(0);
-    checkRecaptcha()
+  function completeRegister() {
+    startRecaptcha({executeRecaptcha}, 'signup/google')
       .then(token => {
-        completeRegister(token);
+        axios.post('/api/auth/google/register', {
+          code: code,
+          username: username,
+          recaptcha: token
+        }).then(() => {
+          navigate('/user/n/welcome');
+        }).catch(err => {
+          const error = err.response.data?.message;
+          switch (error) {
+            case 'Recaptcha failed':
+              setFormState(1 << 4);
+              break;
+            default:
+              setFormState(1 << 5);
+          }
+        }).finally(() => {
+          setWorking(false);
+        });
       }).catch(() => {
         setFormState(1 << 3);
+        setWorking(false);
       });
-  }
-
-  function completeRegister(token: string) {
-    axios.post('/api/auth/google/register', {
-      code: code,
-      username: username,
-      recaptcha: token
-    }).then(() => {
-      navigate('/user/n/welcome');
-    }).catch(err => {
-      const error = err.response.data?.message;
-      switch (error) {
-        case 'Recaptcha failed':
-          setFormState(1 << 4);
-          break;
-        default:
-          setFormState(1 << 5);
-      }
-    });
   }
 
   function whenFormInvalid(formFlag: number) {
     setFormState(formFlag);
+    setWorking(false);
   }
 
   if (error) {
@@ -85,7 +80,7 @@ function GoogleCompleteRegister() {
           <p className={'text-2xl font-bold my-3'}>Google로 회원가입</p>
         </Stack>
         <Hr/>
-        <p className={'text-red-500 dark:text-red-300'}>Google으로 회원가입할 수 없습니다.</p>
+        <Alert variant={'errorFill'}>Google으로 회원가입할 수 없습니다.</Alert>
       </div>
     )
   }
@@ -110,11 +105,12 @@ function GoogleCompleteRegister() {
               invalid={checkFlag(formState, 0)}
               error={'이름은 100자 이하로 입력해주세요.'}
               authComplete={'nickname'}
+              disabled={working}
             />
           </FormGroup>
         </FormSection>
 
-        <FormSection title={'약관 및 확인사항'}>
+        <FormSection title={'필수 약관'}>
           <Stack className={'border border-neutral-400 dark:border-neutral-600 px-4 py-3 gap-2 rounded-lg'}>
             <Link to={'/docs/eula'}>BLINK 이용약관 &gt;</Link>
             <Link to={'/docs/privacy'}>BLINK 개인정보 처리방침 &gt;</Link>
@@ -125,6 +121,8 @@ function GoogleCompleteRegister() {
             checked={consentCheck}
             setter={setConsentCheck}
             invalid={checkFlag(formState, 1)}
+            disabled={working}
+            error={'약관에 동의해야 회원가입할 수 있습니다.'}
           />
         </FormSection>
 
@@ -141,6 +139,8 @@ function GoogleCompleteRegister() {
             checked={verifyCheck}
             setter={setVerifyCheck}
             invalid={checkFlag(formState, 2)}
+            disabled={working}
+            error={'내용을 확인해주세요.'}
           />
         </FormSection>
       </Stack>

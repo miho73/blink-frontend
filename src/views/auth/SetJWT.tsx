@@ -65,7 +65,7 @@ function SetJwt() {
         <ErrorPage
           errorCode={400}
           errorTitle={'Bad Request'}
-          errorMessage={'JWT query was not supplied'}
+          errorMessage={'JWT가 주어지지 않았습니다.'}
         />
       )
     case 2:
@@ -73,7 +73,7 @@ function SetJwt() {
         <ErrorPage
           errorCode={401}
           errorTitle={'Unauthorized'}
-          errorMessage={'JWT is invalid and will not be used'}
+          errorMessage={'JWT가 유효하지 않아 로그인하지 못했습니다.'}
         />
       )
     case 3:
@@ -81,7 +81,7 @@ function SetJwt() {
         <ErrorPage
           errorCode={500}
           errorTitle={'Internal Server Error'}
-          errorMessage={'Failed to retrieve user information'}
+          errorMessage={'사용자 정보를 받아오지 못했습니다.'}
         />
       )
   }

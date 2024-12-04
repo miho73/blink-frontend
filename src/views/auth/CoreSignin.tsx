@@ -11,7 +11,7 @@ import Alert from "../form/Alert.tsx";
 import PasskeyAuthentication from "./PasskeyAuthentication.tsx";
 import LoginLink from "./LoginLink.tsx";
 
-function CoreSignin() {
+function CoreSignIn() {
   const [error, setError] = React.useState<string | null>(null);
 
   useEffect(() => {
@@ -71,4 +71,4 @@ function CoreSignin() {
 
 //       {error === 'passkey-error' && <Alert variant={'error'}>Passkey로 인증하지 못했습니다.</Alert>}
 
-export default CoreSignin;
+export default CoreSignIn;
