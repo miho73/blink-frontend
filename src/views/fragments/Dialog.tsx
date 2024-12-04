@@ -4,6 +4,7 @@ import Stack from "../layout/Stack.tsx";
 import {CSSTransition} from "react-transition-group";
 import {ReactNode} from "react";
 import {Button} from "../form/Button.tsx";
+import {worker} from "globals";
 
 interface DialogProps {
   open: boolean;
@@ -13,6 +14,7 @@ interface DialogProps {
   onCancel?: () => void;
   okText?: string;
   cancelText?: string;
+  working?: boolean;
 
   children: ReactNode;
   closeByBackdrop?: boolean;
@@ -38,7 +40,10 @@ function Dialog(props: DialogProps) {
           'flex justify-center items-center ' +
           'transition-opacity duration-200'
         }
-        onClick={() => props.closeByBackdrop && props.close()}
+        onClick={() => {
+          if(props.working) return;
+          if(props.closeByBackdrop) props.close();
+        }}
       >
         <div
           className={
@@ -53,7 +58,10 @@ function Dialog(props: DialogProps) {
           >
             <p className={'text-2xl font-medium mr-16'}>{props.title}</p>
             <button
-              onClick={props.close}
+              onClick={() => {
+                if(props.working) return;
+                props.close();
+              }}
             >
               <Svg src={CancelIcon} css cssColor={'white'} className={'w-5 h-5'}/>
             </button>
@@ -62,8 +70,8 @@ function Dialog(props: DialogProps) {
           <div className={'px-5'}>{props.children}</div>
           <Hr/>
           <Stack direction={'row'} className={'px-5 gap-2 justify-end'}>
-            <Button size={'sm'} onClick={props.onCancel}>{props.cancelText}</Button>
-            <Button size={'sm'} onClick={props.onOk}>{props.okText}</Button>
+            <Button size={'sm'} onClick={props.onCancel} disabled={props.working}>{props.cancelText}</Button>
+            <Button size={'sm'} onClick={props.onOk} disabled={props.working}>{props.okText}</Button>
           </Stack>
         </div>
       </div>

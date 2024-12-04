@@ -7,6 +7,8 @@ async function startRecaptcha(
   if (!executeRecaptcha) {
     throw new Error('recaptcha not ready');
   }
+
+  // FIXME: ERROR THROWN HERE DOES NOT TRIGGER UPPER CATCH BLOCK
   return await executeRecaptcha(action);
 }
 

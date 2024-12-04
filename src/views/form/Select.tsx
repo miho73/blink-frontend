@@ -4,7 +4,7 @@ interface SelectProps {
   options: string[];
   id: string[];
   value?: string;
-  onChange?: (value: string) => void;
+  onChange: (value: string) => void;
   className?: string;
   disabled?: boolean;
   invalid?: boolean;
@@ -31,6 +31,8 @@ function Select(props: SelectProps) {
           (props.className ? ` ${props.className}` : '')
         }
         disabled={props.disabled}
+        value={props.value}
+        onChange={e => props.onChange(e.target.value)}
       >
         {options}
       </select>

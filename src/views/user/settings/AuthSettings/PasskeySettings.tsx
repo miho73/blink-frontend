@@ -111,7 +111,7 @@ function PasskeySettings(
         <FormGroup label={'계정에 등록된 Passkey'} strong>
           <Stack>
             {passkeyList?.map((passkey, index) => (
-              <PasskeyRow key={index} passkey={passkey}/>
+              <PasskeyRow key={index} passkey={passkey} reload={reload}/>
             ))}
           </Stack>
         </FormGroup>
