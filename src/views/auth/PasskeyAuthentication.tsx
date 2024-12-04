@@ -12,34 +12,34 @@ function PasskeyAuthentication({errorReporter}: {errorReporter: (error: string) 
   const navigate = useNavigate();
 
   function authenticate() {
-    startRecaptcha({executeRecaptcha}, 'signin/passkey')
-      .then(token => {
-        axios.get('/api/auth/passkey/auth-option')
-          .then(res => {
-            startAuthentication({
-              optionsJSON: res.data['option']
-            })
-              .then(attestation => {
-                axios.post('/api/auth/passkey/login', {
-                  recaptcha: token,
-                  attestation: attestation
-                }).then(res => {
-                  const jwt = res.data.jwt;
-                  navigate(`/auth/complete?jwt=${jwt}`);
-                }).catch(() => {
-                  errorReporter('auth-error');
-                });
-              }).catch(e => {
-                errorReporter('passkey-error');
-                console.error(e);
+    try {
+      const token = startRecaptcha({executeRecaptcha}, 'signin/passkey');
+      axios.get('/api/auth/passkey/auth-option')
+        .then(res => {
+          startAuthentication({
+            optionsJSON: res.data['option']
+          })
+            .then(attestation => {
+              axios.post('/api/auth/passkey/login', {
+                recaptcha: token,
+                attestation: attestation
+              }).then(res => {
+                const jwt = res.data.jwt;
+                navigate(`/auth/complete?jwt=${jwt}`);
+              }).catch(() => {
+                errorReporter('auth-error');
               });
-          }).catch(() => {
-            errorReporter('passkey-option-error');
+            }).catch(e => {
+            errorReporter('passkey-error');
+            console.error(e);
           });
-      }).catch(e => {
-        errorReporter('recaptcha-not-ready');
-        console.error(e);
+        }).catch(() => {
+        errorReporter('passkey-option-error');
       });
+    }
+    catch {
+      errorReporter('recaptcha-not-ready');
+    }
   }
 
   return (

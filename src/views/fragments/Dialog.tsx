@@ -62,8 +62,8 @@ function Dialog(props: DialogProps) {
           <div className={'px-5'}>{props.children}</div>
           <Hr/>
           <Stack direction={'row'} className={'px-5 gap-2 justify-end'}>
-            <Button onClick={props.onCancel}>{props.cancelText}</Button>
-            <Button onClick={props.onOk}>{props.okText}</Button>
+            <Button size={'sm'} onClick={props.onCancel}>{props.cancelText}</Button>
+            <Button size={'sm'} onClick={props.onOk}>{props.okText}</Button>
           </Stack>
         </div>
       </div>

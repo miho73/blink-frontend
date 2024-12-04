@@ -34,33 +34,34 @@ function PasswordSignIn() {
   }
 
   function completeSignin() {
-    startRecaptcha({executeRecaptcha}, 'signin/password')
-      .then(token => {
-        axios.post('/api/auth/password/login', {
-          id: id,
-          password: password,
-          recaptcha: token
-        }).then(res => {
-          navigate('/auth/complete?jwt=' + res.data['jwt']);
-        }).catch(err => {
-          const status = err.response.status;
-          const message = err.response.data['message'];
-          if (status === 401) {
-            setFormState(1 << 0);
+    try {
+      const token = startRecaptcha({executeRecaptcha}, 'signin/password');
+      axios.post('/api/auth/password/login', {
+        id: id,
+        password: password,
+        recaptcha: token
+      }).then(res => {
+        navigate('/auth/complete?jwt=' + res.data['jwt']);
+      }).catch(err => {
+        const status = err.response.status;
+        const message = err.response.data['message'];
+        if (status === 401) {
+          setFormState(1 << 0);
+        } else {
+          if (message === 'Recaptcha failed') {
+            setFormState(1 << 1);
           } else {
-            if (message === 'Recaptcha failed') {
-              setFormState(1 << 1);
-            } else {
-              setFormState(1 << 4);
-            }
+            setFormState(1 << 4);
           }
-        }).finally(() => {
-          setWorking(false);
-        });
-      }).catch(() => {
-        setFormState(1 << 2);
+        }
+      }).finally(() => {
         setWorking(false);
       });
+    }
+    catch {
+      setFormState(1 << 2);
+      setWorking(false);
+    }
   }
 
   function whenFormInvalid(formFlag: number) {

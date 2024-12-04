@@ -48,7 +48,7 @@ function CoreRegister() {
       lengthCheck(id, 1, 255, 4),
       lengthCheckMin(pwd, 6, 5),
 
-      assertValue<string>(pwd, pwdConfirm, 8),
+      assertValue<string>(pwd, pwdConfirm, 6),
 
       assertValue<boolean>(consentCheck, true, 2),
       assertValue<boolean>(verifyCheck, true, 3)
@@ -56,32 +56,34 @@ function CoreRegister() {
   }
 
   function completeRegister() {
-    startRecaptcha({executeRecaptcha}, 'signup/password')
-      .then(token => {
-        axios.post('/api/auth/password/register', {
-          username: username,
-          email: email,
-          id: id,
-          password: pwd,
-          recaptcha: token
-        }).then(() => {
-          navigate('/user/n/welcome');
-        }).catch(err => {
-          const error = err.response.data?.message;
-          switch (error) {
-            case 'Recaptcha failed':
-              setFormState(1 << 7);
-              break;
-            default:
-              setFormState(1 << 8);
-          }
-        }).finally(() => {
-          setWorking(false);
-        });
-      }).catch(() => {
-        setFormState(1 << 6);
+    try {
+      const token = startRecaptcha({executeRecaptcha}, 'signup/password');
+
+      axios.post('/api/auth/password/register', {
+        username: username,
+        email: email,
+        id: id,
+        password: pwd,
+        recaptcha: token
+      }).then(() => {
+        navigate('/user/n/welcome');
+      }).catch(err => {
+        const error = err.response.data?.message;
+        switch (error) {
+          case 'Recaptcha failed':
+            setFormState(1 << 7);
+            break;
+          default:
+            setFormState(1 << 8);
+        }
+      }).finally(() => {
         setWorking(false);
       });
+    }
+    catch {
+      setFormState(1 << 9);
+      setWorking(false);
+    }
   }
 
   function whenFormInvalid(formFlag: number) {
@@ -103,7 +105,6 @@ function CoreRegister() {
           <FormGroup label={'이름'}>
             <TextInput
               placeholder={'이름'}
-              size={'md'}
               label={'이름'}
               value={username}
               setter={setUsername}
@@ -117,7 +118,6 @@ function CoreRegister() {
             <TextInput
               type={'email'}
               placeholder={'이메일'}
-              size={'md'}
               label={'이메일'}
               value={email}
               setter={setEmail}
@@ -133,7 +133,6 @@ function CoreRegister() {
           <FormGroup label={'ID'}>
             <TextInput
               placeholder={'ID'}
-              size={'md'}
               label={'ID'}
               value={id}
               setter={setId}
@@ -147,7 +146,6 @@ function CoreRegister() {
             <TextInput
               type={'password'}
               placeholder={'암호'}
-              size={'md'}
               label={'암호'}
               value={pwd}
               setter={setPwd}
@@ -161,11 +159,10 @@ function CoreRegister() {
             <TextInput
               type={'password'}
               placeholder={'암호 확인'}
-              size={'md'}
               label={'암호 확인'}
               value={pwdConfirm}
               setter={setPwdConfirm}
-              invalid={checkFlag(formState, 8)}
+              invalid={checkFlag(formState, 6)}
               error={'암호를 확인해주세요.'}
               authComplete={'new-password'}
               disabled={working}
@@ -208,11 +205,11 @@ function CoreRegister() {
         </FormSection>
       </Stack>
 
-      {checkFlag(formState, 6) &&
-        <Alert variant={'error'} className={'my-2'}>reCAPTCHA를 완료하지 못했습니다. 다시 시도해주세요.</Alert>}
+      {checkFlag(formState, 9) &&
+        <Alert variant={'error'}>reCAPTCHA를 완료하지 못했습니다. 다시 시도해주세요.</Alert>}
       {checkFlag(formState, 7) &&
-        <Alert variant={'error'} className={'my-2'}>사용자 보호를 위해 지금은 계정을 만들 수 없습니다.</Alert>}
-      {checkFlag(formState, 8) && <p className={'my-2'}>계정을 만들지 못했습니다.</p>}
+        <Alert variant={'error'}>사용자 보호를 위해 지금은 계정을 만들 수 없습니다.</Alert>}
+      {checkFlag(formState, 8) && <Alert  variant={'error'}>계정을 만들지 못했습니다.</Alert>}
 
       <Stack direction={'row'} className={'my-4 gap-4'}>
         <ButtonLink to={'/auth'} disabled={working}>기존 계정으로 로그인</ButtonLink>

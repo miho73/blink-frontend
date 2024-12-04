@@ -1,4 +1,3 @@
-import Stack from "../layout/Stack.tsx";
 import Alert from "./Alert.tsx";
 
 interface CheckboxProps {
@@ -44,7 +43,7 @@ function Checkbox(props: CheckboxProps) {
 
 function RadioButton(props: CheckboxProps) {
   return (
-    <Stack direction={'row'} className={'gap-2 my-2'}>
+    <div className={'my-2' + (props.className ? ' ' + props.className : '')}>
       <label htmlFor={props.id} className={'cursor-pointer'}>
         <input
           id={props.id}
@@ -56,7 +55,7 @@ function RadioButton(props: CheckboxProps) {
         />
         <span className={'ml-2 !mb-0'}>{props.label}</span>
       </label>
-    </Stack>
+    </div>
   )
 }
 

@@ -25,62 +25,60 @@ function PasskeySettings(
   const passkeyList: Passkey[] = authInfo?.auth?.passkey || [];
 
   function addPasskey() {
-    startRecaptcha({executeRecaptcha}, 'register/passkey')
-      .then(token => {
-        axios.get(
-          '/api/auth/passkey/register-option',
-          {headers: {'Authorization': `Bearer ${jwt}`}}
-        )
-          .then(res => {
-            startRegistration({
-              optionsJSON: res.data['option']
-            })
-              .then(attestation => {
-                axios.post('/api/auth/passkey/register', {
-                  recaptcha: token,
-                  attestation: attestation
-                }, {
-                  headers: {'Authorization': `Bearer ${jwt}`}
-                }).then(() => {
-                  setAddPasskeyState(1 << 0);
-                }).catch(err => {
-                  const error = err.response.data?.message
-                  switch (error) {
-                    case 'Session not found':
-                      setAddPasskeyState(1 << 5);
-                      break;
-                    case 'Identity not found':
-                      setAddPasskeyState(1 << 6);
-                      break;
-                    case 'Register option not found':
-                      setAddPasskeyState(1 << 7);
-                      break;
-                    case 'Authenticator not found':
-                      setAddPasskeyState(1 << 8);
-                      break;
-                    case 'Registration ID already exists':
-                      setAddPasskeyState(1 << 9);
-                      break;
-                    case 'Recaptcha verification failed':
-                      setAddPasskeyState(1 << 10);
-                      break;
-                    default:
-                      setAddPasskeyState(1 << 1);
-                      console.error(err);
-                  }
-                });
-              }).catch(e => {
-                setAddPasskeyState(1 << 2);
-                console.error(e);
+    try {
+      const token = startRecaptcha({executeRecaptcha}, 'register/passkey');
+      axios.get(
+        '/api/auth/passkey/register-option',
+        {headers: {'Authorization': `Bearer ${jwt}`}}
+      )
+        .then(res => {
+          startRegistration({
+            optionsJSON: res.data['option']
+          })
+            .then(attestation => {
+              axios.post('/api/auth/passkey/register', {
+                recaptcha: token,
+                attestation: attestation
+              }, {
+                headers: {'Authorization': `Bearer ${jwt}`}
+              }).then(() => {
+                setAddPasskeyState(1 << 0);
+              }).catch(err => {
+                const error = err.response.data?.message
+                switch (error) {
+                  case 'Session not found':
+                    setAddPasskeyState(1 << 5);
+                    break;
+                  case 'Identity not found':
+                    setAddPasskeyState(1 << 6);
+                    break;
+                  case 'Register option not found':
+                    setAddPasskeyState(1 << 7);
+                    break;
+                  case 'Authenticator not found':
+                    setAddPasskeyState(1 << 8);
+                    break;
+                  case 'Registration ID already exists':
+                    setAddPasskeyState(1 << 9);
+                    break;
+                  case 'Recaptcha verification failed':
+                    setAddPasskeyState(1 << 10);
+                    break;
+                  default:
+                    setAddPasskeyState(1 << 1);
+                    console.error(err);
+                }
               });
-          }).catch(e => {
-            setAddPasskeyState(1 << 3);
-            console.log(e);
+            }).catch(() => {
+            setAddPasskeyState(1 << 2);
           });
-      }).catch(e => {
-        setAddPasskeyState(1 << 4);
-        console.log(e);
+        }).catch(() => {
+        setAddPasskeyState(1 << 3);
       });
+    }
+    catch {
+      setAddPasskeyState(1 << 4);
+    }
   }
 
   if (authInfo === null) return null;

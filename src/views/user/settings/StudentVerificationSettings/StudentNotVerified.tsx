@@ -16,7 +16,7 @@ function CheckNotOk() {
                                      className={'text-blue-600 dark:text-blue-300 hover:underline'}>재학생
           확인 신청</Link></li>
         <li className={'my-1'}><Link to={'/user/student-verification/check'}
-                                     className={'text-blue-600 dark:text-blue-300 hover:underline'}>재학생 확인 결과</Link>
+                                     className={'text-blue-600 dark:text-blue-300 hover:underline'}>재학생 확인 조회</Link>
         </li>
       </ul>
     </>

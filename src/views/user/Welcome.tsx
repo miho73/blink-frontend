@@ -29,7 +29,6 @@ function WelcomeUser() {
           <TextInput
             placeholder={'Placeholder'}
             value={''}
-            size={'md'}
           />
           <TextInput
             placeholder={'Placeholder'}

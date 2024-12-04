@@ -41,30 +41,30 @@ function GoogleCompleteRegister() {
   }
 
   function completeRegister() {
-    startRecaptcha({executeRecaptcha}, 'signup/google')
-      .then(token => {
-        axios.post('/api/auth/google/register', {
-          code: code,
-          username: username,
-          recaptcha: token
-        }).then(() => {
-          navigate('/user/n/welcome');
-        }).catch(err => {
-          const error = err.response.data?.message;
-          switch (error) {
-            case 'Recaptcha failed':
-              setFormState(1 << 4);
-              break;
-            default:
-              setFormState(1 << 5);
-          }
-        }).finally(() => {
-          setWorking(false);
-        });
-      }).catch(() => {
-        setFormState(1 << 3);
+    try {
+      const token = startRecaptcha({executeRecaptcha}, 'signup/google');
+      axios.post('/api/auth/google/register', {
+        code: code,
+        username: username,
+        recaptcha: token
+      }).then(() => {
+        navigate('/user/n/welcome');
+      }).catch(err => {
+        const error = err.response.data?.message;
+        switch (error) {
+          case 'Recaptcha failed':
+            setFormState(1 << 4);
+            break;
+          default:
+            setFormState(1 << 5);
+        }
+      }).finally(() => {
         setWorking(false);
       });
+    } catch {
+      setFormState(1 << 3);
+      setWorking(false);
+    }
   }
 
   function whenFormInvalid(formFlag: number) {
