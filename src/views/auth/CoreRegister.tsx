@@ -55,9 +55,9 @@ function CoreRegister() {
     );
   }
 
-  function completeRegister() {
+  async function completeRegister() {
     try {
-      const token = startRecaptcha({executeRecaptcha}, 'signup/password');
+      const token = await startRecaptcha({executeRecaptcha}, 'signup/password');
 
       axios.post('/api/auth/password/register', {
         username: username,

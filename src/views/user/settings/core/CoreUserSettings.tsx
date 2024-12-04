@@ -1,10 +1,11 @@
-import Stack from "../../layout/Stack.tsx";
-import {ReactElement, ReactNode, useState} from "react";
-import AuthSettings from "./AuthSettings/AuthSettings.tsx";
-import GeneralSettings from "./GeneralSettings/GeneralSettings.tsx";
-import {KeyIcon, PencilIcon, ProfileIcon, Svg} from "../../../assets/svgs/svg.tsx";
-import {Hr} from "../../fragments/Hr.tsx";
-import StudentCheckSettings from "./StudentVerificationSettings/StudentCheckSettings.tsx";
+import Stack from "../../../layout/Stack.tsx";
+import {ReactNode, useState} from "react";
+import AuthSettings from "../AuthSettings/AuthSettings.tsx";
+import GeneralSettings from "../GeneralSettings/GeneralSettings.tsx";
+import {KeyIcon, PencilIcon, ProfileIcon, Svg} from "../../../../assets/svgs/svg.tsx";
+import {Hr} from "../../../fragments/Hr.tsx";
+import StudentCheckSettings from "../StudentVerificationSettings/StudentCheckSettings.tsx";
+import SettingsTabButton from "./SettingsTabButton.tsx";
 
 function CoreUserSettings() {
   const [selectedTab, setSelectedTab] = useState<number>(0);
@@ -55,28 +56,6 @@ function CoreUserSettings() {
       </Stack>
       <div className={'md:mt-3 md:ml-16 max-w-[600px]'}>{tabContent}</div>
     </div>
-  )
-}
-
-interface SettingsTabProps {
-  children: ReactNode;
-  setter: () => void;
-  icon: ReactElement;
-  selected: boolean
-}
-
-function SettingsTabButton(props: SettingsTabProps) {
-  return (
-    <button
-      onClick={props.setter}
-      className={
-        'my-1 py-2 pl-[20px] text-left font-medium flex justify-start items-center gap-3 transition border-l-4 border-transparent ' +
-        (props.selected ? ' border-blue-600 dark:border-blue-500' : '')
-      }
-    >
-      {props.icon}
-      {props.children}
-    </button>
   )
 }
 

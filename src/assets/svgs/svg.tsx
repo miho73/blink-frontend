@@ -26,6 +26,7 @@ import KeyIconBlack from './Key_black.svg';
 interface SVGProps {
   src: string;
   css?: boolean;
+  alt?: string;
   cssColor?: 'white' | 'gray';
   className?: string;
 }
@@ -34,6 +35,7 @@ function Svg(props: SVGProps) {
   return (
     <img
       src={props.src}
+      alt={props.alt}
       className={
         (props.className ? props.className : '') +
         (props.css ? (

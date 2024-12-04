@@ -45,10 +45,10 @@ function VerificationRequestRow(props: SvRequest & { reload: () => void }) {
   const rT = ISO8601StringToDate(props.requestedAt);
   const eT = props.examinedAt ? ISO8601StringToDate(props.examinedAt) : 'N/A';
 
-  function cancel(idx: number) {
+  async function cancel(idx: number) {
     setWorking(true);
     try {
-      const token = startRecaptcha({executeRecaptcha}, 'sv/delete');
+      const token = await startRecaptcha({executeRecaptcha}, 'sv/delete');
 
       axios.delete(
         '/api/sv/user/requests',

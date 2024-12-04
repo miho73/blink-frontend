@@ -4,7 +4,7 @@ import CheckVerificationStatus from "../../user/StudentVerification/CheckVerific
 import CoreStudentVerification from "../../user/StudentVerification/CoreStudentVerification.tsx";
 import NotFound from "../../error/NotFound.tsx";
 import CoreUser from "../../user/user/CoreUser.tsx";
-import CoreUserSettings from "../../user/settings/CoreUserSettings.tsx";
+import CoreUserSettings from "../../user/settings/core/CoreUserSettings.tsx";
 
 function UserAuthenticatedRouteFrame() {
   return (

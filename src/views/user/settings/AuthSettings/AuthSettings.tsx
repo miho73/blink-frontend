@@ -38,17 +38,16 @@ interface AuthInfo {
   } | null
 }
 
-// TODO: 로딩중 애니메이션 다듬기
 function AuthSettings() {
   const jwt = useAppSelector(state => state.userInfoReducer.jwt);
 
-  const [pwdChange, setPwdChange] = useState<boolean>(false);
+  const [pwdChangeExpanded, setPwdChangeExpanded] = useState<boolean>(false);
   const [pwdChangeSuccess, setPwdChangeSuccess] = useState<boolean>(false);
   const [pageState, setPageState] = useState<number>(0);
 
   const [authInfo, setAuthInfo] = useState<AuthInfo>();
 
-  useEffect(() => {
+  function load() {
     axios.get(
       '/api/user/auth',
       {headers: {'Authorization': `Bearer ${jwt}`}}
@@ -58,35 +57,38 @@ function AuthSettings() {
     }).catch(() => {
       setPageState(1);
     });
-  }, [jwt]);
+  }
 
-  // TODO: 텍스트 다듬기
+  useEffect(() => {
+    load();
+  }, []);
+
   if (pageState === 1) {
     return (
       <FormSection title={'인증 및 보안'}>
-        <Alert variant={'error'}>인증 정보를 로딩하지 못했습니다.</Alert>
+        <Alert variant={'errorFill'}>인증 정보를 불러오지 못했습니다.</Alert>
       </FormSection>
     )
   } else if (pageState === 0 || pageState === 2) {
     return (
       <FormSection title={'인증 및 보안'}>
         <FormGroup label={'인증 방법'} strong>
-          <Stack direction={'row'} className={'h-[48px] gap-3 justify-start'}>
+          <Stack direction={'row'} className={'h-[48px] gap-3'}>
             {authInfo?.google &&
-              <Svg src={GoogleIcon} className={'w-[48px]'}/>
+              <Svg src={GoogleIcon} className={'w-[48px]'} alt={'구글로 로그인'}/>
             }
             {authInfo?.password &&
               <ThemeSelector
                 className={'w-[48px]'}
-                light={<Svg src={KeyIconBlack}/>}
-                dark={<Svg src={KeyIconWhite}/>}
+                light={<Svg src={KeyIconBlack} alt={'비밀번호로 로그인'}/>}
+                dark={<Svg src={KeyIconWhite} alt={'비밀번호로 로그인'}/>}
               />
             }
             {authInfo?.passkey !== 0 &&
               <ThemeSelector
                 className={'w-[48px]'}
-                light={<Svg src={PasskeyIocnBlack}/>}
-                dark={<Svg src={PasskeyIocnWhite}/>}
+                light={<Svg src={PasskeyIocnBlack} alt={'패스키로 로그인'}/>}
+                dark={<Svg src={PasskeyIocnWhite} alt={'패스키로 로그인'}/>}
               />
             }
           </Stack>
@@ -94,21 +96,22 @@ function AuthSettings() {
 
         {authInfo?.password &&
           <FormGroup label={'비밀번호 변경'} strong>
-            {!pwdChange &&
+            {!pwdChangeExpanded &&
               <>
-                {pwdChangeSuccess && <p className={'text-green-700 dark:text-green-300 mb-3'}>암호가 변경되었습니다.</p>}
-                <Button className={'w-fit'} onClick={() => setPwdChange(true)}>비밀번호 변경</Button>
+                {pwdChangeSuccess && <Alert variant={'success'}>암호가 변경되었습니다.</Alert>}
+                <Button className={'w-fit'} onClick={() => setPwdChangeExpanded(true)}>비밀번호 변경</Button>
               </>
             }
-            {pwdChange && <ChangePassword cancel={() => setPwdChange(false)} success={() => {
-              setPwdChange(false);
-              setPwdChangeSuccess(true)
+            {pwdChangeExpanded && <ChangePassword cancel={() => setPwdChangeExpanded(false)} success={() => {
+              setPwdChangeExpanded(false);
+              setPwdChangeSuccess(true);
+              load();
             }}/>}
           </FormGroup>
         }
 
         <FormGroup label={'Passkey 관리'} strong>
-          <PasskeySettings authInfo={authInfo}/>
+          <PasskeySettings authInfo={authInfo} reload={load}/>
         </FormGroup>
       </FormSection>
     );

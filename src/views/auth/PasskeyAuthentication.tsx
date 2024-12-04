@@ -11,9 +11,9 @@ function PasskeyAuthentication({errorReporter}: {errorReporter: (error: string) 
   const {executeRecaptcha} = useGoogleReCaptcha();
   const navigate = useNavigate();
 
-  function authenticate() {
+  async function authenticate() {
     try {
-      const token = startRecaptcha({executeRecaptcha}, 'signin/passkey');
+      const token = await startRecaptcha({executeRecaptcha}, 'signin/passkey');
       axios.get('/api/auth/passkey/auth-option')
         .then(res => {
           startAuthentication({

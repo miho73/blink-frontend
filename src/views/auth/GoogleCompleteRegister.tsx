@@ -40,9 +40,9 @@ function GoogleCompleteRegister() {
     );
   }
 
-  function completeRegister() {
+  async function completeRegister() {
     try {
-      const token = startRecaptcha({executeRecaptcha}, 'signup/google');
+      const token = await startRecaptcha({executeRecaptcha}, 'signup/google');
       axios.post('/api/auth/google/register', {
         code: code,
         username: username,

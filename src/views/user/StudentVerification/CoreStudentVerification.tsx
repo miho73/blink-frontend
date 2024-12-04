@@ -50,9 +50,9 @@ function CoreStudentVerification() {
     )
   }
 
-  function completeSubmit() {
+  async function completeSubmit() {
     try {
-      const token = startRecaptcha({executeRecaptcha}, 'sv/new');
+      const token = await startRecaptcha({executeRecaptcha}, 'sv/new');
       axios.post(
         '/api/sv/draft',
         {
@@ -237,7 +237,7 @@ function CoreStudentVerification() {
               />
             </Stack>
 
-            <p className={'text-caption dark:text-caption-dark mt-2'}>문서확인번호는 재학증명서 상단의 하이픈으로 구분된 16자리 숫자입니다.</p>
+            <p className={'text-caption dark:text-caption-dark text-sm mt-2'}>문서확인번호는 재학증명서 상단의 하이픈으로 구분된 16자리 숫자입니다.</p>
             {checkFlag(formState, 3) && <Alert variant={'error'}>올바른 문서확인번호를 입력해주세요.</Alert>}
           </FormGroup>
         </FormSection>
