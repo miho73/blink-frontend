@@ -27,9 +27,9 @@ function ToolBarInput(props: ToolBarInputProps) {
       value={props.value}
       onChange={e => props.setter?.(e.target.value)}
       className={
-        'px-2 py-1' +
-        'transition bg-transparent text-sm ' +
-        'outline-none dark:text-neutral-100 ' +
+        'px-2 py-1 ' +
+        'bg-transparent text-sm ' +
+        'outline-none border-r ' +
         'disabled:bg-neutral-200 disabled:dark:bg-neutral-800 disabled:dark:text-neutral-200 shadow-none' +
         (props.className ? ' ' + props.className : '')
       }
@@ -53,7 +53,8 @@ function ToolBarButton(props: ToolBarButtonProps) {
       className={
         'px-4 py-1 transition ' +
         'bg-transparent hover:bg-neutral-200 dark:hover:bg-neutral-800 ' +
-        'outline-none focus:bg-neutral-200 dark:focus:bg-neutral-800 '
+        'outline-none focus:bg-neutral-200 dark:focus:bg-neutral-800 ' +
+        'border-r'
       }
       onClick={props.onClick}
     >{props.children}</button>
@@ -65,8 +66,7 @@ function ToolBar(props: {children?: ReactNode}) {
     <Stack
       direction={'row'}
       className={
-        'border border-neutral-400 dark:border-neutral-600 ' +
-        'divide-x divide-neutral-400 dark:divide-neutral-600 overflow-clip'
+        'border overflow-x-auto'
       }
     >
       {props.children}

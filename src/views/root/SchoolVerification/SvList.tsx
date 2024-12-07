@@ -5,6 +5,8 @@ import axios from "axios";
 import {useAppSelector} from "../../../modules/hook/ReduxHooks.ts";
 import {Link} from "react-router-dom";
 import {checkFlag} from "../../../modules/formValidator.ts";
+import Alert from "../../form/Alert.tsx";
+import {ISO8601StringToDate} from "../../../modules/Datetime.ts";
 
 interface SvRequest {
   verificationId: number;
@@ -22,7 +24,7 @@ function SvList() {
   const [data, setData] = useState<SvRequest[]>([]);
   const [name, setName] = useState<string>('');
   const [schoolName, setSchoolName] = useState<string>('');
-  const [formState, setFormState] = useState<number>(0);
+  const [pageState, setPageState] = useState<number>(0);
 
   function getList() {
     axios.get(
@@ -40,13 +42,13 @@ function SvList() {
       const error = err.response.data?.message;
       switch (error) {
         case 'Forbidden':
-          setFormState(1 << 0);
+          setPageState(1);
           break;
         case 'Database integrity':
-          setFormState(1 << 1);
+          setPageState(2);
           break;
         default:
-          setFormState(1 << 2);
+          setPageState(3);
       }
     });
   }
@@ -55,14 +57,16 @@ function SvList() {
   data.map((sv, index) => {
     rows.push(
       <tr key={index}>
-        <td><Link to={`/root/sv/approve?vid=${sv.verificationId}`}>{sv.verificationId}</Link></td>
+        <td>
+          <Link to={`/root/sv/approve?vid=${sv.verificationId}`} className={'href-blue'}>{sv.verificationId}</Link>
+        </td>
         <td>{sv.userId}</td>
-        <td>{sv.requestTime}</td>
+        <td>{ISO8601StringToDate(sv.requestTime)}</td>
         <td>{sv.name}</td>
         <td>{sv.evidence ? '제출' : '미제출'}</td>
         <td>{sv.grade}</td>
         <td>
-          <Link to={`/root/school/db?schoolName=${sv.schoolName}`} target={'_blank'}>
+          <Link to={`/root/school/db?schoolName=${sv.schoolName}`} className={'href-blue'} target={'_blank'}>
             {sv.schoolName}
           </Link>
         </td>
@@ -75,9 +79,9 @@ function SvList() {
     <>
       <p className={'text-xl font-bold my-3'}>재학생 확인</p>
       <Hr/>
-      {checkFlag(formState, 0) && <p className={'my-2 text-red-500 dark:text-red-300'}>권한이 거부되었습니다.</p>}
-      {checkFlag(formState, 1) && <p className={'my-2 text-red-500 dark:text-red-300'}>데이터베이스 무결성이 훼손되었습니다.</p>}
-      {checkFlag(formState, 2) && <p className={'my-2 text-red-500 dark:text-red-300'}>재학생 확인 신청을 검색하지 못했습니다.</p>}
+      {pageState === 1 && <Alert variant={'error'}>권한이 거부되었습니다.</Alert>}
+      {pageState === 2 && <Alert variant={'error'}>데이터베이스 무결성이 훼손되었습니다.</Alert>}
+      {pageState === 3 && <Alert variant={'error'}>재학생 확인 신청을 검색하지 못했습니다.</Alert>}
       <ToolBar>
         <ToolBarInput
           placeholder={'실명 Filter'}

@@ -5,6 +5,7 @@ import axios from "axios";
 import {useAppSelector} from "../../../modules/hook/ReduxHooks.ts";
 import {checkFlag} from "../../../modules/formValidator.ts";
 import {useSearchParams} from "react-router-dom";
+import Alert from "../../form/Alert.tsx";
 
 interface SchoolType {
   schoolId: number | null;
@@ -18,8 +19,8 @@ interface SchoolType {
 function SchoolManagement() {
   const jwt = useAppSelector(state => state.userInfoReducer.jwt);
   const [schoolName, setSchoolName] = useState<string>('');
-  const [selectedRow, setSelectedRow] = useState<number>(999);
-  const [formState, setFormState] = useState<number>(0);
+  const [selectedRow, setSelectedRow] = useState<number>(-1);
+  const [pageState, setPageState] = useState<number>(0);
 
   const [schoolData, setSchoolData] = useState<SchoolType[]>([]);
 
@@ -42,21 +43,21 @@ function SchoolManagement() {
       }
     ).then(res => {
       setSchoolData(res.data['data']);
-      setFormState(0);
+      setPageState(0);
     }).catch(err => {
       const error = err.response.deta?.message;
       switch (error) {
         case 'Forbidden':
-          setFormState(1 << 0);
+          setPageState(1 << 0);
           break;
         case 'School name was not given':
-          setFormState(1 << 1);
+          setPageState(1 << 1);
           break;
         case 'NEIS API error':
-          setFormState(1 << 2);
+          setPageState(1 << 2);
           break;
         default:
-          setFormState(1 << 3);
+          setPageState(1 << 3);
           break;
       }
     });
@@ -71,21 +72,21 @@ function SchoolManagement() {
       }
     ).then(res => {
       setSchoolData(res.data['data']);
-      setFormState(0);
+      setPageState(0);
     }).catch(err => {
       const error = err.response.data?.message;
       switch (error) {
         case 'Forbidden':
-          setFormState(1 << 0);
+          setPageState(1 << 0);
           break;
         case 'School name was not given':
-          setFormState(1 << 1);
+          setPageState(1 << 1);
           break;
         case 'Database integrity':
-          setFormState(1 << 9);
+          setPageState(1 << 9);
           break;
         default:
-          setFormState(1 << 10);
+          setPageState(1 << 10);
           break;
       }
     });
@@ -101,21 +102,21 @@ function SchoolManagement() {
         }
       }
     ).then(() => {
-      setFormState(1 << 14);
+      setPageState(1 << 14);
     }).catch(err => {
       const error = err.response.data?.message;
       switch (error) {
         case 'Forbidden':
-          setFormState(1 << 0);
+          setPageState(1 << 0);
           break;
         case 'NEIS code was not given':
-          setFormState(1 << 11);
+          setPageState(1 << 11);
           break;
         case 'School not found':
-          setFormState(1 << 12);
+          setPageState(1 << 12);
           break;
         default:
-          setFormState(1 << 13);
+          setPageState(1 << 13);
           break;
       }
     });
@@ -123,7 +124,7 @@ function SchoolManagement() {
 
   function addSchool() {
     if(schoolData.length <= selectedRow) {
-      setFormState(1 << 4);
+      setPageState(1 << 4);
       return;
     }
     const school = schoolData[selectedRow];
@@ -131,31 +132,31 @@ function SchoolManagement() {
     axios.post(
       '/api/school/access',
       {
-        school_name: school.schoolName,
-        school_type: school.schoolType,
-        neis_code: school.neisCode,
+        schoolName: school.schoolName,
+        schoolType: school.schoolType,
+        neisCode: school.neisCode,
         address: school.address,
         sex: school.sex
       },
       {headers: {Authorization: 'Bearer ' + jwt}}
     ).then(() => {
-      setFormState(1 << 7);
+      setPageState(1 << 7);
     }).catch(err => {
       if(err.status === 400) {
-        setFormState(1 << 6);
+        setPageState(1 << 6);
         return;
       }
 
       const error = err.response.data?.message;
       switch (error) {
         case 'Forbidden':
-          setFormState(1 << 0);
+          setPageState(1 << 0);
           break;
         case 'School already exists':
-          setFormState(1 << 8);
+          setPageState(1 << 8);
           break;
         default:
-          setFormState(1 << 5);
+          setPageState(1 << 5);
           break;
       }
     });
@@ -183,6 +184,7 @@ function SchoolManagement() {
       );
     }
     else {
+      console.log(school)
       rows.push(
         <tr onClick={() => setSelectedRow(index)} className={'transition cursor-pointer'}>
           {school.schoolId && <td>{school.schoolId}</td>}
@@ -201,21 +203,21 @@ function SchoolManagement() {
     <>
       <p className={'text-xl font-bold my-3'}>학교 데이터베이스</p>
       <Hr/>
-      {checkFlag(formState, 0) && <p className={'my-2 text-red-500 dark:text-red-300'}>권한이 거부되었습니다.</p>}
-      {checkFlag(formState, 1) && <p className={'my-2 text-red-500 dark:text-red-300'}>학교명이 주어지지 않았습니다.</p>}
-      {checkFlag(formState, 2) && <p className={'my-2 text-red-500 dark:text-red-300'}>NEIS API를 정상적으로 호출하지 못했습니다.</p>}
-      {checkFlag(formState, 3) && <p className={'my-2 text-red-500 dark:text-red-300'}>학교 정보를 NEIS에서 받아오지 못했습니다.</p>}
-      {checkFlag(formState, 4) && <p className={'my-2 text-red-500 dark:text-red-300'}>추가할 학교를 선택해주세요.</p>}
-      {checkFlag(formState, 5) && <p className={'my-2 text-red-500 dark:text-red-300'}>학교를 추가하지 못했습니다.</p>}
-      {checkFlag(formState, 6) && <p className={'my-2 text-red-500 dark:text-red-300'}>학교 정보가 잘못되었습니다.</p>}
-      {checkFlag(formState, 7) && <p className={'my-2 text-green-500 dark:text-green-300'}>학교를 추가했습니다.</p>}
-      {checkFlag(formState, 8) && <p className={'my-2 text-red-500 dark:text-red-300'}>해당 학교가 이미 데이터베이스에 저장되어있습니다.</p>}
-      {checkFlag(formState, 9) && <p className={'my-2 text-red-500 dark:text-red-300'}>데이터베이스 무결성이 훼손되었습니다.</p>}
-      {checkFlag(formState, 10) && <p className={'my-2 text-red-500 dark:text-red-300'}>데이터베이스에서 학교를 검색하지 못했습니다.</p>}
-      {checkFlag(formState, 11) && <p className={'my-2 text-red-500 dark:text-red-300'}>삭제 요청에 NEIS 코드가 없습니다.</p>}
-      {checkFlag(formState, 12) && <p className={'my-2 text-red-500 dark:text-red-300'}>삭제할 학교가 존재하지 않습니다.</p>}
-      {checkFlag(formState, 13) && <p className={'my-2 text-red-500 dark:text-red-300'}>학교를 삭제하지 못했습니다.</p>}
-      {checkFlag(formState, 14) && <p className={'my-2 text-green-500 dark:text-green-300'}>학교를 삭제했습니다.</p>}
+      {checkFlag(pageState, 0)  && <Alert variant={'error'}>권한이 거부되었습니다.</Alert>}
+      {checkFlag(pageState, 1)  && <Alert variant={'error'}>학교명이 주어지지 않았습니다.</Alert>}
+      {checkFlag(pageState, 2)  && <Alert variant={'error'}>NEIS API를 정상적으로 호출하지 못했습니다.</Alert>}
+      {checkFlag(pageState, 3)  && <Alert variant={'error'}>학교 정보를 NEIS에서 받아오지 못했습니다.</Alert>}
+      {checkFlag(pageState, 4)  && <Alert variant={'error'}>추가할 학교를 선택해주세요.</Alert>}
+      {checkFlag(pageState, 5)  && <Alert variant={'error'}>학교를 추가하지 못했습니다.</Alert>}
+      {checkFlag(pageState, 6)  && <Alert variant={'error'}>학교 정보가 잘못되었습니다.</Alert>}
+      {checkFlag(pageState, 7)  && <Alert variant={'success'}>학교를 추가했습니다.</Alert>}
+      {checkFlag(pageState, 8)  && <Alert variant={'error'}>해당 학교가 이미 데이터베이스에 저장되어있습니다.</Alert>}
+      {checkFlag(pageState, 9)  && <Alert variant={'error'}>데이터베이스 무결성이 훼손되었습니다.</Alert>}
+      {checkFlag(pageState, 10) && <Alert variant={'error'}>데이터베이스에서 학교를 검색하지 못했습니다.</Alert>}
+      {checkFlag(pageState, 11) && <Alert variant={'error'}>삭제 요청에 NEIS 코드가 없습니다.</Alert>}
+      {checkFlag(pageState, 12) && <Alert variant={'error'}>삭제할 학교가 존재하지 않습니다.</Alert>}
+      {checkFlag(pageState, 13) && <Alert variant={'error'}>학교를 삭제하지 못했습니다.</Alert>}
+      {checkFlag(pageState, 14) && <Alert variant={'success'}>학교를 삭제했습니다.</Alert>}
       <ToolBar>
         <ToolBarInput
           placeholder={'학교명'}

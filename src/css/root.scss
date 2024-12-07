@@ -31,7 +31,7 @@ p, label, a, li, span, td, th, button, caption, input {
   @apply text-neutral-950 dark:text-neutral-50;
 }
 
-.border {
+.border, .border-r, .border-l, .border-t, .border-b {
   @apply border-neutral-300 dark:border-neutral-700;
 }
 

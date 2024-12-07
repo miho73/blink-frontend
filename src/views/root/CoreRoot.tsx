@@ -30,8 +30,10 @@ function CoreRoot() {
           </Stack>
           <div className={'pl-5 pr-8'}>
             <Routes>
+              <Route path={'/sv'} element={<SvList/>}/>
               <Route path={'/sv/list'} element={<SvList/>}/>
               <Route path={'/sv/approve'} element={<SvApprove/>}/>
+              <Route path={'/school'} element={<SchoolManagement/>}/>
               <Route path={'/school/db'} element={<SchoolManagement/>}/>
             </Routes>
           </div>

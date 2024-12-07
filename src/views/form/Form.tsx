@@ -12,12 +12,13 @@ interface FormGroupProps {
 interface FormSectionProps {
   title: string;
   children: React.ReactNode;
-  className?: string
+  className?: string;
+  sectionClassName?: string;
 }
 
 function FormSection(props: FormSectionProps) {
   return (
-    <Stack>
+    <Stack className={props.sectionClassName}>
       <p className={'text-xl font-bold mb-2' + (props.className ? ' ' + props.className : '')}>{props.title}</p>
       {props.children}
     </Stack>
