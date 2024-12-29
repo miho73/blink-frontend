@@ -73,8 +73,7 @@ function GeneralSettings() {
       }).finally(() => {
         setWorking(false);
       });
-    }
-    catch {
+    } catch {
       setFormState(1 << 2);
       setWorking(false);
     }

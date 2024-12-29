@@ -4,7 +4,6 @@ import {ToolBar, ToolBarButton, ToolBarInput} from "../RootComponents.tsx";
 import axios from "axios";
 import {useAppSelector} from "../../../modules/hook/ReduxHooks.ts";
 import {Link} from "react-router-dom";
-import {checkFlag} from "../../../modules/formValidator.ts";
 import Alert from "../../form/Alert.tsx";
 import {ISO8601StringToDate} from "../../../modules/Datetime.ts";
 

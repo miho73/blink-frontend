@@ -88,8 +88,7 @@ function CoreStudentVerification() {
             setWorking(false);
         }
       });
-    }
-    catch {
+    } catch {
       setFormState(1 << 5);
       setWorking(false);
     }
@@ -237,7 +236,8 @@ function CoreStudentVerification() {
               />
             </Stack>
 
-            <p className={'text-caption dark:text-caption-dark text-sm mt-2'}>문서확인번호는 재학증명서 상단의 하이픈으로 구분된 16자리 숫자입니다.</p>
+            <p className={'text-caption dark:text-caption-dark text-sm mt-2'}>문서확인번호는 재학증명서 상단의 하이픈으로 구분된 16자리
+              숫자입니다.</p>
             {checkFlag(formState, 3) && <Alert variant={'error'}>올바른 문서확인번호를 입력해주세요.</Alert>}
           </FormGroup>
         </FormSection>
@@ -288,17 +288,17 @@ function CoreStudentVerification() {
       {checkFlag(formState, 8) &&
         <Alert variant={'error'}>사용자 보호를 위해 지금은 요청을 처리할 수 없습니다.</Alert>}
       {checkFlag(formState, 9) &&
-        <Alert variant={'error'}>재학생 확인을 신청하지 못했습니다.</Alert> }
+        <Alert variant={'error'}>재학생 확인을 신청하지 못했습니다.</Alert>}
       {checkFlag(formState, 10) &&
-        <Alert variant={'error'}>재학증명서는 PDF, PNG, JPEG중 하나여야 합니다.</Alert> }
+        <Alert variant={'error'}>재학증명서는 PDF, PNG, JPEG중 하나여야 합니다.</Alert>}
       {checkFlag(formState, 11) &&
-        <Alert variant={'error'}>재학증명서 파일은 1 MB 이하여야 합니다.</Alert> }
+        <Alert variant={'error'}>재학증명서 파일은 1 MB 이하여야 합니다.</Alert>}
       {checkFlag(formState, 12) &&
-        <Alert variant={'error'}>재학증명서를 제출할 요청이 없습니다.</Alert> }
+        <Alert variant={'error'}>재학증명서를 제출할 요청이 없습니다.</Alert>}
       {checkFlag(formState, 13) &&
-        <Alert variant={'error'}>재학증명서를 제출하지 못했습니다.</Alert> }
+        <Alert variant={'error'}>재학증명서를 제출하지 못했습니다.</Alert>}
       {checkFlag(formState, 14) &&
-        <Alert variant={'success'}>신청을 제출했습니다.</Alert> }
+        <Alert variant={'success'}>신청을 제출했습니다.</Alert>}
 
       <Button className={'my-4'} onClick={validateForm}>재학생 확인 제출</Button>
     </div>

@@ -79,8 +79,7 @@ function CoreRegister() {
       }).finally(() => {
         setWorking(false);
       });
-    }
-    catch {
+    } catch {
       setFormState(1 << 9);
       setWorking(false);
     }
@@ -209,7 +208,7 @@ function CoreRegister() {
         <Alert variant={'error'}>reCAPTCHA를 완료하지 못했습니다. 다시 시도해주세요.</Alert>}
       {checkFlag(formState, 7) &&
         <Alert variant={'error'}>사용자 보호를 위해 지금은 계정을 만들 수 없습니다.</Alert>}
-      {checkFlag(formState, 8) && <Alert  variant={'error'}>계정을 만들지 못했습니다.</Alert>}
+      {checkFlag(formState, 8) && <Alert variant={'error'}>계정을 만들지 못했습니다.</Alert>}
 
       <Stack direction={'row'} className={'my-4 gap-4'}>
         <ButtonLink to={'/auth'} disabled={working}>기존 계정으로 로그인</ButtonLink>

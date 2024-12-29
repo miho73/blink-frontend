@@ -51,7 +51,7 @@ function SvApprove() {
   useEffect(() => {
     const vid = searchParams.get('vid');
 
-    if(vid == null) {
+    if (vid == null) {
       setPageState(1);
       return;
     }
@@ -101,8 +101,8 @@ function SvApprove() {
       }
     ).then(res => {
       const list = res.data['data']
-      if(list.length === 0) setSchoolExists(1 << 0);
-      else if(list.length > 1) setSchoolExists(1 << 1);
+      if (list.length === 0) setSchoolExists(1 << 0);
+      else if (list.length > 1) setSchoolExists(1 << 1);
       else setSchoolData(list[0])
       setPageState(9);
     }).catch(err => {
@@ -132,7 +132,7 @@ function SvApprove() {
     }
   }
 
-  if(pageState === 0) {
+  if (pageState === 0) {
     return (
       <>
         <p className={'text-xl font-bold my-3'}>재학생 확인</p>
@@ -141,7 +141,7 @@ function SvApprove() {
     )
   }
 
-  if(pageState === 1) {
+  if (pageState === 1) {
     return (
       <>
         <p className={'text-xl font-bold my-3'}>재학생 확인</p>
@@ -163,7 +163,7 @@ function SvApprove() {
   }
 
   function determine(state: number) {
-    if(checkList !== 15) {
+    if (checkList !== 15) {
       setWorkingState(1 << 0);
       return;
     }
@@ -198,7 +198,7 @@ function SvApprove() {
     })
   }
 
-  if(2 <= pageState && pageState <= 8) {
+  if (2 <= pageState && pageState <= 8) {
     return (
       <>
         <p className={'text-xl font-bold my-3'}>재학생 확인</p>

@@ -4,7 +4,15 @@ interface AlertProps {
   className?: string;
 }
 
-const colorPalette: { error: string, success: string, warning: string, errorFill: string, warningFill: string, infoFill: string, successFill: string } = {
+const colorPalette: {
+  error: string,
+  success: string,
+  warning: string,
+  errorFill: string,
+  warningFill: string,
+  infoFill: string,
+  successFill: string
+} = {
   error: 'text-red-500 dark:text-red-300',
   success: 'text-green-500 dark:text-green-300',
   warning: 'text-yellow-500 dark:text-yellow-300',

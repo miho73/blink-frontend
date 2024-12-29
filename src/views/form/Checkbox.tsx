@@ -14,10 +14,9 @@ interface CheckboxProps {
 
 function Checkbox(props: CheckboxProps) {
   function onChange(flag: boolean) {
-    if(props.setter) {
+    if (props.setter) {
       props.setter(flag)
-    }
-    else if(props.toggle) {
+    } else if (props.toggle) {
       props.toggle();
     }
   }
@@ -36,7 +35,7 @@ function Checkbox(props: CheckboxProps) {
 
         <span className={'ml-2'}>{props.label}</span>
       </label>
-      { props.invalid && <Alert variant={'error'} className={'!mb-0'}>{props.error}</Alert> }
+      {props.invalid && <Alert variant={'error'} className={'!mb-0'}>{props.error}</Alert>}
     </div>
   )
 }

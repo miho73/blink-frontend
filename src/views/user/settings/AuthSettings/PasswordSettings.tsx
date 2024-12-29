@@ -69,8 +69,7 @@ function ChangePassword(props: ChangePasswordProps) {
       }).finally(() => {
         setWorking(false);
       });
-    }
-    catch {
+    } catch {
       setFormState(1 << 3);
       setWorking(false);
     }
@@ -130,15 +129,15 @@ function ChangePassword(props: ChangePasswordProps) {
         <Button className={'w-fit'} onClick={validateForm} disabled={working}>암호 변경</Button>
       </Stack>
       {checkFlag(formState, 3) &&
-        <Alert variant={'error'}>reCAPTCHA를 완료하지 못했습니다. 다시 시도해주세요.</Alert> }
+        <Alert variant={'error'}>reCAPTCHA를 완료하지 못했습니다. 다시 시도해주세요.</Alert>}
       {checkFlag(formState, 4) &&
-        <Alert variant={'error'}>암호가 잘못됐습니다.</Alert> }
+        <Alert variant={'error'}>암호가 잘못됐습니다.</Alert>}
       {checkFlag(formState, 5) &&
-        <Alert variant={'error'}>사용자 보호를 위해 지금은 암호를 바꿀 수 없습니다.</Alert> }
+        <Alert variant={'error'}>사용자 보호를 위해 지금은 암호를 바꿀 수 없습니다.</Alert>}
       {checkFlag(formState, 6) &&
-        <Alert variant={'error'}>계정을 찾지 못했습니다.</Alert> }
+        <Alert variant={'error'}>계정을 찾지 못했습니다.</Alert>}
       {checkFlag(formState, 7) &&
-        <Alert variant={'error'}>암호를 바꾸지 못했습니다.</Alert> }
+        <Alert variant={'error'}>암호를 바꾸지 못했습니다.</Alert>}
     </Stack>
   )
 }

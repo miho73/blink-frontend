@@ -1,11 +1,6 @@
 import React, {useEffect} from "react";
 import Stack from "../layout/Stack.tsx";
-import {
-  GoogleIcon,
-  KeyIconBlack,
-  KeyIconWhite,
-  Svg
-} from "../../assets/svgs/svg.tsx";
+import {GoogleIcon, KeyIconBlack, KeyIconWhite, Svg} from "../../assets/svgs/svg.tsx";
 import ThemeSelector from "../../css/ThemeSelector.tsx";
 import Alert from "../form/Alert.tsx";
 import PasskeyAuthentication from "./PasskeyAuthentication.tsx";
@@ -49,7 +44,8 @@ function CoreSignIn() {
       </Stack>
 
       <p className={'w-[400px] text-center text-sm'}>
-        <span className={'text-caption dark:text-caption-dark'}>This site is protected by reCAPTCHA and the Google </span>
+        <span
+          className={'text-caption dark:text-caption-dark'}>This site is protected by reCAPTCHA and the Google </span>
         <a className={'href-blue'} href="https://policies.google.com/privacy">Privacy Policy</a>
         <span className={'text-caption dark:text-caption-dark'}> and </span>
         <a className={'href-blue'} href="https://policies.google.com/terms">Terms of Service</a>

@@ -4,7 +4,6 @@ import Stack from "../layout/Stack.tsx";
 import {CSSTransition} from "react-transition-group";
 import {ReactNode} from "react";
 import {Button} from "../form/Button.tsx";
-import {worker} from "globals";
 
 interface DialogProps {
   open: boolean;
@@ -41,8 +40,8 @@ function Dialog(props: DialogProps) {
           'transition-opacity duration-200'
         }
         onClick={() => {
-          if(props.working) return;
-          if(props.closeByBackdrop) props.close();
+          if (props.working) return;
+          if (props.closeByBackdrop) props.close();
         }}
       >
         <div
@@ -59,7 +58,7 @@ function Dialog(props: DialogProps) {
             <p className={'text-2xl font-medium mr-16'}>{props.title}</p>
             <button
               onClick={() => {
-                if(props.working) return;
+                if (props.working) return;
                 props.close();
               }}
             >

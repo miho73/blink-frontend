@@ -22,7 +22,7 @@ interface Passkey {
   passkeyId: string;
 }
 
-function PasskeyRow({passkey, reload}: {passkey: Passkey, reload: () => void}) {
+function PasskeyRow({passkey, reload}: { passkey: Passkey, reload: () => void }) {
   const {executeRecaptcha} = useGoogleReCaptcha();
   const jwt = useAppSelector(state => state.userInfoReducer.jwt);
 
@@ -34,7 +34,7 @@ function PasskeyRow({passkey, reload}: {passkey: Passkey, reload: () => void}) {
   const [renamePasskeyOpen, setRenamePasskeyOpen] = useState<boolean>(false);
 
   useEffect(() => {
-    axios.get('/api/auth/passkey/aaguid/light/'+passkey.aaguid)
+    axios.get('/api/auth/passkey/aaguid/light/' + passkey.aaguid)
       .then(res => {
         setIcon([
           res.data['icon']['light'],
@@ -52,7 +52,7 @@ function PasskeyRow({passkey, reload}: {passkey: Passkey, reload: () => void}) {
       const token = await startRecaptcha({executeRecaptcha}, 'passkey/delete');
 
       axios.delete(
-        '/api/auth/passkey/'+passkey.passkeyId,
+        '/api/auth/passkey/' + passkey.passkeyId,
         {
           headers: {
             'Authorization': `Bearer ${jwt}`,
@@ -80,8 +80,7 @@ function PasskeyRow({passkey, reload}: {passkey: Passkey, reload: () => void}) {
       }).finally(() => {
         setWorking(false);
       });
-    }
-    catch {
+    } catch {
       setError(1 << 4);
       setWorking(false);
     }
@@ -91,7 +90,7 @@ function PasskeyRow({passkey, reload}: {passkey: Passkey, reload: () => void}) {
     setWorking(true);
 
     axios.patch(
-      '/api/auth/passkey/'+passkey.passkeyId,
+      '/api/auth/passkey/' + passkey.passkeyId,
       {'name': name},
       {headers: {'Authorization': `Bearer ${jwt}`}}
     ).then(() => {
@@ -129,10 +128,14 @@ function PasskeyRow({passkey, reload}: {passkey: Passkey, reload: () => void}) {
         <Stack className={'gap-2'}>
           <p className={'font-medium text-lg md:text-xl'}>{passkey.name}</p>
           <p className={'text-sm'}>{ISO8601StringToDate(passkey.createdAt)}에 생성됨</p>
-          <p className={'text-sm'}>{passkey.lastUsed ? `${ISO8601StringToDate(passkey.lastUsed)}에 마지막으로 사용됨` : '아직 사용되지 않음'}</p>
+          <p
+            className={'text-sm'}>{passkey.lastUsed ? `${ISO8601StringToDate(passkey.lastUsed)}에 마지막으로 사용됨` : '아직 사용되지 않음'}</p>
         </Stack>
         <Stack direction={'row'} className={'gap-1'}>
-          <Button size={'custom'} className={'border-none p-2 rounded'} onClick={() => {setRenamePasskeyOpen(true); setName(passkey.name)}}>
+          <Button size={'custom'} className={'border-none p-2 rounded'} onClick={() => {
+            setRenamePasskeyOpen(true);
+            setName(passkey.name)
+          }}>
             <Svg src={PencilIcon} className={'w-[32px]'} css cssColor={'white'}/>
           </Button>
           <Button size={'custom'} className={'border-none p-2 rounded'} onClick={() => setDeletePasskeyOpen(true)}>
@@ -144,12 +147,18 @@ function PasskeyRow({passkey, reload}: {passkey: Passkey, reload: () => void}) {
       <Dialog
         title={'Passkey 삭제'}
         open={deletePasskeyOpen}
-        close={() => {setDeletePasskeyOpen(false); setError(0);}}
+        close={() => {
+          setDeletePasskeyOpen(false);
+          setError(0);
+        }}
         closeByBackdrop={true}
         okText={'삭제'}
         onOk={deletePasskey}
         cancelText={'취소'}
-        onCancel={() => {setDeletePasskeyOpen(false); setError(0);}}
+        onCancel={() => {
+          setDeletePasskeyOpen(false);
+          setError(0);
+        }}
         working={working}
       >
         <p className={'my-1'}>Passkey "{passkey.name}"을(를) 삭제할까요?</p>
@@ -164,12 +173,18 @@ function PasskeyRow({passkey, reload}: {passkey: Passkey, reload: () => void}) {
       <Dialog
         title={'Passkey 이름 변경'}
         open={renamePasskeyOpen}
-        close={() => {setRenamePasskeyOpen(false); setError(0);}}
+        close={() => {
+          setRenamePasskeyOpen(false);
+          setError(0);
+        }}
         closeByBackdrop={true}
         okText={'변경'}
         onOk={renamePasskey}
         cancelText={'취소'}
-        onCancel={() => {setRenamePasskeyOpen(false); setError(0);}}
+        onCancel={() => {
+          setRenamePasskeyOpen(false);
+          setError(0);
+        }}
         working={working}
       >
         <FormGroup label={passkey.name + '의 이름 변경'}>

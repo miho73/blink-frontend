@@ -38,8 +38,7 @@ function ToolBarInput(props: ToolBarInputProps) {
           props.onMetaEnter();
         } else if (e.key === 'Enter' && e.ctrlKey && props.onCtrlEnter) {
           props.onCtrlEnter();
-        }
-        else if (e.key === 'Enter' && props.onEnter) {
+        } else if (e.key === 'Enter' && props.onEnter) {
           props.onEnter();
         }
       }}
@@ -61,7 +60,7 @@ function ToolBarButton(props: ToolBarButtonProps) {
   );
 }
 
-function ToolBar(props: {children?: ReactNode}) {
+function ToolBar(props: { children?: ReactNode }) {
   return (
     <Stack
       direction={'row'}
@@ -77,5 +76,5 @@ function ToolBar(props: {children?: ReactNode}) {
 export {
   ToolBarInput,
   ToolBarButton,
-      ToolBar
+  ToolBar
 }

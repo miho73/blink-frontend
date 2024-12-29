@@ -7,7 +7,7 @@ import React from "react";
 import startRecaptcha from "../../modules/recaptcha.ts";
 import {useNavigate} from "react-router-dom";
 
-function PasskeyAuthentication({errorReporter}: {errorReporter: (error: string) => void}) {
+function PasskeyAuthentication({errorReporter}: { errorReporter: (error: string) => void }) {
   const {executeRecaptcha} = useGoogleReCaptcha();
   const navigate = useNavigate();
 
@@ -36,8 +36,7 @@ function PasskeyAuthentication({errorReporter}: {errorReporter: (error: string) 
         }).catch(() => {
         errorReporter('passkey-option-error');
       });
-    }
-    catch {
+    } catch {
       errorReporter('recaptcha-not-ready');
     }
   }

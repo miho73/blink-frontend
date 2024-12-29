@@ -30,7 +30,7 @@ function StudentCheckSettings() {
       {headers: {'Authorization': `Bearer ${jwt}`}}
     ).then(res => {
       setVerified(res.data?.verified);
-      if(res.data?.verified) {
+      if (res.data?.verified) {
         setSchoolData(res.data?.school);
       }
       setLoadState(1 << 0);

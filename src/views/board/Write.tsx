@@ -1,4 +1,4 @@
-function Write({boardName}: {boardName: string}) {
+function Write({boardName}: { boardName: string }) {
   return (
     <div>
       <h1>Write</h1>

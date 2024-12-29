@@ -28,7 +28,7 @@ function SchoolManagement() {
 
   useEffect(() => {
     const sname = searchParams.get('schoolName')
-    if(sname !== null) {
+    if (sname !== null) {
       setSchoolName(sname);
       searchDb(sname);
     }
@@ -123,7 +123,7 @@ function SchoolManagement() {
   }
 
   function addSchool() {
-    if(schoolData.length <= selectedRow) {
+    if (schoolData.length <= selectedRow) {
       setPageState(1 << 4);
       return;
     }
@@ -142,7 +142,7 @@ function SchoolManagement() {
     ).then(() => {
       setPageState(1 << 7);
     }).catch(err => {
-      if(err.status === 400) {
+      if (err.status === 400) {
         setPageState(1 << 6);
         return;
       }
@@ -165,7 +165,7 @@ function SchoolManagement() {
   const rows: ReactNode[] = [];
 
   schoolData.map((school, index) => {
-    if(index === selectedRow) {
+    if (index === selectedRow) {
       rows.push(
         <tr
           className={
@@ -182,8 +182,7 @@ function SchoolManagement() {
           <td>{school.sex}</td>
         </tr>
       );
-    }
-    else {
+    } else {
       console.log(school)
       rows.push(
         <tr onClick={() => setSelectedRow(index)} className={'transition cursor-pointer'}>
@@ -203,16 +202,16 @@ function SchoolManagement() {
     <>
       <p className={'text-xl font-bold my-3'}>학교 데이터베이스</p>
       <Hr/>
-      {checkFlag(pageState, 0)  && <Alert variant={'error'}>권한이 거부되었습니다.</Alert>}
-      {checkFlag(pageState, 1)  && <Alert variant={'error'}>학교명이 주어지지 않았습니다.</Alert>}
-      {checkFlag(pageState, 2)  && <Alert variant={'error'}>NEIS API를 정상적으로 호출하지 못했습니다.</Alert>}
-      {checkFlag(pageState, 3)  && <Alert variant={'error'}>학교 정보를 NEIS에서 받아오지 못했습니다.</Alert>}
-      {checkFlag(pageState, 4)  && <Alert variant={'error'}>추가할 학교를 선택해주세요.</Alert>}
-      {checkFlag(pageState, 5)  && <Alert variant={'error'}>학교를 추가하지 못했습니다.</Alert>}
-      {checkFlag(pageState, 6)  && <Alert variant={'error'}>학교 정보가 잘못되었습니다.</Alert>}
-      {checkFlag(pageState, 7)  && <Alert variant={'success'}>학교를 추가했습니다.</Alert>}
-      {checkFlag(pageState, 8)  && <Alert variant={'error'}>해당 학교가 이미 데이터베이스에 저장되어있습니다.</Alert>}
-      {checkFlag(pageState, 9)  && <Alert variant={'error'}>데이터베이스 무결성이 훼손되었습니다.</Alert>}
+      {checkFlag(pageState, 0) && <Alert variant={'error'}>권한이 거부되었습니다.</Alert>}
+      {checkFlag(pageState, 1) && <Alert variant={'error'}>학교명이 주어지지 않았습니다.</Alert>}
+      {checkFlag(pageState, 2) && <Alert variant={'error'}>NEIS API를 정상적으로 호출하지 못했습니다.</Alert>}
+      {checkFlag(pageState, 3) && <Alert variant={'error'}>학교 정보를 NEIS에서 받아오지 못했습니다.</Alert>}
+      {checkFlag(pageState, 4) && <Alert variant={'error'}>추가할 학교를 선택해주세요.</Alert>}
+      {checkFlag(pageState, 5) && <Alert variant={'error'}>학교를 추가하지 못했습니다.</Alert>}
+      {checkFlag(pageState, 6) && <Alert variant={'error'}>학교 정보가 잘못되었습니다.</Alert>}
+      {checkFlag(pageState, 7) && <Alert variant={'success'}>학교를 추가했습니다.</Alert>}
+      {checkFlag(pageState, 8) && <Alert variant={'error'}>해당 학교가 이미 데이터베이스에 저장되어있습니다.</Alert>}
+      {checkFlag(pageState, 9) && <Alert variant={'error'}>데이터베이스 무결성이 훼손되었습니다.</Alert>}
       {checkFlag(pageState, 10) && <Alert variant={'error'}>데이터베이스에서 학교를 검색하지 못했습니다.</Alert>}
       {checkFlag(pageState, 11) && <Alert variant={'error'}>삭제 요청에 NEIS 코드가 없습니다.</Alert>}
       {checkFlag(pageState, 12) && <Alert variant={'error'}>삭제할 학교가 존재하지 않습니다.</Alert>}
@@ -234,14 +233,14 @@ function SchoolManagement() {
       <div className={'table-root'}>
         <table>
           <thead>
-            <tr>
-              <th>KEY</th>
-              <th>학교명</th>
-              <th>학교급</th>
-              <th>NEIS 코드</th>
-              <th>주소</th>
-              <th>성별</th>
-            </tr>
+          <tr>
+            <th>KEY</th>
+            <th>학교명</th>
+            <th>학교급</th>
+            <th>NEIS 코드</th>
+            <th>주소</th>
+            <th>성별</th>
+          </tr>
           </thead>
           <tbody>{rows}</tbody>
         </table>

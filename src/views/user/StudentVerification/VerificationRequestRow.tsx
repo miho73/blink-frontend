@@ -81,8 +81,7 @@ function VerificationRequestRow(props: SvRequest & { reload: () => void }) {
         setWorking(false);
         setDeleteDialog(false);
       });
-    }
-    catch {
+    } catch {
       setFormState(1 << 0);
       setWorking(false);
     }
@@ -136,11 +135,11 @@ function VerificationRequestRow(props: SvRequest & { reload: () => void }) {
               </div>
             </div>
 
-            { checkFlag(formState, 0) && <Alert variant={'error'}>reCAPTCHA를 완료하지 못했습니다. 다시 시도해주세요.</Alert> }
-            { checkFlag(formState, 1) && <Alert variant={'error'}>요청이 정상적으로 보내지지 않았습니다.</Alert> }
-            { checkFlag(formState, 2) && <Alert variant={'error'}>작업이 취소되었습니다.</Alert> }
-            { checkFlag(formState, 3) && <Alert variant={'error'}>사용자 보호를 위해 지금은 요청을 삭제할 수 없습니다.</Alert> }
-            { checkFlag(formState, 4) && <Alert variant={'error'}>신청을 삭제하지 못했습니다.</Alert> }
+            {checkFlag(formState, 0) && <Alert variant={'error'}>reCAPTCHA를 완료하지 못했습니다. 다시 시도해주세요.</Alert>}
+            {checkFlag(formState, 1) && <Alert variant={'error'}>요청이 정상적으로 보내지지 않았습니다.</Alert>}
+            {checkFlag(formState, 2) && <Alert variant={'error'}>작업이 취소되었습니다.</Alert>}
+            {checkFlag(formState, 3) && <Alert variant={'error'}>사용자 보호를 위해 지금은 요청을 삭제할 수 없습니다.</Alert>}
+            {checkFlag(formState, 4) && <Alert variant={'error'}>신청을 삭제하지 못했습니다.</Alert>}
           </td>
         </tr>
       }

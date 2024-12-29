@@ -80,8 +80,7 @@ function PasskeySettings(
         }).catch(() => {
         setAddPasskeyState(1 << 3);
       });
-    }
-    catch {
+    } catch {
       setAddPasskeyState(1 << 4);
     }
   }
@@ -94,15 +93,15 @@ function PasskeySettings(
         패스키를 설정해야 합니다.</p>
 
       <Stack className={'my-3'}>
-        {checkFlag(addPasskeyState, 0) &&  <Alert variant={'success'}>Passkey를 추가했습니다.</Alert>}
-        {checkFlag(addPasskeyState, 1) &&  <Alert variant={'error'}>Passkey를 추가하지 못했습니다.</Alert>}
-        {checkFlag(addPasskeyState, 3) &&  <Alert variant={'error'}>Passkey 정보를 받아오지 못했습니다.</Alert>}
-        {checkFlag(addPasskeyState, 4) &&  <Alert variant={'error'}>reCAPTCHA를 완료하지 못했습니다. 다시 시도해주세요.</Alert>}
-        {checkFlag(addPasskeyState, 5) &&  <Alert variant={'error'}>Passkey 세션이 만료되었습니다.</Alert>}
-        {checkFlag(addPasskeyState, 6) &&  <Alert variant={'error'}>Passkey를 추가하고자 하는 사용자가 없습니다.</Alert>}
-        {checkFlag(addPasskeyState, 7) &&  <Alert variant={'error'}>Passkey 세션이 만료되었습니다.</Alert>}
-        {checkFlag(addPasskeyState, 8) &&  <Alert variant={'error'}>사용할 수 없는 인증기입니다.</Alert>}
-        {checkFlag(addPasskeyState, 9) &&  <Alert variant={'error'}>인증 ID가 중복되었습니다. 다시 시도해주세요.</Alert>}
+        {checkFlag(addPasskeyState, 0) && <Alert variant={'success'}>Passkey를 추가했습니다.</Alert>}
+        {checkFlag(addPasskeyState, 1) && <Alert variant={'error'}>Passkey를 추가하지 못했습니다.</Alert>}
+        {checkFlag(addPasskeyState, 3) && <Alert variant={'error'}>Passkey 정보를 받아오지 못했습니다.</Alert>}
+        {checkFlag(addPasskeyState, 4) && <Alert variant={'error'}>reCAPTCHA를 완료하지 못했습니다. 다시 시도해주세요.</Alert>}
+        {checkFlag(addPasskeyState, 5) && <Alert variant={'error'}>Passkey 세션이 만료되었습니다.</Alert>}
+        {checkFlag(addPasskeyState, 6) && <Alert variant={'error'}>Passkey를 추가하고자 하는 사용자가 없습니다.</Alert>}
+        {checkFlag(addPasskeyState, 7) && <Alert variant={'error'}>Passkey 세션이 만료되었습니다.</Alert>}
+        {checkFlag(addPasskeyState, 8) && <Alert variant={'error'}>사용할 수 없는 인증기입니다.</Alert>}
+        {checkFlag(addPasskeyState, 9) && <Alert variant={'error'}>인증 ID가 중복되었습니다. 다시 시도해주세요.</Alert>}
         {checkFlag(addPasskeyState, 10) && <Alert variant={'error'}>사용자 보호를 위해 지금은 Passkey를 추가할 수 없습니다.</Alert>}
         <Button className={'w-fit'} onClick={addPasskey}>패스키 등록</Button>
       </Stack>

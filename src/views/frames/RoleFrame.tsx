@@ -14,12 +14,10 @@ function RoleFrame(props: RoleFrameProps) {
 
   if (role.includes(props.requiredRole)) {
     return props.children;
-  }
-  else {
-    if(props.useNotFound) {
+  } else {
+    if (props.useNotFound) {
       return (<NotFound/>);
-    }
-    else {
+    } else {
       return (
         <ErrorPage
           errorCode={403}

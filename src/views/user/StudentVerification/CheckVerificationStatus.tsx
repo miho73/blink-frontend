@@ -31,10 +31,9 @@ function CheckVerificationStatus() {
       '/api/sv/user/requests',
       {headers: {'Authorization': `Bearer ${jwt}`}}
     ).then(res => {
-      if(res.data.requests.length === 0) {
+      if (res.data.requests.length === 0) {
         setFormState(1 << 1);
-      }
-      else setRequests(res.data.requests);
+      } else setRequests(res.data.requests);
     }).catch(() => {
       setFormState(1 << 0);
     });
@@ -45,10 +44,9 @@ function CheckVerificationStatus() {
       '/api/sv/user/requests',
       {headers: {'Authorization': `Bearer ${jwt}`}}
     ).then(res => {
-      if(res.data.requests.length === 0) {
+      if (res.data.requests.length === 0) {
         setFormState(1 << 1);
-      }
-      else setRequests(res.data.requests);
+      } else setRequests(res.data.requests);
     }).catch(() => {
       setFormState(1 << 0);
     });
@@ -85,7 +83,8 @@ function CheckVerificationStatus() {
       {checkFlag(formState, 1) &&
         <Alert variant={'infoFill'}>
           <p className={'text-inherit'}>아직 재학생 확인 신청 내역이 없습니다.</p>
-          <p className={'text-inherit'}>새 신청은 <Link className={'text-blue-600 hover:underline'} to={'/user/student-verification'}>이곳</Link>에서 제출할 수 있습니다.</p>
+          <p className={'text-inherit'}>새 신청은 <Link className={'text-blue-600 hover:underline'}
+                                                    to={'/user/student-verification'}>이곳</Link>에서 제출할 수 있습니다.</p>
         </Alert>
       }
       {checkFlag(formState, 0) &&
@@ -96,4 +95,4 @@ function CheckVerificationStatus() {
 }
 
 export default CheckVerificationStatus;
-export type { SvRequest };
+export type {SvRequest};
