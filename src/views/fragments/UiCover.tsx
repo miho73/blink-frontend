@@ -4,7 +4,6 @@ import {useAppSelector} from "../../modules/hook/ReduxHooks.ts";
 import {ReactElement} from "react";
 import {useDispatch} from "react-redux";
 import {actions} from "../../modules/redux/UserInfoReducer.ts";
-import {LinkButton} from "../form/Button.tsx";
 
 function Header() {
   const userInfo = useAppSelector(state => state.userInfoReducer);
@@ -22,9 +21,8 @@ function Header() {
   if (userInfo.initialized && userInfo.authenticated) {
     links = (
       <>
-        {userInfo.role.includes('blink:admin') && <Link to={'/root'} className={'href-none'}>관리자</Link>}
+        {userInfo.role.includes('root:access') && <Link to={'/root'} className={'href-none'}>관리자</Link>}
         <Link to={'/user'} className={'href-none'}>프로필</Link>
-        <LinkButton onClick={signOut} className={'href-none'}>로그아웃</LinkButton>
       </>
     );
   } else {

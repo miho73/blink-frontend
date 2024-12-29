@@ -4,8 +4,8 @@ import NotFound from "./error/NotFound.tsx";
 import AuthenticationRouteFrame from "./frames/RouteFrames/AuthenticationRouteFrame.tsx";
 import UserAuthenticatedRouteFrame from "./frames/RouteFrames/UserAuthenticatedRouteFrame.tsx";
 import UserUnauthenticatedRouteFrame from "./frames/RouteFrames/UserUnauthenticatedRouteFrame.tsx";
-import AuthenticationFrame from "./frames/AuthenticationFrame.tsx";
 import CoreRoot from "./root/CoreRoot.tsx";
+import CoreBoard from "./board/CoreBoard.tsx";
 
 function App() {
   return (
@@ -14,10 +14,10 @@ function App() {
       <main className={'my-3'}>
         <Routes>
           <Route path={'/'} element={
-            <AuthenticationFrame>
-              <div>Hello, World!</div>
-            </AuthenticationFrame>
+            <div>Hello, World!</div>
           }/>
+
+          <Route path={'/keynote/:boardName'} element={<CoreBoard/>}/>
 
           <Route path={'/auth/*'} element={<AuthenticationRouteFrame/>}/>
           <Route path={'/user/n/*'} element={<UserUnauthenticatedRouteFrame/>}/>

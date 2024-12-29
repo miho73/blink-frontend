@@ -37,8 +37,8 @@ function NavigationButton(props: NavigationButtonProps) {
   return (
     <Link
       className={
-        'transition text-neutral-900 hover:bg-neutral-200 ' +
-        'dark:text-neutral-50 dark:hover:bg-neutral-800 ' +
+        'transition hover:bg-neutral-100 ' +
+        'dark:hover:bg-neutral-800 ' +
         'rounded-r-full text-left ' +
         'flex justify-start items-center ' +
         'whitespace-nowrap'

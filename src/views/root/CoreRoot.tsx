@@ -12,11 +12,11 @@ function CoreRoot() {
   return (
     <AuthenticationFrame>
       <RoleFrame
-        requiredRole={'blink:admin'}
+        requiredRole={'root:access'}
         useNotFound={true}
       >
         <div className={'grid grid-cols-[auto_auto_1fr] w-full'}>
-          <Stack className={'w-[50px] hover:w-[150px] overflow-x-clip'}>
+          <Stack className={'w-[50px] hover:w-[150px] overflow-x-clip transition-all duration-75'}>
             <NavigationButton to={'/root/home'} icon={HomeIcon}>홈</NavigationButton>
             <NavigationButton to={'/root/school'} icon={SchoolIcon}>학교</NavigationButton>
             <NavigationButton to={'/root/sv'} icon={SchoolCapIcon}>재학생 확인</NavigationButton>

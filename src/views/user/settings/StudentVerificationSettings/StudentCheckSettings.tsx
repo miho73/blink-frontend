@@ -34,8 +34,19 @@ function StudentCheckSettings() {
         setSchoolData(res.data?.school);
       }
       setLoadState(1 << 0);
-    }).catch(() => {
-      setLoadState(1 << 1);
+    }).catch(e => {
+      const error = e.response.data?.message;
+      switch (error) {
+        case 'Identity not found':
+          setLoadState(1 << 1);
+          break;
+        case 'School information is missing':
+          setLoadState(1 << 2);
+          break;
+        default:
+          setLoadState(1 << 3);
+          break;
+      }
     });
   }
 
@@ -47,7 +58,9 @@ function StudentCheckSettings() {
           {!verified && <StudentNotVerified/>}
         </>
       }
-      {checkFlag(loadState, 1) && <Alert variant={'error'}>재학생 확인 상태를 받아오지 못했습니다.</Alert>}
+      {checkFlag(loadState, 1) && <Alert variant={'error'}>사용자를 찾지 못했습니다.</Alert>}
+      {checkFlag(loadState, 2) && <Alert variant={'error'}>확인받은 학교가 더이상 존재하지 않습니다.</Alert>}
+      {checkFlag(loadState, 3) && <Alert variant={'error'}>재학생 확인 상태를 받아오지 못했습니다.</Alert>}
     </FormSection>
   )
 }

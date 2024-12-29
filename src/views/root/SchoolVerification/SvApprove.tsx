@@ -37,7 +37,7 @@ function SvApprove() {
   const jwt = useAppSelector(state => state.userInfoReducer.jwt)
 
   const [searchParams] = useSearchParams();
-  const [verificationId, setVerificationId] = useState<number>();
+  const [verificationId, setVerificationId] = useState<string>();
   const [req, setReq] = useState<SvRequest>();
   const [schoolData, setSchoolData] = useState<SchoolType>();
 
@@ -49,19 +49,18 @@ function SvApprove() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const viid = searchParams.get('vid');
+    const vid = searchParams.get('vid');
 
-    if(viid == null) {
+    if(vid == null) {
       setPageState(1);
       return;
     }
 
-    const vid = parseInt(viid);
     setVerificationId(vid)
     reload(vid);
   }, []);
 
-  function reload(vid: number) {
+  function reload(vid: string) {
     axios.get(
       '/api/sv/evaluation/request',
       {
@@ -149,7 +148,7 @@ function SvApprove() {
         <Hr/>
         <FormGroup label={'재학생 확인 신청번호'} className={'w-fit'}>
           <TextInput
-            type={'number'}
+            type={'text'}
             placeholder={'신청 번호'}
             label={'신청번호'}
             size={'sm'}
