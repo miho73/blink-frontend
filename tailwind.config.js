@@ -13,7 +13,12 @@ export default {
         caption: {
           dark: '#c0c0c0',
           DEFAULT: '#666',
-        }
+        },
+        primary: {
+          white: '#A9B9DD', // PANTONE 2717
+          light: '#6176C6', // PANTONE 2718
+          dark: '##1E1C72' // PANTONE 2748
+        },
       },
     },
   },

@@ -1,26 +1,52 @@
 import DocumentFrame from "../frames/DocumentFrame.tsx";
 import Alert from "../form/Alert.tsx";
-import {useState} from "react";
-import Dialog from "../fragments/Dialog.tsx";
-import {Button} from "../form/Button.tsx";
+import {Button, ButtonLink, LinkButton, TextButton} from "../form/Button.tsx";
 import {FormGroup, FormSection} from "../form/Form.tsx";
-import {TextInput} from "../form/TextInput.tsx";
+import {TextArea, TextInput} from "../form/TextInput.tsx";
 import InputGroup from "../form/InputGroup.tsx";
+import {Caption} from "../form/Typography.tsx";
+import {Hr} from "../fragments/Hr.tsx";
+import {useDispatch} from "react-redux";
+import {useAppSelector} from "../../modules/hook/ReduxHooks.ts";
+import {actions} from "../../modules/redux/DialogReducer.ts";
+import Stack from "../layout/Stack.tsx";
+import {Link} from "react-router-dom";
 
 function WelcomeUser() {
-  const [dialog, setDialog] = useState(false)
+  const dispatch = useDispatch();
+  const dialogOpen = useAppSelector(state => state.dialogReducer.dialogOpen);
+
+  function ctrlDialog() {
+    if (dialogOpen) {
+      dispatch(actions.closeDialog());
+    }
+    else {
+      const dialogBody = {
+        title: 'Dialog Title',
+        content: 'Dialog Content',
+        closeText: 'Close',
+        confirmText: 'Confirm'
+      }
+      dispatch(actions.openDialog(dialogBody));
+    }
+  }
+
   // TODO: Write welcome letter
   return (
     <DocumentFrame>
-      <Alert variant={'info'}>INFO</Alert>
+      <p>DEFAULT TEXT</p>
       <Alert variant={'warning'}>WARN</Alert>
       <Alert variant={'error'}>ERROR</Alert>
       <Alert variant={'success'}>SUCCESS</Alert>
-      <p>DEFAULT TEXT</p>
-      <caption>caption</caption>
+      <Alert variant={'warningFill'}>INFO</Alert>
+      <Alert variant={'errorFill'}>ERROR</Alert>
+      <Alert variant={'successFill'}>SUCCESS</Alert>
+      <Caption>caption</Caption>
+
+      <Hr/>
 
       <FormSection title={'Form Section'}>
-        <FormGroup label={'TextInput'}>
+        <FormGroup label={'TextInput'} className={'gap-2'}>
           <TextInput
             placeholder={'Placeholder'}
             value={''}
@@ -36,35 +62,71 @@ function WelcomeUser() {
             size={'sm'}
           />
         </FormGroup>
-        <FormGroup label={'Buttons'}>
+
+        <FormGroup label={'TextInputWithSidecar'} sidecar={
+          <Button size={'sm'}>Button</Button>
+        }>
+          <TextInput
+            placeholder={'Disabled'}
+            value={''}
+            disabled
+          />
+        </FormGroup>
+
+        <FormGroup label={'TextArea'}>
+          <Stack direction={'row'} className={'gap-2'}>
+            <TextArea value={'TextArea'}/>
+            <TextArea value={'Disabled Text Area'} disabled/>
+          </Stack>
+        </FormGroup>
+
+        <FormGroup label={'Buttons'} className={'gap-2'}>
           <Button size={'lg'}>Large Button</Button>
           <Button size={'md'}>Medium Button</Button>
           <Button size={'sm'}>Small Button</Button>
+          <Stack direction={'row'} className={'gap-2'}>
+            <Button color={'default'}>Default Button</Button>
+            <Button color={'default'} disabled>Default Button DSBLD</Button>
+          </Stack>
+          <Stack direction={'row'} className={'gap-2'}>
+            <Button color={'accent'}>Accent Button</Button>
+            <Button color={'accent'} disabled>Accent Button DSBLD</Button>
+          </Stack>
+          <Stack direction={'row'} className={'gap-2'}>
+            <TextButton>Text Button</TextButton>
+            <TextButton disabled>Text Button</TextButton>
+          </Stack>
+          <Stack direction={'row'} className={'gap-2'}>
+            <TextButton color={'accent'}>Accent Text Button</TextButton>
+            <TextButton color={'accent'} disabled>Accent Text Button</TextButton>
+          </Stack>
+          <Stack direction={'row'} className={'gap-2'}>
+            <ButtonLink to={'#'}>Button Link</ButtonLink>
+            <ButtonLink to={'#'} disabled>Accent Button Link DSBLD</ButtonLink>
+          </Stack>
+          <Stack direction={'row'} className={'gap-2'}>
+            <ButtonLink color={'accent'} to={'#'}>Accent Button Link</ButtonLink>
+            <ButtonLink color={'accent'} to={'#'} disabled>Accent Button Link DSBLD</ButtonLink>
+          </Stack>
+          <Stack direction={'row'} className={'gap-2'}>
+            <LinkButton to={'#'}>Link Button</LinkButton>
+            <Link to={'#'}>Link</Link>
+            <Link to={'#'} className={'href-blue'}>Href Blue Link</Link>
+          </Stack>
         </FormGroup>
       </FormSection>
 
       <InputGroup className={''}>
         <TextInput/>
-        <Button/>
+        <Button>ACTIVATE</Button>
       </InputGroup>
 
-      <p className={'p-5 border'}>BORDERED</p>
 
-      <Button onClick={() => setDialog(true)}>Open Dialog</Button>
+      <Hr/>
 
-      <Dialog
-        open={dialog}
-        close={() => setDialog(false)}
-        closeByBackdrop={true}
-        title={'타이틀'}
+      <p className={'p-5 border my-3'}>BORDERED</p>
 
-        okText={'확인'}
-        onOk={() => setDialog(false)}
-        cancelText={'취소'}
-        onCancel={() => setDialog(false)}
-      >
-        꿈꾸고 시를 쓰면서
-      </Dialog>
+      <Button onClick={ctrlDialog}>Open Dialog</Button>
     </DocumentFrame>
   );
 }

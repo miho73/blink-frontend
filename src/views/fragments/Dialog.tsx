@@ -1,80 +1,76 @@
-import {Hr} from "./Hr.tsx";
-import {CancelIcon, Svg} from "../../assets/svgs/svg.tsx";
+import {useAppSelector} from "../../modules/hook/ReduxHooks.ts";
+import {actions} from "../../modules/redux/DialogReducer.ts";
+import {useDispatch} from "react-redux";
 import Stack from "../layout/Stack.tsx";
-import {CSSTransition} from "react-transition-group";
-import {ReactNode} from "react";
-import {Button} from "../form/Button.tsx";
+import {Hr} from "./Hr.tsx";
+import {Button, LinkButton} from "../form/Button.tsx";
+import ClassTransition from "../frames/ClassTransition.tsx";
 
-interface DialogProps {
-  open: boolean;
-  close: () => void;
-  title?: string;
-  onOk?: () => void;
-  onCancel?: () => void;
-  okText?: string;
-  cancelText?: string;
-  working?: boolean;
+function Dialog() {
+  const dialogOpen = useAppSelector(state => state.dialogReducer.dialogOpen);
+  const closeDialogByBackground = useAppSelector(state => state.dialogReducer.closeDialogByBackground);
+  const closeText = useAppSelector(state => state.dialogReducer.closeText);
+  const dialogContent = useAppSelector(state => state.dialogReducer.content);
+  const confirmText = useAppSelector(state => state.dialogReducer.confirmText);
 
-  children: ReactNode;
-  closeByBackdrop?: boolean;
-}
+  const dispatch = useDispatch();
 
-function Dialog(props: DialogProps) {
+  function handleBackgroundClick() {
+    if (closeDialogByBackground) {
+      dispatch(actions.closeDialog());
+    }
+  }
+
+  function closeDialog() {
+    dispatch(actions.closeDialog());
+  }
+
   return (
-    <CSSTransition
-      in={props.open}
-      timeout={200}
-      classNames={{
-        enterActive: '!opacity-100',
-        enterDone: '!opacity-100',
-      }}
-      appear
-      mountOnEnter
-      unmountOnExit
+    <ClassTransition
+      mounted={dialogOpen}
+      duration={200}
+      beforeEnter={'opacity-0'}
+      afterEnter={'opacity-100'}
+      beforeLeave={'opacity-100'}
+      afterLeave={'opacity-0'}
     >
       <div
+        onClick={handleBackgroundClick}
         className={
-          'absolute w-full h-full left-0 top-0 ' +
-          'bg-black bg-opacity-60 opacity-0 ' +
-          'flex justify-center items-center ' +
-          'transition-opacity duration-200'
+          'fixed left-0 top-0 bg-black bg-opacity-25 w-screen h-screen z-50'
         }
-        onClick={() => {
-          if (props.working) return;
-          if (props.closeByBackdrop) props.close();
-        }}
       >
-        <div
-          className={
-            'py-3 rounded-2xl border bg-neutral-50 dark:bg-neutral-900 dark:border-neutral-800 ' +
-            'w-full mx-5 sm:w-1/2 md:w-[450px]'
-          }
-          onClick={e => e.stopPropagation()}
+        <ClassTransition
+          mounted={dialogOpen}
+          duration={300}
+          className={'transform-gpu'}
+          beforeEnter={'translate-y-full'}
+          afterEnter={'translate-y-0'}
+          beforeLeave={'translate-y-0'}
+          afterLeave={'translate-y-full'}
         >
-          <Stack
-            direction={'row'}
-            className={'px-5 justify-between items-center'}
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className={
+              'fixed bottom-0 left-0 w-screen bg-neutral-800 ' +
+              'rounded-t-2xl'
+            }
           >
-            <p className={'text-2xl font-medium mr-16'}>{props.title}</p>
-            <button
-              onClick={() => {
-                if (props.working) return;
-                props.close();
-              }}
-            >
-              <Svg src={CancelIcon} css cssColor={'white'} className={'w-5 h-5'}/>
-            </button>
-          </Stack>
-          <Hr/>
-          <div className={'px-5'}>{props.children}</div>
-          <Hr/>
-          <Stack direction={'row'} className={'px-5 gap-2 justify-end'}>
-            <Button size={'sm'} onClick={props.onCancel} disabled={props.working}>{props.cancelText}</Button>
-            <Button size={'sm'} onClick={props.onOk} disabled={props.working}>{props.okText}</Button>
-          </Stack>
-        </div>
+            <Stack direction={'row'} className={'justify-end px-2 py-1'}>
+              <LinkButton
+                className={'px-3 py-2'}
+                onClick={closeDialog}
+              >{closeText}</LinkButton>
+            </Stack>
+            <Hr className={'m-0'}/>
+            <Stack className={'mx-4 my-4 gap-4'}>
+              <p>{dialogContent}</p>
+              <Button color={'accent'}>{confirmText}</Button>
+            </Stack>
+          </div>
+        </ClassTransition>
       </div>
-    </CSSTransition>
+    </ClassTransition>
   );
 }
 

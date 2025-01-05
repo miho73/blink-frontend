@@ -1,11 +1,7 @@
-input, select, button {
+input, select, button, textarea, a.button {
   &:focus {
     box-shadow: var(--tw-shadow-color) 0 0 1px 1px;
   }
-}
-
-a.button:focus {
-  box-shadow: var(--tw-shadow-color) 0 0 1px 1px;
 }
 
 input.inward {
@@ -18,18 +14,18 @@ label {
 
 div.input-group {
   & > * {
-    border-width: 0;
     border-radius: 0;
+    margin: 0 0 0 -1px;
   }
 
   & > *:first-child {
-    border-width: 1px;
-    @apply rounded-l-lg;
+    margin: 0;
+    @apply rounded-l-sm;
   }
 
   & > *:last-child {
-    border-width: 1px 1px 1px 0;
-    @apply rounded-r-lg;
+    margin: 0 0 0 -1px;
+    @apply rounded-r-sm;
   }
 }
 

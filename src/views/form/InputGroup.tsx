@@ -7,7 +7,7 @@ interface InputGroupProps {
 
 function InputGroup(props: InputGroupProps) {
   return (
-    <div className={'rounded-none input-group'}>
+    <div className={'input-group'}>
       {props.children}
     </div>
   )

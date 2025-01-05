@@ -12,10 +12,6 @@
   font-family: 'Noto Sans KR', sans-serif;
 }
 
-html {
-  overflow-x: hidden;
-}
-
 .logo {
   font-family: 'Oswald', 'Noto Sans KR', sans-serif;
   font-weight: bolder;
@@ -27,7 +23,7 @@ html {
   visibility: hidden;
 }
 
-p, label, a, li, span, td, th, button, caption, input {
+p, label, a, li, span, td, th, button, input, textarea {
   @apply text-neutral-950 dark:text-neutral-50;
 }
 
@@ -58,6 +54,5 @@ input[type=number] {
 }
 
 #root {
-  width: 100vw;
   min-height: 100vh;
 }
