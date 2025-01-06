@@ -5,7 +5,6 @@ import Stack from "../../../layout/Stack.tsx";
 import ThemeSelector from "../../../../css/ThemeSelector.tsx";
 import {ISO8601StringToDate} from "../../../../modules/Datetime.ts";
 import {Button} from "../../../form/Button.tsx";
-import Dialog from "../../../fragments/Dialog.tsx";
 import {useGoogleReCaptcha} from "react-google-recaptcha-v3";
 import startRecaptcha from "../../../../modules/recaptcha.ts";
 import Alert from "../../../form/Alert.tsx";
@@ -119,7 +118,7 @@ function PasskeyRow({passkey, reload}: { passkey: Passkey, reload: () => void })
   return (
     <>
       <Stack direction={'row'}
-             className={'justify-between items-center border px-6 py-3 rounded-2xl gap-3'}>
+             className={'justify-between items-center border px-6 py-3 rounded-sm gap-3'}>
         <ThemeSelector
           light={<Svg src={icon[0]}/>}
           dark={<Svg src={icon[1]}/>}

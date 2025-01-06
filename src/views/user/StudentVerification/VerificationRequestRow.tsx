@@ -4,7 +4,6 @@ import {useGoogleReCaptcha} from "react-google-recaptcha-v3";
 import axios from "axios";
 import {Button} from "../../form/Button.tsx";
 import {checkFlag} from "../../../modules/formValidator.ts";
-import Dialog from "../../fragments/Dialog.tsx";
 import Stack from "../../layout/Stack.tsx";
 import {SvRequest} from "./CheckVerificationStatus.tsx";
 import {ISO8601StringToDate} from "../../../modules/Datetime.ts";

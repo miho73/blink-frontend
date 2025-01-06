@@ -6,21 +6,8 @@ import UserAuthenticatedRouteFrame from "./frames/RouteFrames/UserAuthenticatedR
 import UserUnauthenticatedRouteFrame from "./frames/RouteFrames/UserUnauthenticatedRouteFrame.tsx";
 import CoreRoot from "./root/CoreRoot.tsx";
 import CoreBoard from "./board/CoreBoard.tsx";
-import {useAppSelector} from "../modules/hook/ReduxHooks.ts";
-import {useEffect} from "react";
-import Dialog from "./fragments/Dialog.tsx";
 
 function App() {
-  const dialogOpen = useAppSelector(state => state.dialogReducer.dialogOpen);
-
-  useEffect(() => {
-    if (dialogOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
-    }
-  }, [dialogOpen]);
-
   return (
     <BrowserRouter>
       <Header/>
@@ -42,8 +29,6 @@ function App() {
         </Routes>
       </main>
       <Footer/>
-
-      <Dialog/>
     </BrowserRouter>
   )
 }

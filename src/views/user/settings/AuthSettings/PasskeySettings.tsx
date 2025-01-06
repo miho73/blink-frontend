@@ -93,6 +93,7 @@ function PasskeySettings(
         패스키를 설정해야 합니다.</p>
 
       <Stack className={'my-3'}>
+        <Button className={'w-fit'} onClick={addPasskey}>패스키 등록</Button>
         {checkFlag(addPasskeyState, 0) && <Alert variant={'success'}>Passkey를 추가했습니다.</Alert>}
         {checkFlag(addPasskeyState, 1) && <Alert variant={'error'}>Passkey를 추가하지 못했습니다.</Alert>}
         {checkFlag(addPasskeyState, 3) && <Alert variant={'error'}>Passkey 정보를 받아오지 못했습니다.</Alert>}
@@ -103,7 +104,6 @@ function PasskeySettings(
         {checkFlag(addPasskeyState, 8) && <Alert variant={'error'}>사용할 수 없는 인증기입니다.</Alert>}
         {checkFlag(addPasskeyState, 9) && <Alert variant={'error'}>인증 ID가 중복되었습니다. 다시 시도해주세요.</Alert>}
         {checkFlag(addPasskeyState, 10) && <Alert variant={'error'}>사용자 보호를 위해 지금은 Passkey를 추가할 수 없습니다.</Alert>}
-        <Button className={'w-fit'} onClick={addPasskey}>패스키 등록</Button>
       </Stack>
 
       {authInfo?.passkey &&

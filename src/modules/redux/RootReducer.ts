@@ -2,12 +2,10 @@ import {combineReducers} from "redux";
 import userInfoReducer from "./UserInfoReducer.ts";
 import boardReducer from "./BoardReducer.ts";
 import {configureStore} from "@reduxjs/toolkit";
-import dialogReducer from "./DialogReducer.ts";
 
 const rootReducer = combineReducers({
   userInfoReducer,
-  boardReducer,
-  dialogReducer
+  boardReducer
 });
 
 const store = configureStore({

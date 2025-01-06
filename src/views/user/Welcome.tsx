@@ -6,29 +6,25 @@ import {TextArea, TextInput} from "../form/TextInput.tsx";
 import InputGroup from "../form/InputGroup.tsx";
 import {Caption} from "../form/Typography.tsx";
 import {Hr} from "../fragments/Hr.tsx";
-import {useDispatch} from "react-redux";
-import {useAppSelector} from "../../modules/hook/ReduxHooks.ts";
-import {actions} from "../../modules/redux/DialogReducer.ts";
 import Stack from "../layout/Stack.tsx";
 import {Link} from "react-router-dom";
+import {useDialog} from "../../modules/DialogContext.tsx";
 
 function WelcomeUser() {
-  const dispatch = useDispatch();
-  const dialogOpen = useAppSelector(state => state.dialogReducer.dialogOpen);
+  const { showDialog, hideDialog } = useDialog();
 
   function ctrlDialog() {
-    if (dialogOpen) {
-      dispatch(actions.closeDialog());
-    }
-    else {
-      const dialogBody = {
-        title: 'Dialog Title',
-        content: 'Dialog Content',
-        closeText: 'Close',
-        confirmText: 'Confirm'
+    showDialog({
+      title: 'Dialog Title',
+      content: 'Dialog Content',
+      confirmText: 'OK',
+      closeText: 'Cancel',
+      closeOnClickBackground: true,
+      onConfirm: () => {
+        console.log('OK');
+        hideDialog();
       }
-      dispatch(actions.openDialog(dialogBody));
-    }
+    });
   }
 
   // TODO: Write welcome letter

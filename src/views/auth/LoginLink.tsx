@@ -15,7 +15,7 @@ function LoginLink(props: LoginLinkProps) {
       <Link
         className={
           'relative px-4 py-2 ' +
-          'border rounded-lg flex justify-center items-center h-[50px] transition-colors ' +
+          'border rounded-sm flex justify-center items-center h-[50px] transition-colors ' +
           'bg-transparent hover:bg-neutral-100 dark:hover:bg-neutral-800'
         }
         to={props.to ? props.to : '/'}
@@ -31,7 +31,7 @@ function LoginLink(props: LoginLinkProps) {
       <a
         className={
           'relative px-4 py-2 ' +
-          'border rounded-lg flex justify-center items-center h-[50px] transition-colors ' +
+          'border rounded-sm flex justify-center items-center h-[50px] transition-colors ' +
           'bg-transparent hover:bg-neutral-100 dark:hover:bg-neutral-800'
         }
         href={props.to}
