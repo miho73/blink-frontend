@@ -8,23 +8,14 @@ import {Caption} from "../form/Typography.tsx";
 import {Hr} from "../fragments/Hr.tsx";
 import Stack from "../layout/Stack.tsx";
 import {Link} from "react-router-dom";
-import {useDialog} from "../../modules/DialogContext.tsx";
+import Dialog from "../fragments/Dialog.tsx";
+import {useState} from "react";
 
 function WelcomeUser() {
-  const { showDialog, hideDialog } = useDialog();
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   function ctrlDialog() {
-    showDialog({
-      title: 'Dialog Title',
-      content: 'Dialog Content',
-      confirmText: 'OK',
-      closeText: 'Cancel',
-      closeOnClickBackground: true,
-      onConfirm: () => {
-        console.log('OK');
-        hideDialog();
-      }
-    });
+    setDialogOpen(!dialogOpen);
   }
 
   // TODO: Write welcome letter
@@ -116,13 +107,20 @@ function WelcomeUser() {
         <TextInput/>
         <Button>ACTIVATE</Button>
       </InputGroup>
-
-
       <Hr/>
-
       <p className={'p-5 border my-3'}>BORDERED</p>
-
       <Button onClick={ctrlDialog}>Open Dialog</Button>
+      <Dialog
+        cancelText={'Cancel'}
+        confirmText={'Confirm'}
+        closeOnClickBackground={false}
+        isOpen={dialogOpen}
+        finally={() => setDialogOpen(false)}
+      >
+        <p>Dialog Content</p>
+        <TextInput placeholder={'TextInput'}/>
+
+      </Dialog>
     </DocumentFrame>
   );
 }

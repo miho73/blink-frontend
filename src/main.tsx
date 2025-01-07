@@ -5,21 +5,18 @@ import App from './views/App.tsx'
 import {GoogleReCaptchaProvider} from "react-google-recaptcha-v3";
 import {Provider} from "react-redux";
 import store from "./modules/redux/RootReducer.ts";
-import {DialogProvider} from "./modules/DialogContext.tsx";
 
 const reCAPTCHAKey = import.meta.env.VITE_RECAPTCHA_SITEKEY;
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store}>
-      <DialogProvider>
-        <GoogleReCaptchaProvider
-          reCaptchaKey={reCAPTCHAKey}
-          useEnterprise={true}
-        >
-          <App/>
-        </GoogleReCaptchaProvider>
-      </DialogProvider>
+      <GoogleReCaptchaProvider
+        reCaptchaKey={reCAPTCHAKey}
+        useEnterprise={true}
+      >
+        <App/>
+      </GoogleReCaptchaProvider>
     </Provider>
   </StrictMode>,
 )

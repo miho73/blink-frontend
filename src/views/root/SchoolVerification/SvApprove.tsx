@@ -298,7 +298,7 @@ function SvApprove() {
           {checkFlag(schoolExists, 1) && <Alert variant={'error'}>여러개의 학교가 검색되었습니다. <Link
             className={'href-blue !text-inherit'}
             to={`/root/school/db?schoolName=${req?.schoolName}`} target={"_blank"}>이곳</Link>에서 학교 정보를 확인해주세요.</Alert>}
-          <div className={'table-root'}>
+          <div className={'table-root my-2'}>
             <table>
               <thead>
               <tr>
@@ -332,12 +332,12 @@ function SvApprove() {
         </ol>
 
         <Stack direction={'row'} className={'gap-2 flex-wrap'}>
-          <Button size={'sm'} onClick={() => determine(3)}>승인</Button>
-          <Button size={'sm'} onClick={() => determine(2)}>보류</Button>
-          <Button size={'sm'} onClick={() => determine(4)}>거절(유효하지 않은 재학증명서)</Button>
-          <Button size={'sm'} onClick={() => determine(5)}>거절(신원 불일치)</Button>
-          <Button size={'sm'} onClick={() => determine(6)}>거절(정부 문서 확인 센터와 불일치)</Button>
-          <Button size={'sm'} onClick={() => determine(7)}>거절</Button>
+          <Button onClick={() => determine(3)}>승인</Button>
+          <Button onClick={() => determine(2)}>보류</Button>
+          <Button onClick={() => determine(4)}>거절(유효하지 않은 재학증명서)</Button>
+          <Button onClick={() => determine(5)}>거절(신원 불일치)</Button>
+          <Button onClick={() => determine(6)}>거절(정부 문서 확인 센터와 불일치)</Button>
+          <Button onClick={() => determine(7)}>거절</Button>
         </Stack>
       </div>
 

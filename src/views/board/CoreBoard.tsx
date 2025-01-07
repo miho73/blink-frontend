@@ -18,18 +18,18 @@ function CoreBoard() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if(!jwt) {
+    if (!jwt) {
       return;
     }
-    if(!boardId) {
+    if (!boardId) {
       dispatch(actions.reject(1));
       return;
     }
-    if(!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(boardId)) {
+    if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(boardId)) {
       dispatch(actions.reject(1));
       return;
     }
-    if(reduxBoardId === boardId) {
+    if (reduxBoardId === boardId) {
       return;
     }
 

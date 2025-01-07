@@ -12,6 +12,7 @@ import {checkFlag} from "../../../../modules/formValidator.ts";
 import {TextInput} from "../../../form/TextInput.tsx";
 import {FormGroup} from "../../../form/Form.tsx";
 import {useAppSelector} from "../../../../modules/hook/ReduxHooks.ts";
+import Dialog from "../../../fragments/Dialog.tsx";
 
 interface Passkey {
   name: string;
@@ -27,10 +28,11 @@ function PasskeyRow({passkey, reload}: { passkey: Passkey, reload: () => void })
 
   const [icon, setIcon] = useState<string[]>([]);
   const [name, setName] = useState<string>('');
-  const [working, setWorking] = useState<boolean>(false);
   const [error, setError] = useState<number>(0);
-  const [deletePasskeyOpen, setDeletePasskeyOpen] = useState<boolean>(false);
-  const [renamePasskeyOpen, setRenamePasskeyOpen] = useState<boolean>(false);
+
+  const [working, setWorking] = useState<boolean>(false);
+  const [removalDialogOpen, setRemovalDialogOpen] = useState<boolean>(false);
+  const [renameDialogOpen, setRenameDialogOpen] = useState<boolean>(false);
 
   useEffect(() => {
     axios.get('/api/auth/passkey/aaguid/light/' + passkey.aaguid)
@@ -59,7 +61,7 @@ function PasskeyRow({passkey, reload}: { passkey: Passkey, reload: () => void })
           }
         }
       ).then(() => {
-        setDeletePasskeyOpen(false);
+        setRemovalDialogOpen(false);
         reload();
       }).catch(err => {
         const error = err.response.data?.message;
@@ -93,7 +95,7 @@ function PasskeyRow({passkey, reload}: { passkey: Passkey, reload: () => void })
       {'name': name},
       {headers: {'Authorization': `Bearer ${jwt}`}}
     ).then(() => {
-      setRenamePasskeyOpen(false);
+      setRenameDialogOpen(false);
       reload();
     }).catch(err => {
       const error = err.response.data?.message;
@@ -132,58 +134,27 @@ function PasskeyRow({passkey, reload}: { passkey: Passkey, reload: () => void })
         </Stack>
         <Stack direction={'row'} className={'gap-1'}>
           <Button size={'custom'} className={'border-none p-2 rounded'} onClick={() => {
-            setRenamePasskeyOpen(true);
-            setName(passkey.name)
+            setName(passkey.name);
+            setRenameDialogOpen(true);
           }}>
             <Svg src={PencilIcon} className={'w-[32px]'} css cssColor={'white'}/>
           </Button>
-          <Button size={'custom'} className={'border-none p-2 rounded'} onClick={() => setDeletePasskeyOpen(true)}>
+          <Button size={'custom'} className={'border-none p-2 rounded'} onClick={() => setRemovalDialogOpen(true)}>
             <Svg src={TrashBinIcon} className={'w-[24px] m-[4px]'} css cssColor={'white'}/>
           </Button>
         </Stack>
       </Stack>
 
       <Dialog
-        title={'Passkey 삭제'}
-        open={deletePasskeyOpen}
-        close={() => {
-          setDeletePasskeyOpen(false);
-          setError(0);
-        }}
-        closeByBackdrop={true}
-        okText={'삭제'}
-        onOk={deletePasskey}
+        isOpen={renameDialogOpen}
+        confirmText={`이름 변경`}
         cancelText={'취소'}
+        onConfirm={renamePasskey}
         onCancel={() => {
-          setDeletePasskeyOpen(false);
+          setRenameDialogOpen(false);
           setError(0);
         }}
-        working={working}
-      >
-        <p className={'my-1'}>Passkey "{passkey.name}"을(를) 삭제할까요?</p>
-        <p className={'my-1'}>더이상 이 패스키로 BLINK에 로그인할 수 없게 됩니다. 디바이스에 저장된 패스키는 별도로 삭제해야 합니다.</p>
-        {checkFlag(error, 0) && <Alert variant={'error'}>요청이 잘못되었습니다.</Alert>}
-        {checkFlag(error, 1) && <Alert variant={'error'}>사용자 보호를 위해 지금은 패스키를 삭제할 수 없습니다.</Alert>}
-        {checkFlag(error, 2) && <Alert variant={'error'}>패스키를 찾을 수 없습니다.</Alert>}
-        {checkFlag(error, 3) && <Alert variant={'error'}>패스키를 삭제하지 못했습니다.</Alert>}
-        {checkFlag(error, 4) && <Alert variant={'error'}>reCAPTCHA를 완료하지 못했습니다. 다시 시도해주세요.</Alert>}
-      </Dialog>
-
-      <Dialog
-        title={'Passkey 이름 변경'}
-        open={renamePasskeyOpen}
-        close={() => {
-          setRenamePasskeyOpen(false);
-          setError(0);
-        }}
-        closeByBackdrop={true}
-        okText={'변경'}
-        onOk={renamePasskey}
-        cancelText={'취소'}
-        onCancel={() => {
-          setRenamePasskeyOpen(false);
-          setError(0);
-        }}
+        closeOnClickBackground={true}
         working={working}
       >
         <FormGroup label={passkey.name + '의 이름 변경'}>
@@ -191,8 +162,9 @@ function PasskeyRow({passkey, reload}: { passkey: Passkey, reload: () => void })
             placeholder={'Passkey 이름'}
             label={'Passkey 이름'}
             value={name}
-            setter={setName}
-            disabled={working}
+            setter={(value: string) => {
+              setName(value);
+            }}
             invalid={checkFlag(error, 10)}
             error={'Passkey의 이름은 255자 이하로 정해주세요.'}
           />
@@ -201,6 +173,29 @@ function PasskeyRow({passkey, reload}: { passkey: Passkey, reload: () => void })
           {checkFlag(error, 2) && <Alert variant={'error'}>패스키를 찾을 수 없습니다.</Alert>}
           {checkFlag(error, 12) && <Alert variant={'error'}>패스키의 이름을 바꾸지 못했습니다.</Alert>}
         </FormGroup>
+      </Dialog>
+
+      <Dialog
+        isOpen={removalDialogOpen}
+        confirmText={`${passkey.name} 삭제`}
+        cancelText={'취소'}
+        onConfirm={deletePasskey}
+        onCancel={() => {
+          setRemovalDialogOpen(false);
+          setError(0);
+        }}
+        closeOnClickBackground={true}
+        working={working}
+      >
+        <Stack>
+          <p className={'my-1'}>Passkey "{passkey.name}"을(를) 삭제할까요?</p>
+          <p className={'my-1'}>더이상 이 패스키로 BLINK에 로그인할 수 없게 됩니다. 디바이스에 저장된 패스키는 별도로 삭제해야 합니다.</p>
+          {checkFlag(error, 0) && <Alert variant={'error'}>요청이 잘못되었습니다.</Alert>}
+          {checkFlag(error, 1) && <Alert variant={'error'}>사용자 보호를 위해 지금은 패스키를 삭제할 수 없습니다.</Alert>}
+          {checkFlag(error, 2) && <Alert variant={'error'}>패스키를 찾을 수 없습니다.</Alert>}
+          {checkFlag(error, 3) && <Alert variant={'error'}>패스키를 삭제하지 못했습니다.</Alert>}
+          {checkFlag(error, 4) && <Alert variant={'error'}>reCAPTCHA를 완료하지 못했습니다. 다시 시도해주세요.</Alert>}
+        </Stack>
       </Dialog>
     </>
   )

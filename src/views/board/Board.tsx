@@ -30,7 +30,7 @@ function Board() {
   const [postList, setPostList] = useState<SimplePostType[]>([]);
 
   useEffect(() => {
-    if(!boardId) {
+    if (!boardId) {
       setPageState(3);
       return;
     }
@@ -46,7 +46,7 @@ function Board() {
     });
   }, [boardId, jwt]);
 
-  if(pageState === 0) {
+  if (pageState === 0) {
     // TODO: Add loading spinner
     return (
       <DocumentFrame>
@@ -55,7 +55,7 @@ function Board() {
     );
   }
 
-  if(pageState === 2) {
+  if (pageState === 2) {
     // TODO: provide error message
     return (
       <DocumentFrame>
@@ -90,7 +90,7 @@ function Board() {
   );
 }
 
-function PostCard({post}: {post: SimplePostType}) {
+function PostCard({post}: { post: SimplePostType }) {
   const delta = new Date().getTime() - new Date(post.writeTime).getTime();
 
   return (

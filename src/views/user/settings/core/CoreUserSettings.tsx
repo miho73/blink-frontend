@@ -6,6 +6,7 @@ import {KeyIcon, PencilIcon, ProfileIcon, Svg} from "../../../../assets/svgs/svg
 import {Hr} from "../../../fragments/Hr.tsx";
 import StudentCheckSettings from "../StudentVerificationSettings/StudentCheckSettings.tsx";
 import SettingsTabButton from "./SettingsTabButton.tsx";
+import SettingsToolButtons from "./SettingsToolButtons.tsx";
 
 function CoreUserSettings() {
   const [selectedTab, setSelectedTab] = useState<number>(0);
@@ -53,6 +54,7 @@ function CoreUserSettings() {
           재학생 확인
         </SettingsTabButton>
         <Hr/>
+        <SettingsToolButtons/>
       </Stack>
       <div className={'md:mt-3 md:ml-16 max-w-[600px]'}>{tabContent}</div>
     </div>

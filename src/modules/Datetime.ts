@@ -9,10 +9,10 @@ function deltaToDateString(delta: number): string {
   const hour = Math.floor((delta % 86400000) / 3600000);
   const minute = Math.floor((delta % 3600000) / 60000);
 
-  if(day > 0) {
+  if (day > 0) {
     return `${day}일 전`;
   }
-  if(hour > 0) {
+  if (hour > 0) {
     return `${hour}시간 전`;
   }
   if (minute > 0) {

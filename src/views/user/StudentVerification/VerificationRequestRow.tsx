@@ -9,6 +9,7 @@ import {SvRequest} from "./CheckVerificationStatus.tsx";
 import {ISO8601StringToDate} from "../../../modules/Datetime.ts";
 import startRecaptcha from "../../../modules/recaptcha.ts";
 import Alert from "../../form/Alert.tsx";
+import Dialog from "../../fragments/Dialog.tsx";
 
 const stateLookup = [
   '재학증명서 미제출',
@@ -143,15 +144,13 @@ function VerificationRequestRow(props: SvRequest & { reload: () => void }) {
         </tr>
       }
       <Dialog
-        open={deleteDialog}
-        close={() => setDeleteDialog(false)}
-        closeByBackdrop={true}
-        title={'재학생 확인 신청 취소'}
-
-        okText={working ? '신청 취소중...' : '신청 취소'}
-        onOk={() => cancel(props.vid)}
+        isOpen={deleteDialog}
+        closeOnClickBackground={true}
+        confirmText={working ? '신청 취소중...' : '신청 취소'}
         cancelText={'닫기'}
+        onConfirm={() => cancel(props.vid)}
         onCancel={() => setDeleteDialog(false)}
+        working={working}
       >
         <Stack className={'my-3 gap-1'}>
           <p>재학생 확인 신청을 취소합니다.</p>

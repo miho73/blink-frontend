@@ -10,7 +10,7 @@ import {FormGroup} from "../../../form/Form.tsx";
 import {Button} from "../../../form/Button.tsx";
 import {checkFlag} from "../../../../modules/formValidator.ts";
 import {Link} from "react-router-dom";
-import {useDispatch} from "react-redux";
+import Dialog from "../../../fragments/Dialog.tsx";
 
 interface SchoolInfo {
   id: number;
@@ -20,10 +20,9 @@ interface SchoolInfo {
 
 function CheckOk(props: { school: SchoolInfo | null, reload: () => void }) {
   const [formState, setFormState] = useState<number>(0);
-  const [withdrawConfirm, setWithdrawConfirm] = useState<boolean>(false);
+  const [openWithdrawConfirmDialog, setOpenWithdrawConfirmDialog] = useState<boolean>(false);
   const [working, setWorking] = useState<boolean>(false);
   const jwt = useAppSelector(state => state.userInfoReducer.jwt);
-  const dispatch = useDispatch();
 
   const {executeRecaptcha} = useGoogleReCaptcha();
 
@@ -44,18 +43,7 @@ function CheckOk(props: { school: SchoolInfo | null, reload: () => void }) {
       }).catch(() => {
       setFormState(1 << 2);
       setWorking(false);
-      setWithdrawConfirm(false);
     });
-  }
-
-  function openWithdrawConfirm() {
-    const dialogBody = {
-      title: 'Dialog Title',
-      content: '재학생 확인을 취소할까요?',
-      closeText: '닫기',
-      confirmText: '재학생 확인 취소'
-    }
-    dispatch(actions.openDialog(dialogBody));
   }
 
   function withdraw(token: string) {
@@ -79,7 +67,7 @@ function CheckOk(props: { school: SchoolInfo | null, reload: () => void }) {
       }
     }).finally(() => {
       setWorking(false);
-      setWithdrawConfirm(false);
+      setOpenWithdrawConfirmDialog(false);
     });
   }
 
@@ -105,7 +93,7 @@ function CheckOk(props: { school: SchoolInfo | null, reload: () => void }) {
           <p className={'py-2'}>학년</p>
           <p className={'py-2'}>{props.school.grade}학년</p>
         </div>
-        <Button className={'w-fit mt-3'} onClick={openWithdrawConfirm}>재학생 확인 철회</Button>
+        <Button className={'w-fit mt-3'} onClick={() => setOpenWithdrawConfirmDialog(true)}>재학생 확인 철회</Button>
         {checkFlag(formState, 0) &&
           <p className={'my-2 text-red-500 dark:text-red-300'}>사용자 보호를 위해 지금은 재학생 확인을 철회할 수 없습니다.</p>}
         {checkFlag(formState, 1) && <p className={'my-2 text-red-500 dark:text-red-300'}>재학생 확인을 철회하지 못했습니다.</p>}
@@ -124,6 +112,17 @@ function CheckOk(props: { school: SchoolInfo | null, reload: () => void }) {
           </li>
         </ul>
       </FormGroup>
+
+      <Dialog
+        isOpen={openWithdrawConfirmDialog}
+        onConfirm={completeRecaptcha}
+        onCancel={() => setOpenWithdrawConfirmDialog(false)}
+        working={working}
+      >
+        <p>재학생 확인을 철회할까요?</p>
+        <p>더이상 BLINK에서 {props.school.name}의 학생으로 활동할 수 없습니다.</p>
+        <p>BLINK를 다시 사용하려면 재학생 화인을 다시 받아야 합니다.</p>
+      </Dialog>
     </>
   );
 }

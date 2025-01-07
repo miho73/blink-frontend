@@ -30,21 +30,20 @@ function ClassTransition(props: ClassTransitionProps) {
   const [mount, setMount] = useState<boolean>(false);
 
   useEffect(() => {
-    if(mounted) {
+    if (mounted) {
       setMount(true);
       setClassSuffix(beforeEnter);
       setTimeout(() => {
         setClassSuffix(afterEnter);
       }, delay);
-    }
-    else {
+    } else {
       setClassSuffix(beforeLeave);
       setTimeout(() => {
         setClassSuffix(afterLeave);
       }, delay);
       setTimeout(() => {
         setMount(false);
-      }, duration+delay);
+      }, duration + delay);
     }
   }, [mounted]);
 
@@ -56,10 +55,9 @@ function ClassTransition(props: ClassTransitionProps) {
     }
   );
 
-  if(mount) {
+  if (mount) {
     return cloned;
-  }
-  else return null;
+  } else return null;
 }
 
 export default ClassTransition;

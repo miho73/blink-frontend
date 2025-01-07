@@ -24,7 +24,7 @@ function Select(props: SelectProps) {
     <>
       <select
         className={
-          'px-3 py-2 bg-transparent border outline-none rounded-lg transition ' +
+          'px-3 py-2 bg-transparent border outline-none rounded-sm transition ' +
           'border outline-none border-neutral-400 shadow-blue-300 focus:border-blue-500 ' +
           'disabled:bg-neutral-200 disabled:dark:bg-neutral-800 disabled:dark:text-neutral-200 ' +
           'dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-100 dark:shadow-blue-400 dark:focus:border-blue-400' +

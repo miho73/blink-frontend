@@ -5,7 +5,7 @@ import {RadioButton} from "../../form/Checkbox.tsx";
 import {TextInput} from "../../form/TextInput.tsx";
 import {Link} from "react-router-dom";
 import {Button} from "../../form/Button.tsx";
-import {useState} from "react";
+import {useRef, useState} from "react";
 import prettyBytes from "pretty-bytes";
 import Select from "../../form/Select.tsx";
 import {assertNotValue, checkFlag, lengthCheck, rangeCheck, verifyAll} from "../../../modules/formValidator.ts";
@@ -30,6 +30,14 @@ function CoreStudentVerification() {
 
   const [formState, setFormState] = useState<number>(0);
   const [working, setWorking] = useState<boolean>(false);
+
+  const fileSelector = useRef<HTMLInputElement>(null);
+
+  function selectFile() {
+    if (fileSelector.current) {
+      fileSelector.current.click();
+    }
+  }
 
   function validateForm() {
     setWorking(true);
@@ -250,24 +258,13 @@ function CoreStudentVerification() {
             <li className={'my-1'}>재학증명서 파일은 1MB 이하여야 합니다.</li>
           </ol>
           <Stack direction={'row'} className={'gap-3 items-center'}>
-            <label
-              htmlFor={'file-upload'}
-              className={
-                'border rounded-xl transition block w-fit outline-none button  ' +
-                'bg-transparent border-neutral-400 hover:bg-neutral-100 ' +
-                'dark:border-neutral-700 dark:hover:bg-neutral-800 ' +
-                'disabled:bg-neutral-200 disabled:dark:bg-neutral-800 disabled:text-neutral-500 disabled:dark:text-neutral-400 ' +
-                'shadow-blue-300 focus:border-blue-500 dark:shadow-blue-400 dark:focus:border-blue-400 ' +
-                'px-5 py-2 min-w-[170px] text-center cursor-pointer'
-              }
-            >
-              재학증명서 업로드
-            </label>
+            <Button onClick={selectFile}>재학증명서 업로드</Button>
             <input
               id={'file-upload'}
               type={'file'}
               className={'hidden'}
               disabled={working}
+              ref={fileSelector}
               onChange={e => setSelectedFile(e.target.files ? e.target.files[0] : null)}
             />
 
