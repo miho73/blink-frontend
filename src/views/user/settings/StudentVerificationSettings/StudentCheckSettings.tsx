@@ -8,7 +8,7 @@ import StudentVerified from "./StudentVerified.tsx";
 import StudentNotVerified from "./StudentNotVerified.tsx";
 
 interface SchoolInfo {
-  id: number;
+  schoolUUID: number;
   name: string;
   grade: number;
 }
@@ -66,3 +66,4 @@ function StudentCheckSettings() {
 }
 
 export default StudentCheckSettings;
+export type {SchoolInfo};

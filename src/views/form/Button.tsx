@@ -2,7 +2,7 @@ import React from "react";
 import {Link} from "react-router-dom";
 
 interface ButtonProps {
-  children?: React.ReactElement | string;
+  children?: React.ReactElement | string | string[];
   onClick?: () => void;
   to?: string
 
@@ -75,7 +75,7 @@ function ButtonLink(props: ButtonProps) {
     return (
       <p
         className={
-          'rounded-sm bg-neutral-200 dark:bg-neutral-800 text-neutral-500 dark:text-neutral-400 cursor-default ' +
+          'rounded-sm border bg-neutral-200 dark:bg-neutral-800 border-neutral-200 dark:border-neutral-800 text-neutral-500 dark:text-neutral-400 cursor-default ' +
           (props.size === 'lg' ? 'px-6 py-3 text-lg ' : '') +
           (props.size === 'md' || !props.size ? 'px-4 py-2 ' : '') +
           (props.size === 'sm' ? 'px-3 py-2 text-sm ' : '') +

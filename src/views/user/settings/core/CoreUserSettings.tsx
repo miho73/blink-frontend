@@ -29,7 +29,7 @@ function CoreUserSettings() {
 
   return (
     <div className={'w-full lg:w-3/4 px-5 mx-auto grid grid-rows-[auto_1fr] md:grid-rows-1 md:grid-cols-[250px_1fr]'}>
-      <Stack>
+      <Stack className={'mb-4'}>
         <SettingsTabButton
           selected={selectedTab === 0}
           setter={() => setSelectedTab(0)}

@@ -11,12 +11,7 @@ import {Button} from "../../../form/Button.tsx";
 import {checkFlag} from "../../../../modules/formValidator.ts";
 import {Link} from "react-router-dom";
 import Dialog from "../../../fragments/Dialog.tsx";
-
-interface SchoolInfo {
-  id: number;
-  name: string;
-  grade: number;
-}
+import {SchoolInfo} from "./StudentCheckSettings.tsx";
 
 function CheckOk(props: { school: SchoolInfo | null, reload: () => void }) {
   const [formState, setFormState] = useState<number>(0);

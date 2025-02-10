@@ -1,9 +1,10 @@
 import {useNavigate} from 'react-router-dom';
 import {useAppSelector} from "../../modules/hook/ReduxHooks.ts";
 import {ReactElement, useEffect} from "react";
-import {loadCredential} from "../../modules/authorize.ts";
+import {loadApplication} from "../../modules/authorize.ts";
 import {useDispatch} from "react-redux";
-import {actions} from "../../modules/redux/UserInfoReducer.ts";
+import {actions as UserReduxActions} from "../../modules/redux/UserInfoReducer.ts";
+import {actions as SchoolReduxActions, SchoolReduxState} from "../../modules/redux/SchoolReducer.ts";
 import {NXOR, XOR} from "../../modules/logic.ts";
 
 interface AuthenticationFrameProps {
@@ -19,12 +20,16 @@ function AuthenticationFrame(props: AuthenticationFrameProps) {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // if user information is already initialized, return
     if (userInfo.initialized) return;
 
-    loadCredential().then(credential => {
-      dispatch(actions.signIn(credential));
+    // try load jwt from local storage
+    loadApplication().then(credential => {
+      dispatch(UserReduxActions.signIn(credential.userSignIn));
+      dispatch(SchoolReduxActions.loadSchool(credential.schoolState));
     }).catch(() => {
-      dispatch(actions.completeInitialization(false));
+      dispatch(UserReduxActions.completeInitialization(false));
+      dispatch(SchoolReduxActions.setState(SchoolReduxState.ERROR));
     });
   }, [dispatch, userInfo.authenticated, userInfo.initialized]);
 
@@ -38,7 +43,7 @@ function AuthenticationFrame(props: AuthenticationFrameProps) {
   } else if (!userInfo.initialized) {
     return (
       <div className={'w-full h-full flex justify-center items-center'}>
-        <p>인증중</p>
+        <p>LOADING</p>
       </div>
     )
   }

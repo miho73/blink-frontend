@@ -31,6 +31,10 @@ p, label, a, li, span, td, th, button, input, textarea {
   @apply border-neutral-300 dark:border-neutral-700;
 }
 
+.divide-x, .divide-y {
+  @apply divide-neutral-300 dark:divide-neutral-700;
+}
+
 img.svg-color-control-gray {
   @media (prefers-color-scheme: dark) {
     filter: invert(63%) sepia(10%) saturate(246%) hue-rotate(175deg) brightness(93%) contrast(93%);

@@ -12,7 +12,7 @@ const initialState: BoardStateType = {
   boardId: null,
   boardName: null,
 
-  state: 0
+  state: 1
 }
 
 const boardSlice = createSlice({
@@ -27,6 +27,9 @@ const boardSlice = createSlice({
     reject: (state: BoardStateType, action: PayloadAction<number>) => {
       state.boardId = null;
       state.boardName = null;
+      state.state = action.payload;
+    },
+    setState: (state: BoardStateType, action: PayloadAction<number>) => {
       state.state = action.payload;
     }
   }

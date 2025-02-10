@@ -9,6 +9,15 @@ function deltaToDateString(delta: number): string {
   const hour = Math.floor((delta % 86400000) / 3600000);
   const minute = Math.floor((delta % 3600000) / 60000);
 
+  if (day > 365) {
+    return `${Math.floor(day / 365)}년 전`;
+  }
+  if (day > 31) {
+    return `${Math.floor(day / 30.5)}달 전`;
+  }
+  if (day > 7) {
+    return `${Math.floor(day / 7)}주 전`;
+  }
   if (day > 0) {
     return `${day}일 전`;
   }

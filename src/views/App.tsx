@@ -6,6 +6,7 @@ import UserAuthenticatedRouteFrame from "./frames/RouteFrames/UserAuthenticatedR
 import UserUnauthenticatedRouteFrame from "./frames/RouteFrames/UserUnauthenticatedRouteFrame.tsx";
 import CoreRoot from "./root/CoreRoot.tsx";
 import CoreBoard from "./board/CoreBoard.tsx";
+import AuthenticatedIndex from "./index/AuthenricatedIndex.tsx";
 
 function App() {
   return (
@@ -13,11 +14,9 @@ function App() {
       <Header/>
       <main className={'my-3'}>
         <Routes>
-          <Route path={'/'} element={
-            <div>Hello, World!</div>
-          }/>
+          <Route path={'/'} element={<AuthenticatedIndex/>}/>
 
-          <Route path={'/b/:boardId/*'} element={<CoreBoard/>}/>
+          <Route path={'/board/:boardId/*'} element={<CoreBoard/>}/>
 
           <Route path={'/auth/*'} element={<AuthenticationRouteFrame/>}/>
           <Route path={'/user/n/*'} element={<UserUnauthenticatedRouteFrame/>}/>

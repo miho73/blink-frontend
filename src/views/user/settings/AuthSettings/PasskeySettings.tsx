@@ -106,7 +106,7 @@ function PasskeySettings(
         {checkFlag(addPasskeyState, 10) && <Alert variant={'error'}>사용자 보호를 위해 지금은 Passkey를 추가할 수 없습니다.</Alert>}
       </Stack>
 
-      {authInfo?.passkey &&
+      {authInfo?.passkey !== 0 &&
         <FormGroup label={'계정에 등록된 Passkey'} strong>
           <Stack>
             {passkeyList?.map((passkey, index) => (
