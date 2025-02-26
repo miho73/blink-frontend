@@ -2,11 +2,12 @@ import Stack from "../../../layout/Stack.tsx";
 import {ReactNode, useState} from "react";
 import AuthSettings from "../AuthSettings/AuthSettings.tsx";
 import GeneralSettings from "../GeneralSettings/GeneralSettings.tsx";
-import {KeyIcon, PencilIcon, ProfileIcon, Svg} from "../../../../assets/svgs/svg.tsx";
+import {KeyIcon, PencilIcon, PersonalIcon, ProfileIcon, Svg} from "../../../../assets/svgs/svg.tsx";
 import {Hr} from "../../../fragments/Hr.tsx";
 import StudentCheckSettings from "../StudentVerificationSettings/StudentCheckSettings.tsx";
 import SettingsTabButton from "./SettingsTabButton.tsx";
 import SettingsToolButtons from "./SettingsToolButtons.tsx";
+import PreferenceSettings from "../PreferenceSettings/UserPreference.tsx";
 
 function CoreUserSettings() {
   const [selectedTab, setSelectedTab] = useState<number>(0);
@@ -22,6 +23,9 @@ function CoreUserSettings() {
       break;
     case 2:
       tabContent = <StudentCheckSettings/>
+      break;
+    case 3:
+      tabContent = <PreferenceSettings/>
       break;
     default:
       tabContent = <GeneralSettings/>
@@ -53,6 +57,15 @@ function CoreUserSettings() {
         >
           재학생 확인
         </SettingsTabButton>
+
+        <SettingsTabButton
+          selected={selectedTab === 3}
+          setter={() => setSelectedTab(3)}
+          icon={<Svg src={PersonalIcon} className={'w-[24px]'} css cssColor={'gray'}/>}
+        >
+          개인 설정
+        </SettingsTabButton>
+
         <Hr/>
         <SettingsToolButtons/>
       </Stack>

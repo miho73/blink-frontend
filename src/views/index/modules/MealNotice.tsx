@@ -49,6 +49,7 @@ function MealNotice() {
   const neis_code = useAppSelector(state => state.schoolReducer.schoolNeisCode);
   const jwt = useAppSelector(state => state.userInfoReducer.jwt);
 
+  const [allergyPref, setAllergyPref] = useState<number>(0);
   const [meal, setMeal] = useState<{[key: string]: MealInfo}>({});
   const [showNutrients, setShowNutrients] = useState<boolean>(false);
   const [selectedServiceTime, setSelectedServiceTime] = useState<string>('0');
@@ -63,6 +64,7 @@ function MealNotice() {
       }
     ).then(res => {
       setMeal(res.data['meal']);
+      setAllergyPref(res.data['allergy']);
       setPageState(1);
 
       // 20:00 - 9:00 : 조식
@@ -93,11 +95,20 @@ function MealNotice() {
         (match[1] === undefined) ? [] : match[1]
           .slice(1, -1)
           .split('.')
-          .map((allergyCode) => <AllergyBadge allergyCode={parseInt(allergyCode)}/>)
+          .map((allergyCode) => {
+            const allergyInt: number = parseInt(allergyCode);
+
+            if(allergyPref & (1 << allergyInt)) {
+              return (
+                <AllergyBadge allergyCode={allergyInt}/>
+              );
+            }
+          })
       );
+
       mealInfo.push(
         <Stack direction={'row'} className={'items-center gap-3'}>
-          <p key={index} className={'min-w-fit'}>{mealStr}</p>
+          <p key={index} className={'min-w-fit py-1'}>{mealStr}</p>
           <Stack direction={'row'} className={'gap-x-2 overflow-x-auto'}>{allergyStr}</Stack>
         </Stack>
       );

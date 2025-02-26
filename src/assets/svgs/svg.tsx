@@ -16,6 +16,7 @@ import KeyIcon from './key.svg'
 import CancelIcon from './x.svg';
 import SchoolCapIcon from './school_cap.svg';
 import SchoolIcon from './school.svg';
+import PersonalIcon from './personal.svg';
 
 import PasskeyIocnBlack from './FIDO_Passkey_mark_A_black.svg';
 import PasskeyIocnWhite from './FIDO_Passkey_mark_A_white.svg';
@@ -70,6 +71,7 @@ export {
   CancelIcon,
   SchoolCapIcon,
   SchoolIcon,
+  PersonalIcon,
 
   Svg
 };

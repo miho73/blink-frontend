@@ -15,7 +15,7 @@ interface CheckboxProps {
 function Checkbox(props: CheckboxProps) {
   function onChange(flag: boolean) {
     if (props.setter) {
-      props.setter(flag)
+      props.setter(flag);
     } else if (props.toggle) {
       props.toggle();
     }
