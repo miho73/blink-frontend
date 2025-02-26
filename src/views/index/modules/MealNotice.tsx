@@ -51,6 +51,7 @@ function MealNotice() {
 
   const [allergyPref, setAllergyPref] = useState<number>(0);
   const [meal, setMeal] = useState<{[key: string]: MealInfo}>({});
+  const [doesTodayAServiceDay, setDoesTodayAServiceDay] = useState(false);
   const [showNutrients, setShowNutrients] = useState<boolean>(false);
   const [selectedServiceTime, setSelectedServiceTime] = useState<string>('0');
   const [pageState, setPageState] = useState(0);
@@ -66,6 +67,9 @@ function MealNotice() {
       setMeal(res.data['meal']);
       setAllergyPref(res.data['allergy']);
       setPageState(1);
+
+      if(Object.keys(res.data['meal']).length === 0) setDoesTodayAServiceDay(false);
+      else setDoesTodayAServiceDay(true);
 
       // 20:00 - 9:00 : 조식
       // 9:00 - 14:00 : 중식
@@ -84,6 +88,17 @@ function MealNotice() {
   if(1 in meal) { serviceTime.push('조식'); serviceTimeCode.push('1'); }
   if(2 in meal) { serviceTime.push('중식'); serviceTimeCode.push('2'); }
   if(3 in meal) { serviceTime.push('석식'); serviceTimeCode.push('3'); }
+
+  if(!doesTodayAServiceDay && pageState === 1) {
+    return (
+      <ModuleTemplate name={'급식'}>
+        <Stack className={'gap-3 items-end'}>
+          <p className={'text-left w-full'}>오늘은 급식 정보가 없습니다.</p>
+          <Link to={'/user/settings'} className={'text-sm'}>알러지 정보 설정 &gt;</Link>
+        </Stack>
+      </ModuleTemplate>
+    );
+  }
 
   const mealInfo = [];
   if(selectedServiceTime in meal && !showNutrients) {
@@ -121,9 +136,7 @@ function MealNotice() {
     mealInfo.push(<p key={'cals'}>{meal[selectedServiceTime].calories} kcal</p>)
   }
   else {
-    mealInfo.push(
-      <p>급식 시간을 선택해주세요.</p>
-    );
+    mealInfo.push(<p>급식 시간을 선택해주세요.</p>);
   }
 
   return (
