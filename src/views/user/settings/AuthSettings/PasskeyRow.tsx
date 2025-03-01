@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
-import {PasskeyIocnBlack, PasskeyIocnWhite, PencilIcon, Svg, TrashBinIcon} from "../../../../assets/svgs/svg.tsx";
+import {PasskeyIconBlack, PasskeyIconWhite, PencilIcon, Svg, TrashBinIcon} from "../../../../assets/svgs/svg.tsx";
 import Stack from "../../../layout/Stack.tsx";
 import ThemeSelector from "../../../../css/ThemeSelector.tsx";
 import {ISO8601StringToDate} from "../../../../modules/Datetime.ts";
@@ -42,7 +42,7 @@ function PasskeyRow({passkey, reload}: { passkey: Passkey, reload: () => void })
           res.data['icon']['dark']
         ]);
       }).catch(() => {
-      setIcon([PasskeyIocnBlack, PasskeyIocnWhite]);
+      setIcon([PasskeyIconBlack, PasskeyIconWhite]);
     });
   }, []);
 

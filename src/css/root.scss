@@ -47,6 +47,10 @@ img.svg-color-control {
   }
 }
 
+img.svg-color-control-yellow {
+  filter: brightness(0) saturate(100%) invert(95%) sepia(62%) saturate(2953%) hue-rotate(312deg) brightness(109%) contrast(113%);
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;

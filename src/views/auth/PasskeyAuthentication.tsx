@@ -2,7 +2,7 @@ import {useGoogleReCaptcha} from "react-google-recaptcha-v3";
 import axios from "axios";
 import {startAuthentication} from "@simplewebauthn/browser";
 import ThemeSelector from "../../css/ThemeSelector.tsx";
-import {PasskeyIocnBlack, PasskeyIocnWhite, Svg} from "../../assets/svgs/svg.tsx";
+import {PasskeyIconBlack, PasskeyIconWhite, Svg} from "../../assets/svgs/svg.tsx";
 import React from "react";
 import startRecaptcha from "../../modules/recaptcha.ts";
 import {useNavigate} from "react-router-dom";
@@ -45,8 +45,8 @@ function PasskeyAuthentication({errorReporter}: { errorReporter: (error: string)
     <LoginButton
       img={
         <ThemeSelector
-          light={<Svg src={PasskeyIocnBlack}/>}
-          dark={<Svg src={PasskeyIocnWhite}/>}
+          light={<Svg src={PasskeyIconBlack}/>}
+          dark={<Svg src={PasskeyIconWhite}/>}
         />
       }
       text={'Passkey로 로그인'}

@@ -4,4 +4,4 @@ enum PageLoadingState {
   ERROR,
 }
 
-export { PageLoadingState };
+export {PageLoadingState};

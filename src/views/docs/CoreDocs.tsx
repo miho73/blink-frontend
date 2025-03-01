@@ -19,7 +19,7 @@ function CoreDocs() {
   const [pageState, setPageState] = useState<PageLoadingState>(PageLoadingState.LOADING);
 
   useEffect(() => {
-    if(!documentIdentifier || !docsList.includes(documentIdentifier)) {
+    if (!documentIdentifier || !docsList.includes(documentIdentifier)) {
       setPageState(PageLoadingState.ERROR);
       return;
     }
@@ -29,23 +29,23 @@ function CoreDocs() {
         setDocumentMarkdown(res.data);
         setPageState(PageLoadingState.SUCCESS);
       }).catch(() => {
-        setPageState(PageLoadingState.ERROR);
-      });
+      setPageState(PageLoadingState.ERROR);
+    });
   }, [documentIdentifier]);
 
-  if(pageState === PageLoadingState.LOADING) {
+  if (pageState === PageLoadingState.LOADING) {
     return (
       <DocumentFrame>
         <p>문서 로딩중</p>
       </DocumentFrame>
     );
-  } else if(pageState === PageLoadingState.ERROR) {
+  } else if (pageState === PageLoadingState.ERROR) {
     return (
       <DocumentFrame>
         <p>문서를 불러오지 못했습니다.</p>
       </DocumentFrame>
     );
-  } else if(pageState === PageLoadingState.SUCCESS) {
+  } else if (pageState === PageLoadingState.SUCCESS) {
     const elements = marked.parse(documentMarkdown) as string;
     const pureElement = DOMPurify.sanitize(elements);
 

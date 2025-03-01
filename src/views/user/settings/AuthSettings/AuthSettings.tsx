@@ -4,8 +4,8 @@ import {
   GoogleIcon,
   KeyIconBlack,
   KeyIconWhite,
-  PasskeyIocnBlack,
-  PasskeyIocnWhite,
+  PasskeyIconBlack,
+  PasskeyIconWhite,
   Svg,
 } from "../../../../assets/svgs/svg.tsx";
 import ThemeSelector from "../../../../css/ThemeSelector.tsx";
@@ -87,8 +87,8 @@ function AuthSettings() {
             {authInfo?.passkey !== 0 &&
               <ThemeSelector
                 className={'w-[48px]'}
-                light={<Svg src={PasskeyIocnBlack} alt={'패스키로 로그인'}/>}
-                dark={<Svg src={PasskeyIocnWhite} alt={'패스키로 로그인'}/>}
+                light={<Svg src={PasskeyIconBlack} alt={'패스키로 로그인'}/>}
+                dark={<Svg src={PasskeyIconWhite} alt={'패스키로 로그인'}/>}
               />
             }
           </Stack>

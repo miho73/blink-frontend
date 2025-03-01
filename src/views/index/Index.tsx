@@ -6,10 +6,10 @@ import SvIndex from "./SvIndex.tsx";
 function Index() {
   const schoolState: SchoolStateType = useAppSelector(state => state.schoolReducer);
 
-  if(schoolState.state === SchoolReduxState.NOT_VERIFIED) {
+  if (schoolState.state === SchoolReduxState.NOT_VERIFIED) {
     return <NoSvIndex/>;
   }
-  if(schoolState.state === SchoolReduxState.VERIFIED) {
+  if (schoolState.state === SchoolReduxState.VERIFIED) {
     return <SvIndex/>;
   }
 }

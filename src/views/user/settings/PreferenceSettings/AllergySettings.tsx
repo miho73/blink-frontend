@@ -54,14 +54,14 @@ function AllergySettings() {
   }, []);
 
   function toggleEditing() {
-    if(editing) {
+    if (editing) {
       setWorking(true);
       axios.patch(
         '/api/user/preference/allergy',
         {allergy: editingAllergy},
         {headers: {'Authorization': 'Bearer ' + jwt}}
       ).then(res => {
-        if(res.data['allergy'] === editingAllergy) {
+        if (res.data['allergy'] === editingAllergy) {
           setAllergies(res.data['allergy']);
           setWorkState(0);
           setEditing(!editing);
@@ -73,20 +73,19 @@ function AllergySettings() {
       }).finally(() => {
         setWorking(false);
       });
-    }
-    else setEditing(!editing);
+    } else setEditing(!editing);
   }
 
   let content: ReactNode;
-  if(loadState === 0) {
+  if (loadState === 0) {
     content = <p>로딩 중...</p>
-  } else if(loadState === 2) {
+  } else if (loadState === 2) {
     content = <p>오류</p>
-  } else if(loadState === 1) {
+  } else if (loadState === 1) {
     const selectedAllergies = [];
 
-    if(editing) {
-      for(let i = 1; i <= 18; i++) {
+    if (editing) {
+      for (let i = 1; i <= 18; i++) {
         selectedAllergies.push(
           <Checkbox
             key={i}
@@ -122,7 +121,8 @@ function AllergySettings() {
           {editing ? '저장' : '수정'}
         </Button>
         {workState === 1 && <Alert variant={'error'}>알러지 정보를 저장하지 못했습니다.</Alert>}
-        <p className={'text-neutral-600 dark:text-neutral-400'}>알러지 정보를 설정하면 매일 식단에서 내 알러지 유발 성분을 포함하고 있는 식단을 확인할 수 있습니다.</p>
+        <p className={'text-neutral-600 dark:text-neutral-400'}>알러지 정보를 설정하면 매일 식단에서 내 알러지 유발 성분을 포함하고 있는 식단을 확인할 수
+          있습니다.</p>
       </Stack>
     );
   } else {
