@@ -3,3 +3,34 @@
     @apply text-blue-600 dark:text-blue-300 hover:underline;
   }
 }
+
+.markdown {
+  * {
+    @apply py-2;
+  }
+
+  h1 {
+    @apply text-3xl font-bold pt-4 pb-3;
+  }
+  h2 {
+    @apply text-2xl font-bold pt-3 pb-2;
+  }
+  h3 {
+    @apply text-xl font-bold pt-2 pb-1;
+  }
+
+  ul {
+    list-style: disc;
+    @apply ml-6 py-1;
+
+    li {
+      @apply py-1;
+      line-height: 1.6;
+      text-align: justify;
+    }
+  }
+  p {
+    line-height: 1.6;
+    text-align: justify;
+  }
+}

@@ -7,6 +7,7 @@ import UserUnauthenticatedRouteFrame from "./frames/RouteFrames/UserUnauthentica
 import CoreRoot from "./root/CoreRoot.tsx";
 import CoreBoard from "./board/CoreBoard.tsx";
 import AuthenticatedIndex from "./index/AuthenricatedIndex.tsx";
+import CoreDocs from "./docs/CoreDocs.tsx";
 
 function App() {
   return (
@@ -23,6 +24,8 @@ function App() {
           <Route path={'/user/*'} element={<UserAuthenticatedRouteFrame/>}/>
 
           <Route path={'/root/*'} element={<CoreRoot/>}/>
+
+          <Route path={'/docs/:docId'} element={<CoreDocs/>}/>
 
           <Route path={'*'} element={<NotFound/>}/>
         </Routes>

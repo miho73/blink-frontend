@@ -23,7 +23,7 @@
   visibility: hidden;
 }
 
-p, label, a, li, span, td, th, button, input, textarea {
+p, label, a, li, span, td, th, button, input, textarea, h1, h2, h3, h4, h5, h6 {
   @apply text-neutral-950 dark:text-neutral-50;
 }
 
