@@ -25,6 +25,10 @@
 
 p, label, a, li, span, td, th, button, input, textarea, h1, h2, h3, h4, h5, h6 {
   @apply text-neutral-950 dark:text-neutral-50;
+
+  &.text-reverse {
+    @apply text-neutral-50 dark:text-neutral-950;
+  }
 }
 
 .border, .border-r, .border-l, .border-t, .border-b {

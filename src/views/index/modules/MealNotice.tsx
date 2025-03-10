@@ -6,6 +6,7 @@ import {Button} from "../../form/Button.tsx";
 import Stack from "../../layout/Stack.tsx";
 import Select from "../../form/Select.tsx";
 import {Link} from "react-router-dom";
+import {FlameIcon, Svg} from "../../../assets/svgs/svg.tsx";
 
 const ALLERGY_CODE = [
   '난류',
@@ -137,10 +138,62 @@ function MealNotice() {
       );
     });
   } else if (selectedServiceTime in meal && showNutrients) {
-    meal[selectedServiceTime].nutrients.map((value, index) => {
-      mealInfo.push(<p key={index}>{value}</p>);
-    });
-    mealInfo.push(<p key={'cals'}>{meal[selectedServiceTime].calories} kcal</p>)
+    const nutrients = meal[selectedServiceTime].nutrients;
+
+    const carbohydrate = nutrients[0].startsWith('탄수화물(g)') ? parseInt(nutrients[0].split(' ')[2]) : 0;
+    const protein = nutrients[1].startsWith('단백질(g)') ? parseInt(nutrients[1].split(' ')[2]) : 0;
+    const fat = nutrients[2].startsWith('지방(g)') ? parseInt(nutrients[2].split(' ')[2]) : 0;
+    const total = 4*carbohydrate + 4*protein + 9*fat;
+
+    mealInfo.push(
+      <Stack className={'gap-4'}>
+        <Stack direction={'row'} className={'w-full h-[40px]'}>
+          <div
+            className={
+              'h-full bg-[#4FAFA9] ' +
+              'flex justify-center items-center ' +
+              'transition-all'
+            }
+            title={'탄수화물'}
+            style={{width: `${400*carbohydrate/total}%`}}
+          >
+            <p className={'text-[#1E4937] text-lg'}>{carbohydrate} g</p>
+          </div>
+          <div
+            className={
+              'h-full bg-[#4974BE] ' +
+              'flex justify-center items-center ' +
+              'transition-all'
+            }
+            title={'단백질'}
+            style={{width: `${400*protein/total}%`}}
+          >
+            <p className={'text-[#102F47] text-lg'}>{protein} g</p>
+          </div>
+          <div
+            className={
+              'h-full bg-[#EFA73E] ' +
+              'flex justify-center items-center ' +
+              'transition-all'
+            }
+            title={'지방'}
+            style={{width: `${900*fat/total}%`}}
+          >
+            <p className={'text-[#7A3A1C] text-lg'}>{fat} g</p>
+          </div>
+        </Stack>
+        <Stack direction={'row'} className={'gap-5 justify-center items-center'}>
+          <Stack direction={'row'} className={'gap-2'}>
+            <Svg
+              src={FlameIcon}
+              css cssColor={'white'}
+              className={'w-[27px]'}
+            />
+            <p className={'text-center text-3xl'}>{meal[selectedServiceTime]['calories']} kcal</p>
+          </Stack>
+        </Stack>
+      </Stack>
+    )
   } else {
     mealInfo.push(<p>급식 시간을 선택해주세요.</p>);
   }
@@ -151,7 +204,12 @@ function MealNotice() {
       {pageState === 1 && (
         <Stack className={'gap-3 items-end'}>
           <div className={'grid grid-cols-[auto_81px] gap-x-2 w-full'}>
-            <Select options={serviceTime} id={serviceTimeCode} onChange={setSelectedServiceTime}/>
+            <Select
+              options={serviceTime}
+              id={serviceTimeCode}
+              onChange={setSelectedServiceTime}
+              value={selectedServiceTime}
+            />
             <Button size={'sm'} onClick={() => setShowNutrients(!showNutrients)} className={'w-[81px]'}>
               {showNutrients ? '식단' : '영양정보'}
             </Button>
