@@ -1,22 +1,12 @@
 import Stack from "../layout/Stack.tsx";
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {useAppSelector} from "../../modules/hook/ReduxHooks.ts";
 import {ReactElement} from "react";
-import {useDispatch} from "react-redux";
-import {actions} from "../../modules/redux/UserInfoReducer.ts";
 
 function Header() {
   const userInfo = useAppSelector(state => state.userInfoReducer);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   let links: ReactElement;
-
-  function signOut() {
-    localStorage.removeItem('with-authentication');
-    dispatch(actions.signOut());
-    navigate('/auth');
-  }
 
   if (userInfo.initialized && userInfo.authenticated) {
     links = (

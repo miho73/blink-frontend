@@ -143,7 +143,7 @@ function MealNotice() {
     const carbohydrate = nutrients[0].startsWith('탄수화물(g)') ? parseInt(nutrients[0].split(' ')[2]) : 0;
     const protein = nutrients[1].startsWith('단백질(g)') ? parseInt(nutrients[1].split(' ')[2]) : 0;
     const fat = nutrients[2].startsWith('지방(g)') ? parseInt(nutrients[2].split(' ')[2]) : 0;
-    const total = 4*carbohydrate + 4*protein + 9*fat;
+    const total = 4 * carbohydrate + 4 * protein + 9 * fat;
 
     mealInfo.push(
       <Stack className={'gap-4'}>
@@ -155,7 +155,7 @@ function MealNotice() {
               'transition-all'
             }
             title={'탄수화물'}
-            style={{width: `${400*carbohydrate/total}%`}}
+            style={{width: `${400 * carbohydrate / total}%`}}
           >
             <p className={'text-[#1E4937] text-lg select-none'}>{carbohydrate} g</p>
           </div>
@@ -166,7 +166,7 @@ function MealNotice() {
               'transition-all'
             }
             title={'단백질'}
-            style={{width: `${400*protein/total}%`}}
+            style={{width: `${400 * protein / total}%`}}
           >
             <p className={'text-[#102F47] text-lg select-none'}>{protein} g</p>
           </div>
@@ -177,7 +177,7 @@ function MealNotice() {
               'transition-all'
             }
             title={'지방'}
-            style={{width: `${900*fat/total}%`}}
+            style={{width: `${900 * fat / total}%`}}
           >
             <p className={'text-[#7A3A1C] text-lg select-none'}>{fat} g</p>
           </div>

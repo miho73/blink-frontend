@@ -183,7 +183,6 @@ function SchoolManagement() {
         </tr>
       );
     } else {
-      console.log(school)
       rows.push(
         <tr onClick={() => setSelectedRow(index)} className={'transition cursor-pointer'}>
           {school.schoolId && <td>{school.schoolId}</td>}

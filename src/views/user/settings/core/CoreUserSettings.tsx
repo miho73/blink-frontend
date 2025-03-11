@@ -7,7 +7,7 @@ import StudentCheckSettings from "../StudentVerificationSettings/StudentCheckSet
 import SettingsTabButton from "./SettingsTabButton.tsx";
 import SettingsToolButtons from "./SettingsToolButtons.tsx";
 import PreferenceSettings from "../PreferenceSettings/UserPreference.tsx";
-import {Route, Routes, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import {ReactElement} from "react";
 
 function CoreUserSettings() {

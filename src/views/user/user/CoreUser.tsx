@@ -8,7 +8,7 @@ function CoreUser() {
     <DocumentFrame>
       <Stack direction={'row'} className={'justify-between items-center'}>
         <p className={'text-3xl font-light'}>illililliiil!li!</p>
-        <ButtonLink to={'/user/settings'}>프로필 수정</ButtonLink>
+        <ButtonLink to={'/user/settings/general'}>프로필 수정</ButtonLink>
       </Stack>
       <Hr/>
       <Stack>

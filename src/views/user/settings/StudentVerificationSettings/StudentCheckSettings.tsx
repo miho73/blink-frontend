@@ -11,6 +11,8 @@ interface SchoolInfo {
   schoolUUID: number;
   name: string;
   grade: number;
+  classroom: number | null;
+  studentNumber: number | null;
 }
 
 function StudentCheckSettings() {

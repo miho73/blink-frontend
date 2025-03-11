@@ -12,8 +12,11 @@ import {checkFlag} from "../../../../modules/formValidator.ts";
 import {Link} from "react-router-dom";
 import Dialog from "../../../fragments/Dialog.tsx";
 import {SchoolInfo} from "./StudentCheckSettings.tsx";
+import SetClassroomStudentNumberUI from "./SetClassroomStudentNumberUI.tsx";
 
-function CheckOk(props: { school: SchoolInfo | null, reload: () => void }) {
+function CheckOk(
+  props: { school: SchoolInfo | null, reload: () => void }
+) {
   const [formState, setFormState] = useState<number>(0);
   const [openWithdrawConfirmDialog, setOpenWithdrawConfirmDialog] = useState<boolean>(false);
   const [working, setWorking] = useState<boolean>(false);
@@ -81,12 +84,30 @@ function CheckOk(props: { school: SchoolInfo | null, reload: () => void }) {
       </Stack>
       <FormGroup label={'학적 확인'} strong>
         <div
-          className={'grid grid-cols-[150px_1fr] border px-4 py-1 rounded-sm'}>
-          <p className={'py-2 border-b border-neutral-400 dark:border-neutral-600'}>학교명</p>
-          <p className={'py-2 border-b border-neutral-400 dark:border-neutral-600'}>{props.school.name}</p>
+          className={
+            'grid grid-cols-[150px_1fr] border px-4 py-1 rounded-sm ' +
+            'divide-y border-neutral-400 dark:border-neutral-600'
+          }
+        >
+          <p className={'py-2'}>학교명</p>
+          <p className={'py-2 !border-t-0'}>{props.school.name}</p>
 
           <p className={'py-2'}>학년</p>
           <p className={'py-2'}>{props.school.grade}학년</p>
+
+          {props.school.classroom != null &&
+            <>
+              <p className={'py-2'}>반</p>
+              <p className={'py-2'}>{props.school.classroom}반</p>
+            </>
+          }
+
+          {props.school.studentNumber != null &&
+            <>
+              <p className={'py-2'}>번호</p>
+              <p className={'py-2'}>{props.school.studentNumber}번</p>
+            </>
+          }
         </div>
         <Button className={'w-fit mt-3'} onClick={() => setOpenWithdrawConfirmDialog(true)}>재학생 확인 철회</Button>
         {checkFlag(formState, 0) &&
@@ -95,7 +116,7 @@ function CheckOk(props: { school: SchoolInfo | null, reload: () => void }) {
         {checkFlag(formState, 2) &&
           <p className={'my-2 text-red-500 dark:text-red-300'}>reCAPTCHA를 완료하지 못했습니다. 다시 시도해주세요.</p>}
         {checkFlag(formState, 3) && <p className={'my-2 text-red-500 dark:text-red-300'}>재학생 확인되지 않은 사용자입니다.</p>}
-        <label className={'my-2 text-neutral-600 dark:text-neutral-400'}>전학, 자퇴, 퇴학 등의 이유로 학적이 변동된 경우 반드시 재학생 확인을 철회하고
+        <label className={'my-2 text-caption dark:text-caption-dark'}>전학, 자퇴, 퇴학 등의 이유로 학적이 변동된 경우 반드시 재학생 확인을 철회하고
           필요에 따라
           다시 재학생 확인을 받아야 합니다.</label>
         <ul className={'list-disc pl-8 pr-4'}>
@@ -107,6 +128,7 @@ function CheckOk(props: { school: SchoolInfo | null, reload: () => void }) {
           </li>
         </ul>
       </FormGroup>
+      <SetClassroomStudentNumberUI school={props.school} reload={props.reload}/>
 
       <Dialog
         isOpen={openWithdrawConfirmDialog}
