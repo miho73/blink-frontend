@@ -157,7 +157,7 @@ function MealNotice() {
             title={'탄수화물'}
             style={{width: `${400*carbohydrate/total}%`}}
           >
-            <p className={'text-[#1E4937] text-lg'}>{carbohydrate} g</p>
+            <p className={'text-[#1E4937] text-lg select-none'}>{carbohydrate} g</p>
           </div>
           <div
             className={
@@ -168,7 +168,7 @@ function MealNotice() {
             title={'단백질'}
             style={{width: `${400*protein/total}%`}}
           >
-            <p className={'text-[#102F47] text-lg'}>{protein} g</p>
+            <p className={'text-[#102F47] text-lg select-none'}>{protein} g</p>
           </div>
           <div
             className={
@@ -179,7 +179,7 @@ function MealNotice() {
             title={'지방'}
             style={{width: `${900*fat/total}%`}}
           >
-            <p className={'text-[#7A3A1C] text-lg'}>{fat} g</p>
+            <p className={'text-[#7A3A1C] text-lg select-none'}>{fat} g</p>
           </div>
         </Stack>
         <Stack direction={'row'} className={'gap-5 justify-center items-center'}>
@@ -215,7 +215,7 @@ function MealNotice() {
             </Button>
           </div>
           <Stack className={'gap-1 w-full'}>{mealInfo}</Stack>
-          <Link to={'/user/settings'} className={'text-sm'}>알러지 정보 설정 &gt;</Link>
+          <Link to={'/user/settings/preference'} className={'text-sm'}>알러지 정보 설정 &gt;</Link>
         </Stack>
       )}
       {pageState === 2 && <p>급식 정보를 불러오지 못했습니다.</p>}

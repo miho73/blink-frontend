@@ -11,7 +11,7 @@ function UserAuthenticatedRouteFrame() {
     <AuthenticationFrame>
       <Routes>
         <Route path={'/'} element={<CoreUser/>}/>
-        <Route path={'/settings'} element={<CoreUserSettings/>}/>
+        <Route path={'/settings/:id'} element={<CoreUserSettings/>}/>
         <Route path={'/student-verification/'} element={<CoreStudentVerification/>}/>
         <Route path={'/student-verification/check'} element={<CheckVerificationStatus/>}/>
         <Route path={'*'} element={<NotFound/>}/>

@@ -1,5 +1,4 @@
 import Stack from "../../../layout/Stack.tsx";
-import {ReactNode, useState} from "react";
 import AuthSettings from "../AuthSettings/AuthSettings.tsx";
 import GeneralSettings from "../GeneralSettings/GeneralSettings.tsx";
 import {KeyIcon, PencilIcon, PersonalIcon, ProfileIcon, Svg} from "../../../../assets/svgs/svg.tsx";
@@ -8,59 +7,61 @@ import StudentCheckSettings from "../StudentVerificationSettings/StudentCheckSet
 import SettingsTabButton from "./SettingsTabButton.tsx";
 import SettingsToolButtons from "./SettingsToolButtons.tsx";
 import PreferenceSettings from "../PreferenceSettings/UserPreference.tsx";
+import {Route, Routes, useParams} from "react-router-dom";
+import {ReactElement} from "react";
 
 function CoreUserSettings() {
-  const [selectedTab, setSelectedTab] = useState<number>(0);
-
-  let tabContent: ReactNode;
+  const params = useParams();
+  const selectedTab = params.id;
+  let tabContent: ReactElement;
 
   switch (selectedTab) {
-    case 0:
-      tabContent = <GeneralSettings/>
+    case 'general':
+      tabContent = <GeneralSettings/>;
       break;
-    case 1:
-      tabContent = <AuthSettings/>
+    case 'auth':
+      tabContent = <AuthSettings/>;
       break;
-    case 2:
-      tabContent = <StudentCheckSettings/>
+    case 'sv':
+      tabContent = <StudentCheckSettings/>;
       break;
-    case 3:
-      tabContent = <PreferenceSettings/>
+    case 'preference':
+      tabContent = <PreferenceSettings/>;
       break;
     default:
-      tabContent = <GeneralSettings/>
+      tabContent = <GeneralSettings/>;
   }
 
   return (
     <div className={'w-full lg:w-3/4 px-5 mx-auto grid grid-rows-[auto_1fr] md:grid-rows-1 md:grid-cols-[250px_1fr]'}>
       <Stack className={'mb-4'}>
         <SettingsTabButton
-          selected={selectedTab === 0}
-          setter={() => setSelectedTab(0)}
+          selected={selectedTab === 'general'}
+          path={'general'}
           icon={<Svg src={ProfileIcon} className={'w-[20px]'} css cssColor={'gray'}/>}
         >
           프로필
         </SettingsTabButton>
 
         <SettingsTabButton
-          selected={selectedTab === 1}
-          setter={() => setSelectedTab(1)}
+          selected={selectedTab === 'auth'}
+          path={'auth'}
           icon={<Svg src={KeyIcon} className={'w-[24px]'} css cssColor={'gray'}/>}
         >
           인증 및 보안
         </SettingsTabButton>
 
         <SettingsTabButton
-          selected={selectedTab === 2}
-          setter={() => setSelectedTab(2)}
+          selected={selectedTab === 'sv'}
+          path={'sv'}
           icon={<Svg src={PencilIcon} className={'w-[24px]'} css cssColor={'gray'}/>}
         >
           재학생 확인
         </SettingsTabButton>
 
         <SettingsTabButton
-          selected={selectedTab === 3}
-          setter={() => setSelectedTab(3)}
+          selected={selectedTab === 'preference'}
+          path={'preference'}
           icon={<Svg src={PersonalIcon} className={'w-[24px]'} css cssColor={'gray'}/>}
         >
           개인 설정
