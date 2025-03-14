@@ -15,7 +15,7 @@ interface Schedule {
     date: number,
     period: number
   },
-  classroom: string
+  classroom: string | null
 }
 
 function TimeTable() {
@@ -75,6 +75,11 @@ function TimeTable() {
     let position = 0;
 
     for(let period = 1; position < tt.length; period++) {
+      if(period > 99) {
+        setPageState(PageLoadingState.ERROR);
+        console.error('ESTOP - Period overflow');
+        break;
+      }
       const tr: ReactElement[] = [];
 
       for(let days = 0; days < 5; days++) {
@@ -88,12 +93,15 @@ function TimeTable() {
           );
           position += 1;
         }
-        else if(tt[position].time.period === period) {
+        else if(tt[position].time.period === period && tt[position].time.date > days) {
           tr.push(
             <td key={days}></td>
           );
+        } else if(tt[position].time.date < days) {
+          position += 1;
+          days -= 1;
+          console.error('Malformed timetable(duplicated date) - SKIP SCHEDULE');
         }
-        else break;
       }
 
       table.push(<tr key={period}><th>{period}교시</th>{tr}</tr>);
