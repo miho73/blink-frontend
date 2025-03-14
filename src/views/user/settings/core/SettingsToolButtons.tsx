@@ -16,7 +16,7 @@ function SettingsToolButtons() {
   function handleLogout() {
     dispatch(actions.signOut());
     localStorage.removeItem('with-authentication');
-    navigate('/');
+    navigate('/auth');
   }
 
   return (

@@ -53,18 +53,17 @@ function TimeTable() {
 
       setPageState(PageLoadingState.SUCCESS);
     }).catch(e => {
-      console.error(e);
       setPageState(PageLoadingState.ERROR);
     })
   }, []);
 
-  if(!tt || !ttBegin || !ttEnds || pageState === PageLoadingState.LOADING) {
+  if((!tt || !ttBegin || !ttEnds) && pageState === PageLoadingState.LOADING) {
     return (
       <ModuleTemplate name={'시간표'} className={'col-span-2'}>
         <p>로딩중</p>
       </ModuleTemplate>
     );
-  } else if(pageState === PageLoadingState.ERROR) {
+  } else if((!tt || !ttBegin || !ttEnds) || pageState === PageLoadingState.ERROR) {
     return (
       <ModuleTemplate name={'시간표'} className={'col-span-2'}>
         <p>시간표를 불러오지 못했습니다.</p>

@@ -7,6 +7,7 @@ import {NavigationButton, SchoolNav, SvNav} from "./NavigationLinks.tsx";
 import {HomeIcon, ProfileIcon, SchoolCapIcon, SchoolIcon} from "../../assets/svgs/svg.tsx";
 import SvList from "./SchoolVerification/SvList.tsx";
 import SvApprove from "./SchoolVerification/SvApprove.tsx";
+import Root404 from "./Root404.tsx";
 
 function CoreRoot() {
   return (
@@ -35,6 +36,7 @@ function CoreRoot() {
               <Route path={'/sv/approve'} element={<SvApprove/>}/>
               <Route path={'/school'} element={<SchoolManagement/>}/>
               <Route path={'/school/db'} element={<SchoolManagement/>}/>
+              <Route path={'*'} element={<Root404/>}/>
             </Routes>
           </div>
         </div>
