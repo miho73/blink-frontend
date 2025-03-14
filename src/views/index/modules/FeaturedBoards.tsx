@@ -80,19 +80,19 @@ function FeaturedBoards() {
 
   if (loadState === PageLoadingState.LOADING) {
     return (
-      <ModuleTemplate name={'추천 게시판'}>
+      <ModuleTemplate name={'추천 게시판'} className={'col-span-2'}>
         <p>로딩 중...</p>
       </ModuleTemplate>
     )
   } else if (loadState === PageLoadingState.ERROR) {
     return (
-      <ModuleTemplate name={'추천 게시판'}>
+      <ModuleTemplate name={'추천 게시판'} className={'col-span-2'}>
         <p>게시판을 불러오지 못했습니다.</p>
       </ModuleTemplate>
     );
   } else if (loadState === PageLoadingState.SUCCESS) {
     return (
-      <ModuleTemplate name={'추천 게시판'}>
+      <ModuleTemplate name={'추천 게시판'} className={'col-span-2'}>
         <Stack className={'items-end gap-3'}>
           <Stack className={'divide-y w-full'}>
             {featured.map((board, idx: number) => (
