@@ -4,6 +4,7 @@ import {ReactElement, useEffect, useState} from "react";
 import axios from "axios";
 import {PageLoadingState} from "../../../modules/StandardPageFramework.ts";
 import Stack from "../../layout/Stack.tsx";
+import {SkeletonElement, SkeletonFrame} from "../../fragments/Skeleton.tsx";
 
 interface Schedule {
   subject: string,
@@ -52,7 +53,7 @@ function TimeTable() {
       setTtEnds(end);
 
       setPageState(PageLoadingState.SUCCESS);
-    }).catch(e => {
+    }).catch(() => {
       setPageState(PageLoadingState.ERROR);
     })
   }, []);
@@ -60,16 +61,24 @@ function TimeTable() {
   if((!tt || !ttBegin || !ttEnds) && pageState === PageLoadingState.LOADING) {
     return (
       <ModuleTemplate name={'시간표'} className={'col-span-2'}>
-        <p>로딩중</p>
+        <SkeletonFrame>
+          <Stack direction={'row'} className={'justify-between mb-3 -mt-1'}>
+            <SkeletonElement className={'px-2'} expW={211.36} expH={28}/>
+            <SkeletonElement className={'px-2'} expW={109.37} expH={28}/>
+          </Stack>
+          <SkeletonElement className={'w-full'} expH={300}/>
+        </SkeletonFrame>
       </ModuleTemplate>
     );
-  } else if((!tt || !ttBegin || !ttEnds) || pageState === PageLoadingState.ERROR) {
+  }
+  else if((!tt || !ttBegin || !ttEnds) || pageState === PageLoadingState.ERROR) {
     return (
       <ModuleTemplate name={'시간표'} className={'col-span-2'}>
         <p>시간표를 불러오지 못했습니다.</p>
       </ModuleTemplate>
     );
-  } else if(pageState === PageLoadingState.SUCCESS) {
+  }
+  else if(pageState === PageLoadingState.SUCCESS) {
     const table: ReactElement[] = [];
     let position = 0;
 
@@ -110,19 +119,20 @@ function TimeTable() {
       <ModuleTemplate name={'시간표'} className={'col-span-2'}>
         <Stack direction={'row'} className={'justify-between mb-3 -mt-1'}>
           <p className={'px-2 text-lg font-bold'}>{ay}년 {sem}학기 | {tt[0].class.grade}학년 {tt[0].class.class}반</p>
-          <p className={'px-2 text-lg font-bold'}>{ttBegin.getMonth()}.{ttBegin.getDate()} – {ttEnds.getMonth()}.{ttEnds.getDate()}</p>
+          <p
+            className={'px-2 text-lg font-bold'}>{ttBegin.getMonth()}.{ttBegin.getDate()} – {ttEnds.getMonth()}.{ttEnds.getDate()}</p>
         </Stack>
-        <table className={'text-center divide-y w-full'}>
+        <table className={'text-center w-full'}>
           <thead>
-            <tr>
-              <th>교시</th>
-              <th>MON</th>
-              <th>TUE</th>
-              <th>WED</th>
-              <th>THU</th>
-              <th>FRI</th>
-            </tr>
-            {table}
+          <tr>
+            <th>교시</th>
+            <th>MON</th>
+            <th>TUE</th>
+            <th>WED</th>
+            <th>THU</th>
+            <th>FRI</th>
+          </tr>
+          {table}
           </thead>
         </table>
       </ModuleTemplate>

@@ -7,6 +7,8 @@ import Stack from "../../layout/Stack.tsx";
 import Select from "../../form/Select.tsx";
 import {Link} from "react-router-dom";
 import {FlameIcon, Svg} from "../../../assets/svgs/svg.tsx";
+import {PageLoadingState} from "../../../modules/StandardPageFramework.ts";
+import {SkeletonElement, SkeletonFrame} from "../../fragments/Skeleton.tsx";
 
 const ALLERGY_CODE = [
   '난류',
@@ -54,7 +56,8 @@ function MealNotice() {
   const [doesTodayAServiceDay, setDoesTodayAServiceDay] = useState(false);
   const [showNutrients, setShowNutrients] = useState<boolean>(false);
   const [selectedServiceTime, setSelectedServiceTime] = useState<string>('0');
-  const [pageState, setPageState] = useState(0);
+
+  const [pageState, setPageState] = useState<PageLoadingState>(PageLoadingState.LOADING);
 
   useEffect(() => {
     axios.get(
@@ -83,6 +86,37 @@ function MealNotice() {
     });
   }, []);
 
+  if(pageState === PageLoadingState.LOADING) {
+    return (
+      <ModuleTemplate name={'급식'}>
+        <SkeletonFrame>
+          <Stack className={'gap-3 items-end'}>
+            <div className={'grid grid-cols-[auto_81px] gap-x-2 w-full'}>
+              <SkeletonElement expH={42} expW={176.34}/>
+              <SkeletonElement expH={42} expW={81}/>
+            </div>
+            <Stack className={'gap-1 w-full'}>
+              <SkeletonElement className={'my-1'} expW={'70%'} expH={24}/>
+              <SkeletonElement className={'my-1'} expW={'75%'} expH={24}/>
+              <SkeletonElement className={'my-1'} expW={'45%'} expH={24}/>
+              <SkeletonElement className={'my-1'} expW={'57%'} expH={24}/>
+              <SkeletonElement className={'my-1'} expW={'39%'} expH={24}/>
+              <SkeletonElement className={'my-1'} expW={'69%'} expH={24}/>
+            </Stack>
+            <SkeletonElement expH={20} expW={107.33}/>
+          </Stack>
+        </SkeletonFrame>
+      </ModuleTemplate>
+    );
+  }
+  else if(pageState === PageLoadingState.ERROR) {
+    return (
+      <ModuleTemplate name={'급식'}>
+        <p>급식 정보를 불러오지 못했습니다.</p>
+      </ModuleTemplate>
+    )
+  }
+
   const serviceTime = [];
   const serviceTimeCode = [];
   if (1 in meal) {
@@ -98,7 +132,7 @@ function MealNotice() {
     serviceTimeCode.push('3');
   }
 
-  if (!doesTodayAServiceDay && pageState === 1) {
+  if (!doesTodayAServiceDay && pageState === PageLoadingState.SUCCESS) {
     return (
       <ModuleTemplate name={'급식'}>
         <Stack className={'gap-3 items-end'}>
@@ -137,13 +171,18 @@ function MealNotice() {
         </Stack>
       );
     });
-  } else if (selectedServiceTime in meal && showNutrients) {
+  }
+  else if (selectedServiceTime in meal && showNutrients) {
     const nutrients = meal[selectedServiceTime].nutrients;
 
     const carbohydrate = nutrients[0].startsWith('탄수화물(g)') ? parseInt(nutrients[0].split(' ')[2]) : 0;
     const protein = nutrients[1].startsWith('단백질(g)') ? parseInt(nutrients[1].split(' ')[2]) : 0;
     const fat = nutrients[2].startsWith('지방(g)') ? parseInt(nutrients[2].split(' ')[2]) : 0;
-    const total = 4 * carbohydrate + 4 * protein + 9 * fat;
+    const logCarbohydrate = Math.log(carbohydrate);
+    const logProtein = Math.log(protein);
+    const logFat = Math.log(fat);
+
+    const total = logCarbohydrate + logProtein + logFat + 17;
 
     mealInfo.push(
       <Stack className={'gap-4'}>
@@ -155,9 +194,9 @@ function MealNotice() {
               'transition-all'
             }
             title={'탄수화물'}
-            style={{width: `${400 * carbohydrate / total}%`}}
+            style={{width: `${100 * (4+logCarbohydrate) / total}%`}}
           >
-            <p className={'text-[#1E4937] text-lg select-none'}>{carbohydrate} g</p>
+            <p className={'text-[#1E4937] md:text-lg select-none'}>{carbohydrate} g</p>
           </div>
           <div
             className={
@@ -166,9 +205,9 @@ function MealNotice() {
               'transition-all'
             }
             title={'단백질'}
-            style={{width: `${400 * protein / total}%`}}
+            style={{width: `${100 * (4+logProtein) / total}%`}}
           >
-            <p className={'text-[#102F47] text-lg select-none'}>{protein} g</p>
+            <p className={'text-[#102F47] md:text-lg select-none'}>{protein} g</p>
           </div>
           <div
             className={
@@ -177,9 +216,9 @@ function MealNotice() {
               'transition-all'
             }
             title={'지방'}
-            style={{width: `${900 * fat / total}%`}}
+            style={{width: `${100 * (9+logFat) / total}%`}}
           >
-            <p className={'text-[#7A3A1C] text-lg select-none'}>{fat} g</p>
+            <p className={'text-[#7A3A1C] md:text-lg select-none'}>{fat} g</p>
           </div>
         </Stack>
         <Stack direction={'row'} className={'gap-5 justify-center items-center'}>
@@ -194,31 +233,28 @@ function MealNotice() {
         </Stack>
       </Stack>
     )
-  } else {
+  }
+  else {
     mealInfo.push(<p>급식 시간을 선택해주세요.</p>);
   }
 
   return (
     <ModuleTemplate name={'급식'}>
-      {pageState === 0 && <p>급식 정보를 불러오는 중입니다.</p>}
-      {pageState === 1 && (
-        <Stack className={'gap-3 items-end'}>
-          <div className={'grid grid-cols-[auto_81px] gap-x-2 w-full'}>
-            <Select
-              options={serviceTime}
-              id={serviceTimeCode}
-              onChange={setSelectedServiceTime}
-              value={selectedServiceTime}
-            />
-            <Button size={'sm'} onClick={() => setShowNutrients(!showNutrients)} className={'w-[81px]'}>
-              {showNutrients ? '식단' : '영양정보'}
-            </Button>
-          </div>
-          <Stack className={'gap-1 w-full'}>{mealInfo}</Stack>
-          <Link to={'/user/settings/preference'} className={'text-sm'}>알러지 정보 설정 &gt;</Link>
-        </Stack>
-      )}
-      {pageState === 2 && <p>급식 정보를 불러오지 못했습니다.</p>}
+      <Stack className={'gap-3 items-end'}>
+        <div className={'grid grid-cols-[auto_81px] gap-x-2 w-full'}>
+          <Select
+            options={serviceTime}
+            id={serviceTimeCode}
+            onChange={setSelectedServiceTime}
+            value={selectedServiceTime}
+          />
+          <Button size={'sm'} onClick={() => setShowNutrients(!showNutrients)} className={'w-[81px]'}>
+            {showNutrients ? '식단' : '영양정보'}
+          </Button>
+        </div>
+        <Stack className={'gap-1 w-full'}>{mealInfo}</Stack>
+        <Link to={'/user/settings/preference'} className={'text-sm'}>알러지 정보 설정 &gt;</Link>
+      </Stack>
     </ModuleTemplate>
   );
 }

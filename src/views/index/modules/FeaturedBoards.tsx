@@ -7,6 +7,7 @@ import axios from "axios";
 import {PageLoadingState} from "../../../modules/StandardPageFramework.ts";
 import {useAppSelector} from "../../../modules/hook/ReduxHooks.ts";
 import {Link} from "react-router-dom";
+import {SkeletonElement, SkeletonFrame} from "../../fragments/Skeleton.tsx";
 
 interface FeaturedBoardsProps {
   boardName: string;
@@ -44,19 +45,6 @@ function FeaturedBoards() {
   const [featured, setFeatured] = useState<FeaturedBoardsProps[]>([]);
   const [loadState, setLoadState] = useState<PageLoadingState>(PageLoadingState.LOADING);
 
-  useEffect(() => {
-    axios.get(
-      '/api/user/social/board/featured',
-      {headers: {Authorization: `Bearer ${jwt}`}}
-    )
-      .then((res) => {
-        setFeatured(res.data['body']);
-        setLoadState(PageLoadingState.SUCCESS);
-      }).catch(() => {
-      setLoadState(PageLoadingState.ERROR);
-    });
-  }, []);
-
   function toggleStar(boardUUID: string, star: boolean) {
     axios.patch(
       '/api/user/social/board/star',
@@ -78,19 +66,52 @@ function FeaturedBoards() {
     });
   }
 
+  useEffect(() => {
+    axios.get(
+      '/api/user/social/board/featured',
+      {headers: {Authorization: `Bearer ${jwt}`}}
+    )
+      .then((res) => {
+        setFeatured(res.data['body']);
+        setLoadState(PageLoadingState.SUCCESS);
+      }).catch(() => {
+        setLoadState(PageLoadingState.ERROR);
+      });
+  }, []);
+
   if (loadState === PageLoadingState.LOADING) {
     return (
       <ModuleTemplate name={'추천 게시판'} className={'col-span-2'}>
-        <p>로딩 중...</p>
+        <SkeletonFrame>
+          <Stack className={'items-end gap-3'}>
+            <Stack className={'divide-y w-full'}>
+              <Stack direction={'row'} className={'items-center gap-2 py-2 first:pt-0 last:pb-0'}>
+                <SkeletonElement expH={24} expW={24}/>
+                <SkeletonElement expH={24} expW={300}/>
+              </Stack>
+              <Stack direction={'row'} className={'items-center gap-2 py-2 first:pt-0 last:pb-0'}>
+                <SkeletonElement expH={24} expW={24}/>
+                <SkeletonElement expH={24} expW={300}/>
+              </Stack>
+              <Stack direction={'row'} className={'items-center gap-2 py-2 first:pt-0 last:pb-0'}>
+                <SkeletonElement expH={24} expW={24}/>
+                <SkeletonElement expH={24} expW={300}/>
+              </Stack>
+            </Stack>
+            <SkeletonElement expH={20} expW={104.2}/>
+          </Stack>
+        </SkeletonFrame>
       </ModuleTemplate>
     )
-  } else if (loadState === PageLoadingState.ERROR) {
+  }
+  else if (loadState === PageLoadingState.ERROR) {
     return (
       <ModuleTemplate name={'추천 게시판'} className={'col-span-2'}>
         <p>게시판을 불러오지 못했습니다.</p>
       </ModuleTemplate>
     );
-  } else if (loadState === PageLoadingState.SUCCESS) {
+  }
+  else if (loadState === PageLoadingState.SUCCESS) {
     return (
       <ModuleTemplate name={'추천 게시판'} className={'col-span-2'}>
         <Stack className={'items-end gap-3'}>
