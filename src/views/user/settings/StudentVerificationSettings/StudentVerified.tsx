@@ -13,12 +13,15 @@ import {Link} from "react-router-dom";
 import Dialog from "../../../fragments/Dialog.tsx";
 import {SchoolInfo} from "./StudentCheckSettings.tsx";
 import SetClassroomStudentNumberUI from "./SetClassroomStudentNumberUI.tsx";
+import {useDispatch} from "react-redux";
+import {actions as SchoolReduxActions} from "../../../../modules/redux/SchoolReducer.ts";
 
 function CheckOk(
   props: { school: SchoolInfo | null, reload: () => void }
 ) {
   const jwt = useAppSelector(state => state.userInfoReducer.jwt);
 
+  const dispatch = useDispatch();
   const [formState, setFormState] = useState<number>(0);
   const [openWithdrawConfirmDialog, setOpenWithdrawConfirmDialog] = useState<boolean>(false);
   const [working, setWorking] = useState<boolean>(false);
@@ -50,6 +53,7 @@ function CheckOk(
       {recaptcha: token},
       {headers: {'Authorization': `Bearer ${jwt}`}}
     ).then(() => {
+      dispatch(SchoolReduxActions.withdrawSchool());
       props.reload();
     }).catch(err => {
       const error = err.response.data?.message;

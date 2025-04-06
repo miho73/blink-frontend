@@ -5,8 +5,7 @@ import {loadApplication} from "../../modules/authorize.ts";
 import {useDispatch} from "react-redux";
 import {actions as UserReduxActions} from "../../modules/redux/UserInfoReducer.ts";
 import {actions as SchoolReduxActions, SchoolReduxState} from "../../modules/redux/SchoolReducer.ts";
-import {NXOR, XOR} from "../../modules/logic.ts";
-import ErrorPage from "../error/ErrorPage.tsx";
+import {XOR} from "../../modules/logic.ts";
 
 interface AuthenticationFrameProps {
   children?: ReactElement | string;

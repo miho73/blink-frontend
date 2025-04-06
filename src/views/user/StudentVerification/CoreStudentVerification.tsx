@@ -178,7 +178,7 @@ function CoreStudentVerification() {
               setter={setName}
               disabled={working}
               invalid={checkFlag(formState, 0)}
-              error={'이름은 20자 이하여야 합니다.'}
+              error={'이름을 정확히 입력해주세요.'}
               authComplete={'name'}
             />
           </FormGroup>
@@ -190,7 +190,7 @@ function CoreStudentVerification() {
               setter={setSchoolName}
               disabled={working}
               invalid={checkFlag(formState, 1)}
-              error={'학교 이름은 50자 이하여야 합니다.'}
+              error={'학교 이름을 정확히 입력해주세요.'}
             />
           </FormGroup>
           <FormGroup label={'학년'}>
@@ -209,7 +209,7 @@ function CoreStudentVerification() {
             <Stack direction={'row'}>
               <TextInput
                 className={'w-1/5 text-center max-w-[80px]'}
-                type={'number'}
+                type={'text'}
                 value={docCodeA}
                 setter={setDocCodeA}
                 disabled={working}
@@ -218,7 +218,7 @@ function CoreStudentVerification() {
               <span className={'mx-2 my-1'}>&ndash;</span>
               <TextInput
                 className={'w-1/5 text-center max-w-[80px]'}
-                type={'number'}
+                type={'text'}
                 value={docCodeB}
                 setter={setDocCodeB}
                 disabled={working}
@@ -227,7 +227,7 @@ function CoreStudentVerification() {
               <span className={'mx-2 my-1'}>&ndash;</span>
               <TextInput
                 className={'w-1/5 text-center max-w-[80px]'}
-                type={'number'}
+                type={'text'}
                 value={docCodeC}
                 setter={setDocCodeC}
                 disabled={working}
@@ -236,7 +236,7 @@ function CoreStudentVerification() {
               <span className={'mx-2 my-1'}>&ndash;</span>
               <TextInput
                 className={'w-1/5 text-center max-w-[80px]'}
-                type={'number'}
+                type={'text'}
                 value={docCodeD}
                 setter={setDocCodeD}
                 disabled={working}

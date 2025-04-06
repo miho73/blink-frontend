@@ -55,6 +55,14 @@ const schoolSlice = createSlice({
 
       state.state = SchoolReduxState.INIT;
     },
+    withdrawSchool: (state: SchoolStateType) => {
+      state.schoolUUID = null;
+      state.schoolNeisCode = null;
+      state.schoolName = null;
+      state.grade = null;
+
+      state.state = SchoolReduxState.NOT_VERIFIED;
+    },
     setState: (state: SchoolStateType, action: PayloadAction<SchoolReduxState>) => {
       state.state = action.payload;
     }
