@@ -17,10 +17,11 @@ import SetClassroomStudentNumberUI from "./SetClassroomStudentNumberUI.tsx";
 function CheckOk(
   props: { school: SchoolInfo | null, reload: () => void }
 ) {
+  const jwt = useAppSelector(state => state.userInfoReducer.jwt);
+
   const [formState, setFormState] = useState<number>(0);
   const [openWithdrawConfirmDialog, setOpenWithdrawConfirmDialog] = useState<boolean>(false);
   const [working, setWorking] = useState<boolean>(false);
-  const jwt = useAppSelector(state => state.userInfoReducer.jwt);
 
   const {executeRecaptcha} = useGoogleReCaptcha();
 
@@ -31,7 +32,6 @@ function CheckOk(
 
     return await executeRecaptcha('sv/withdraw');
   }
-
   function completeRecaptcha() {
     setWorking(true);
     setFormState(0);
@@ -77,11 +77,12 @@ function CheckOk(
 
   return (
     <>
-      <Stack direction={'row'} className={'items-center gap-2'}>
+      <Stack direction={'row'} className={'items-center gap-2 mt-2'}>
         <ThemeSelector light={<Svg src={CheckIconLight}/>} dark={<Svg src={CheckIconDark} className={'w-[24px]'}/>}/>
         <p className={'text-lg font-medium text-green-700 dark:text-green-300 my-2'}>이 계정은 {props.school.name}의 재학생으로
           확인되었습니다.</p>
       </Stack>
+
       <FormGroup label={'학적 확인'} strong>
         <div
           className={
@@ -109,25 +110,33 @@ function CheckOk(
             </>
           }
         </div>
-        <Button className={'w-fit mt-3'} onClick={() => setOpenWithdrawConfirmDialog(true)}>재학생 확인 철회</Button>
+        <Button className={'w-fit mt-2'} onClick={() => setOpenWithdrawConfirmDialog(true)}>재학생 확인 철회</Button>
         {checkFlag(formState, 0) &&
           <p className={'my-2 text-red-500 dark:text-red-300'}>사용자 보호를 위해 지금은 재학생 확인을 철회할 수 없습니다.</p>}
         {checkFlag(formState, 1) && <p className={'my-2 text-red-500 dark:text-red-300'}>재학생 확인을 철회하지 못했습니다.</p>}
         {checkFlag(formState, 2) &&
           <p className={'my-2 text-red-500 dark:text-red-300'}>reCAPTCHA를 완료하지 못했습니다. 다시 시도해주세요.</p>}
         {checkFlag(formState, 3) && <p className={'my-2 text-red-500 dark:text-red-300'}>재학생 확인되지 않은 사용자입니다.</p>}
+
         <label className={'my-2 text-caption dark:text-caption-dark'}>전학, 자퇴, 퇴학 등의 이유로 학적이 변동된 경우 반드시 재학생 확인을 철회하고
           필요에 따라
           다시 재학생 확인을 받아야 합니다.</label>
-        <ul className={'list-disc pl-8 pr-4'}>
-          <li className={'my-1'}><Link to={'/user/student-verification'}
-                                       className={'text-blue-600 dark:text-blue-300 hover:underline'}>재학생
-            확인 신청</Link></li>
-          <li className={'my-1'}><Link to={'/user/student-verification/check'}
-                                       className={'text-blue-600 dark:text-blue-300 hover:underline'}>재학생 확인 결과</Link>
+        <ul className={'list-disc pl-6'}>
+          <li className={'my-1'}>
+            <Link to={'/user/student-verification'}
+                  className={'text-blue-600 dark:text-blue-300 hover:underline'}>
+              재학생 확인 신청
+            </Link>
+          </li>
+          <li className={'my-1'}>
+            <Link to={'/user/student-verification/check'}
+                  className={'text-blue-600 dark:text-blue-300 hover:underline'}>
+              재학생 확인 결과
+            </Link>
           </li>
         </ul>
       </FormGroup>
+
       <SetClassroomStudentNumberUI school={props.school} reload={props.reload}/>
 
       <Dialog
@@ -136,9 +145,11 @@ function CheckOk(
         onCancel={() => setOpenWithdrawConfirmDialog(false)}
         working={working}
       >
-        <p>재학생 확인을 철회할까요?</p>
-        <p>더이상 BLINK에서 {props.school.name}의 학생으로 활동할 수 없습니다.</p>
-        <p>BLINK를 다시 사용하려면 재학생 화인을 다시 받아야 합니다.</p>
+        <Stack className={'my-2 gap-1'}>
+          <p>재학생 확인을 철회할까요?</p>
+          <p>더이상 BLINK에서 {props.school.name}의 학생으로 활동할 수 없습니다.</p>
+          <p>BLINK를 다시 사용하려면 재학생 화인을 다시 받아야 합니다.</p>
+        </Stack>
       </Dialog>
     </>
   );

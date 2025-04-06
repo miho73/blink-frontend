@@ -165,7 +165,7 @@ function CoreStudentVerification() {
           <p>재학증명서와 학적에 관한 정보를 제출하여 재학생 신분을 확인하는 방법입니다. 재학증명서는 <Link
             className={'href-blue'}
             to={'https://www.gov.kr/mw/AA020InfoCappView.do?HighCtgCD=A04007;A04001&CappBizCD=13410000017&tp_seq=01'}
-            target={'_blank'}>정부 24</Link>에서 PDF로 방급받을 수 있습니다.</p>
+            target={'_blank'}>정부 24</Link>에서 PDF로 발급받을 수 있습니다.</p>
         </FormSection>
 
         <FormSection title={'개인정보 입력'}>
@@ -252,7 +252,7 @@ function CoreStudentVerification() {
         <FormSection title={'재학증명서 제출'}>
           <ol className={'list-disc pl-8 pr-4 py-3 border border-neutral-400 dark:border-neutral-600 rounded-lg my-2'}>
             <li className={'my-1'}>재학증명서는 발급받은지 1개월 이내여야 합니다.</li>
-            <li className={'my-1'}>재학증명서는 국문(한국어)로 발급받아야 합니다.</li>
+            <li className={'my-1'}>재학증명서는 국문(한국어)으로 발급받아야 합니다.</li>
             <li className={'my-1'}>재학증명서에 사진과 주민번호 뒷자리를 포함하지 말아야 합니다.</li>
             <li className={'my-1'}>출력된 재학증명서를 스캔/촬영하여 업로드하면 식별이 곤란하여 확인이 거절될 수 있습니다. 가급적 PDF로 다운받아 그대로 제출해주세요.</li>
             <li className={'my-1'}>재학증명서 파일은 1MB 이하여야 합니다.</li>
@@ -276,6 +276,7 @@ function CoreStudentVerification() {
         </FormSection>
       </Stack>
 
+      <Button color={'accent'} className={'mt-3'} onClick={validateForm}>재학생 확인 제출</Button>
       {checkFlag(formState, 5) &&
         <Alert variant={'error'}>reCAPTCHA를 완료하지 못했습니다. 다시 시도해주세요.</Alert>}
       {checkFlag(formState, 6) &&
@@ -296,8 +297,6 @@ function CoreStudentVerification() {
         <Alert variant={'error'}>재학증명서를 제출하지 못했습니다.</Alert>}
       {checkFlag(formState, 14) &&
         <Alert variant={'success'}>신청을 제출했습니다.</Alert>}
-
-      <Button className={'my-4'} onClick={validateForm}>재학생 확인 제출</Button>
     </div>
   );
 }

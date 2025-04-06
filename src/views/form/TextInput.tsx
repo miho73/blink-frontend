@@ -26,13 +26,24 @@ function TextInput(props: TextInputProps) {
     }
   }
 
+  function setter(val: string) {
+
+    if(props.type === 'number') {
+      // @ts-expect-error type safe
+      props.setter?.(parseInt(val));
+    }
+    else {
+      // @ts-expect-error type safe
+      props.setter?.(val);
+    }
+  }
+
   return (
     <>
       <input
         type={props.type || 'text'}
         value={props.value}
-        // @ts-expect-error value always can be converted to string or number
-        onChange={e => props.setter?.(e.target.value)}
+        onChange={e => setter(e.target.value)}
         disabled={props.disabled}
         placeholder={props.placeholder}
         className={

@@ -10,6 +10,7 @@ import axios from "axios";
 import {useAppSelector} from "../../../modules/hook/ReduxHooks.ts";
 import {Checkbox} from "../../form/Checkbox.tsx";
 import Alert from "../../form/Alert.tsx";
+import {ISO8601StringToDate} from "../../../modules/Datetime.ts";
 
 interface SvRequest {
   verificationId: number;
@@ -224,7 +225,7 @@ function SvApprove() {
       <div className={'grid grid-cols-2 grid-rows-[auto_auto_auto] gap-y-4'}>
         <Stack className={'gap-3'}>
           <FormSection title={'신청 기본 정보'}>
-            <div className={'grid grid-cols-2 grid-rows-3 gap-y-1 items-center'}>
+            <div className={'grid grid-cols-2 grid-rows-3 gap-y-1 items-center my-2'}>
               <p>신청번호</p>
               <p>{req?.verificationId}</p>
 
@@ -232,7 +233,7 @@ function SvApprove() {
               <p>{req?.userId}</p>
 
               <p>신청 시각</p>
-              <p>{req?.requestTime}</p>
+              <p>{ISO8601StringToDate(req?.requestTime)}</p>
 
               <p>상태</p>
               <p>{req?.state}</p>
@@ -240,7 +241,7 @@ function SvApprove() {
           </FormSection>
 
           <FormSection title={'신청자 정보'}>
-            <div className={'grid grid-cols-2 grid-rows-3 gap-y-1 items-center'}>
+            <div className={'grid grid-cols-2 grid-rows-3 gap-y-1 items-center my-2'}>
               <p>실명</p>
               <Checkbox
                 id={'check-name'}

@@ -7,6 +7,8 @@ import {checkFlag} from "../../../modules/formValidator.ts";
 import Alert from "../../form/Alert.tsx";
 import {Link} from "react-router-dom";
 import VerificationRequestRow from "./VerificationRequestRow.tsx";
+import {PageLoadingState} from "../../../modules/StandardPageFramework.ts";
+import Spinner from "../../fragments/Spinner.tsx";
 
 interface SvRequest {
   vid: number;
@@ -24,34 +26,28 @@ function CheckVerificationStatus() {
   const jwt = useAppSelector(state => state.userInfoReducer.jwt);
 
   const [requests, setRequests] = useState<SvRequest[]>([]);
-  const [formState, setFormState] = useState<number>(0);
+  const [pageState, setPageState] = useState<PageLoadingState>(PageLoadingState.LOADING);
 
-  function reload() {
+  function reloadRequests() {
     axios.get(
       '/api/sv/user/requests',
       {headers: {'Authorization': `Bearer ${jwt}`}}
     ).then(res => {
       if (res.data.requests.length === 0) {
-        setFormState(1 << 1);
-      } else setRequests(res.data.requests);
+        setPageState(1 << 2);
+      }
+      else {
+        setRequests(res.data.requests);
+      }
+      setPageState(PageLoadingState.SUCCESS);
     }).catch(() => {
-      setFormState(1 << 0);
+      setPageState(PageLoadingState.ERROR);
     });
   }
 
   useEffect(() => {
-    axios.get(
-      '/api/sv/user/requests',
-      {headers: {'Authorization': `Bearer ${jwt}`}}
-    ).then(res => {
-      if (res.data.requests.length === 0) {
-        setFormState(1 << 1);
-      } else setRequests(res.data.requests);
-    }).catch(() => {
-      setFormState(1 << 0);
-    });
-  }, [jwt]);
-
+    reloadRequests();
+  }, []);
 
   return (
     <div className={'w-full px-5 sm:w-3/4 lg:w-1/2 pt-3 mx-auto'}>
@@ -60,7 +56,10 @@ function CheckVerificationStatus() {
         <p className={'text-2xl font-bold my-3'}>재학생 확인 조회</p>
       </Stack>
       <Hr/>
-      {formState === 0 &&
+      {pageState === PageLoadingState.LOADING &&
+        <Spinner/>
+      }
+      {pageState === PageLoadingState.SUCCESS &&
         <div className={'table-root'}>
           <table className={'no-stripe'}>
             <thead>
@@ -73,21 +72,21 @@ function CheckVerificationStatus() {
             <tbody>
             {requests.map((req, idx) => {
               return (
-                <VerificationRequestRow key={idx} {...req} reload={reload}/>
+                <VerificationRequestRow key={idx} {...req} reload={reloadRequests}/>
               )
             })}
             </tbody>
           </table>
         </div>
       }
-      {checkFlag(formState, 1) &&
+      {checkFlag(pageState, 2) &&
         <Alert variant={'infoFill'}>
           <p className={'text-inherit'}>아직 재학생 확인 신청 내역이 없습니다.</p>
           <p className={'text-inherit'}>새 신청은 <Link className={'text-blue-600 hover:underline'}
                                                     to={'/user/student-verification'}>이곳</Link>에서 제출할 수 있습니다.</p>
         </Alert>
       }
-      {checkFlag(formState, 0) &&
+      {pageState === PageLoadingState.ERROR &&
         <Alert variant={'error'}>재학생 확인 내역을 로딩하지 못했습니다.</Alert>
       }
     </div>

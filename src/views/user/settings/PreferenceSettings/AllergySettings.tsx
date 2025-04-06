@@ -1,5 +1,5 @@
 import {FormGroup} from "../../../form/Form.tsx";
-import {ReactNode, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import axios from "axios";
 import {useAppSelector} from "../../../../modules/hook/ReduxHooks.ts";
 import BorderedFrame from "../../../form/BorderedFrame.tsx";
@@ -7,6 +7,8 @@ import {Button} from "../../../form/Button.tsx";
 import Stack from "../../../layout/Stack.tsx";
 import {Checkbox} from "../../../form/Checkbox.tsx";
 import Alert from "../../../form/Alert.tsx";
+import {PageLoadingState} from "../../../../modules/StandardPageFramework.ts";
+import Spinner from "../../../fragments/Spinner.tsx";
 
 const ALLERGY_CODE = [
   '난류',
@@ -34,10 +36,11 @@ function AllergySettings() {
 
   const [allergies, setAllergies] = useState<number>(0);
   const [editingAllergy, setEditingAllergy] = useState(0);
-  const [loadState, setLoadState] = useState(0);
+  const [editing, setEditing] = useState(false);
+
+  const [pageState, setPageState] = useState<PageLoadingState>(PageLoadingState.LOADING);
   const [working, setWorking] = useState(false);
   const [workState, setWorkState] = useState(0);
-  const [editing, setEditing] = useState(false);
 
   useEffect(() => {
     axios.get(
@@ -46,10 +49,10 @@ function AllergySettings() {
     ).then(res => {
       setAllergies(res.data['allergy']);
       setEditingAllergy(res.data['allergy']);
-      setLoadState(1);
+      setPageState(1);
     }).catch(err => {
       console.error(err);
-      setLoadState(2);
+      setPageState(2);
     });
   }, []);
 
@@ -75,13 +78,36 @@ function AllergySettings() {
       });
     } else setEditing(!editing);
   }
+  function cancelEditing() {
+    setEditingAllergy(allergies);
+    setEditing(false);
+  }
 
-  let content: ReactNode;
-  if (loadState === 0) {
-    content = <p>로딩 중...</p>
-  } else if (loadState === 2) {
-    content = <p>오류</p>
-  } else if (loadState === 1) {
+  if(pageState === PageLoadingState.LOADING) {
+    return (
+      <FormGroup label={'알러지 정보'} strong>
+        <Stack className={'gap-2'}>
+          <BorderedFrame title={'내 알러지 정보'} className={'w-full'}>
+            <Spinner size={24}/>
+          </BorderedFrame>
+          <Button className={'w-fit'} onClick={toggleEditing} disabled={working}>
+            {editing ? '저장' : '수정'}
+          </Button>
+          {workState === 1 && <Alert variant={'error'}>알러지 정보를 저장하지 못했습니다.</Alert>}
+          <p className={'text-neutral-600 dark:text-neutral-400'}>알러지 정보를 설정하면 매일 식단에서 내 알러지 유발 성분을 포함하고 있는 식단을 확인할 수
+            있습니다.</p>
+        </Stack>
+      </FormGroup>
+    );
+  }
+  else if(pageState === PageLoadingState.ERROR) {
+    return (
+      <FormGroup label={'알러지 정보'} strong>
+        <Alert variant={'errorFill'}>알러지 정보를 불러오지 못했습니다.</Alert>
+      </FormGroup>
+    );
+  }
+  else if(pageState === PageLoadingState.SUCCESS) {
     const selectedAllergies = [];
 
     if (editing) {
@@ -111,27 +137,31 @@ function AllergySettings() {
       }
     }
 
-    content = (
-      <Stack className={'gap-2'}>
-        <BorderedFrame title={'내 알러지 정보'} className={'w-full'}>
-          {!editing && <p>{selectedAllergies.join(', ')}</p>}
-          {editing && selectedAllergies}
-        </BorderedFrame>
-        <Button className={'w-fit'} onClick={toggleEditing} disabled={working}>
-          {editing ? '저장' : '수정'}
-        </Button>
-        {workState === 1 && <Alert variant={'error'}>알러지 정보를 저장하지 못했습니다.</Alert>}
-        <p className={'text-neutral-600 dark:text-neutral-400'}>알러지 정보를 설정하면 매일 식단에서 내 알러지 유발 성분을 포함하고 있는 식단을 확인할 수
-          있습니다.</p>
-      </Stack>
+    return (
+      <FormGroup label={'알러지 정보'} strong>
+        <Stack className={'gap-2'}>
+          <BorderedFrame title={'내 알러지 정보'} className={'w-full'}>
+            {!editing && <p>{selectedAllergies.join(', ')}</p>}
+            {editing && selectedAllergies}
+          </BorderedFrame>
+          <Stack direction={'row'} className={'gap-2'}>
+            { !editing &&
+              <Button className={'w-fit'} color={'accent'} onClick={toggleEditing} disabled={working}>수정</Button>
+            }
+            { editing &&
+              <>
+                <Button className={'w-fit'} color={'accent'} onClick={toggleEditing} disabled={working}>저장</Button>
+                <Button className={'w-fit'} onClick={cancelEditing} disabled={working}>취소</Button>
+              </>
+            }
+          </Stack>
+          {workState === 1 && <Alert variant={'error'}>알러지 정보를 저장하지 못했습니다.</Alert>}
+          <p className={'text-neutral-600 dark:text-neutral-400'}>알러지 정보를 설정하면 매일 식단에서 내 알러지 유발 성분을 포함하고 있는 식단을 확인할 수
+            있습니다.</p>
+        </Stack>
+      </FormGroup>
     );
-  } else {
-    content = <p>오류</p>
   }
-
-  return (
-    <FormGroup label={'알러지 정보'} strong>{content}</FormGroup>
-  );
 }
 
 export default AllergySettings;

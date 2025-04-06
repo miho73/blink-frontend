@@ -152,7 +152,7 @@ function VerificationRequestRow(props: SvRequest & { reload: () => void }) {
         onCancel={() => setDeleteDialog(false)}
         working={working}
       >
-        <Stack className={'my-3 gap-1'}>
+        <Stack className={'my-2 gap-1'}>
           <p>재학생 확인 신청을 취소합니다.</p>
           <p>재학생 확인을 받으려면 다시 신청을 제출해야합니다.</p>
         </Stack>

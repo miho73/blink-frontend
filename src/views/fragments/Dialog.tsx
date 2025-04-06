@@ -90,27 +90,33 @@ function Dialog(
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className={'fixed bottom-0 left-0 w-full bg-neutral-50 dark:bg-neutral-800 rounded-t-2xl'}
+            className={'fixed bottom-0 left-0 w-full'}
           >
-            <Stack direction={'row'} className={'justify-end items-center px-2 py-1'}>
-              <LinkButton
-                className={'px-3 py-2'}
-                onClick={closeDialog}
-              >
-                {cancelText}
-              </LinkButton>
-            </Stack>
-            <Hr className={'m-0'}/>
-            <Stack className={'mx-4 my-4 gap-4'}>
-              {children}
-              <Button
-                color={'accentLight'}
-                onClick={confirm}
-                disabled={working}
-              >
-                {confirmText}
-              </Button>
-            </Stack>
+            <div className={'mx-auto w-full lg:w-1/2 max-w-[800px] bg-neutral-50 dark:bg-neutral-800 rounded-t-2xl'}>
+              <Stack direction={'row'} className={'justify-end items-center px-2 py-1'}>
+                <LinkButton
+                  className={'px-3 py-2'}
+                  onClick={closeDialog}
+                >
+                  {cancelText}
+                </LinkButton>
+              </Stack>
+
+              <Hr className={'m-0'}/>
+
+              <Stack className={'px-4 py-4 gap-2'}>
+                {children}
+
+                <Button
+                  color={'accentLight'}
+                  onClick={confirm}
+                  className={'w-full'}
+                  disabled={working}
+                >
+                  {confirmText}
+                </Button>
+              </Stack>
+            </div>
           </div>
         </ClassTransition>
       </div>

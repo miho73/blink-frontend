@@ -14,7 +14,7 @@ interface ButtonProps {
 }
 
 const buttonColors: { default: string, accent: string, accentLight: string } = {
-  default: 'border bg-transparent hover:bg-neutral-50 dark:border-neutral-700 dark:hover:bg-neutral-800 ' +
+  default: 'border disabled:m-[1px] bg-transparent hover:bg-neutral-50 dark:border-neutral-700 dark:hover:bg-neutral-800 ' +
     'shadow-blue-300 focus:border-blue-500 dark:shadow-blue-400 dark:focus:border-blue-400 ' +
     'disabled:bg-neutral-200 disabled:dark:bg-neutral-800 disabled:text-neutral-500 disabled:dark:text-neutral-400 disabled:border-none',
   accent: 'text-white bg-primary-dark hover:bg-opacity-80 focus:bg-opacity-70 dark:bg-primary-light dark:hover:bg-opacity-70 dark:focus:bg-opacity-40 ' +

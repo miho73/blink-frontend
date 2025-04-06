@@ -22,7 +22,9 @@ interface Passkey {
   passkeyId: string;
 }
 
-function PasskeyRow({passkey, reload}: { passkey: Passkey, reload: () => void }) {
+function PasskeyRow(
+  {passkey, reload}: { passkey: Passkey, reload: () => void }
+) {
   const {executeRecaptcha} = useGoogleReCaptcha();
   const jwt = useAppSelector(state => state.userInfoReducer.jwt);
 
@@ -33,18 +35,6 @@ function PasskeyRow({passkey, reload}: { passkey: Passkey, reload: () => void })
   const [working, setWorking] = useState<boolean>(false);
   const [removalDialogOpen, setRemovalDialogOpen] = useState<boolean>(false);
   const [renameDialogOpen, setRenameDialogOpen] = useState<boolean>(false);
-
-  useEffect(() => {
-    axios.get('/api/auth/passkey/aaguid/light/' + passkey.aaguid)
-      .then(res => {
-        setIcon([
-          res.data['icon']['light'],
-          res.data['icon']['dark']
-        ]);
-      }).catch(() => {
-      setIcon([PasskeyIconBlack, PasskeyIconWhite]);
-    });
-  }, []);
 
   async function deletePasskey() {
     setWorking(true);
@@ -86,7 +76,6 @@ function PasskeyRow({passkey, reload}: { passkey: Passkey, reload: () => void })
       setWorking(false);
     }
   }
-
   async function renamePasskey() {
     setWorking(true);
 
@@ -117,6 +106,18 @@ function PasskeyRow({passkey, reload}: { passkey: Passkey, reload: () => void })
     });
   }
 
+  useEffect(() => {
+    axios.get('/api/auth/passkey/aaguid/light/' + passkey.aaguid)
+      .then(res => {
+        setIcon([
+          res.data['icon']['light'],
+          res.data['icon']['dark']
+        ]);
+      }).catch(() => {
+      setIcon([PasskeyIconBlack, PasskeyIconWhite]);
+    });
+  }, []);
+
   return (
     <>
       <Stack direction={'row'}
@@ -133,13 +134,21 @@ function PasskeyRow({passkey, reload}: { passkey: Passkey, reload: () => void })
             className={'text-sm'}>{passkey.lastUsed ? `${ISO8601StringToDate(passkey.lastUsed)}에 마지막으로 사용됨` : '아직 사용되지 않음'}</p>
         </Stack>
         <Stack direction={'row'} className={'gap-1'}>
-          <Button size={'custom'} className={'border-none p-2 rounded'} onClick={() => {
-            setName(passkey.name);
-            setRenameDialogOpen(true);
-          }}>
+          <Button
+            size={'custom'}
+            className={'border-none p-2 rounded'}
+            onClick={() => {
+              setName(passkey.name);
+              setRenameDialogOpen(true);
+            }}
+          >
             <Svg src={PencilIcon} className={'w-[32px]'} css cssColor={'white'}/>
           </Button>
-          <Button size={'custom'} className={'border-none p-2 rounded'} onClick={() => setRemovalDialogOpen(true)}>
+          <Button
+            size={'custom'}
+            className={'border-none p-2 rounded'}
+            onClick={() => setRemovalDialogOpen(true)}
+          >
             <Svg src={TrashBinIcon} className={'w-[24px] m-[4px]'} css cssColor={'white'}/>
           </Button>
         </Stack>
