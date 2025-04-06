@@ -6,6 +6,7 @@ import {useDispatch} from "react-redux";
 import {actions as UserReduxActions} from "../../modules/redux/UserInfoReducer.ts";
 import {actions as SchoolReduxActions, SchoolReduxState} from "../../modules/redux/SchoolReducer.ts";
 import {NXOR, XOR} from "../../modules/logic.ts";
+import ErrorPage from "../error/ErrorPage.tsx";
 
 interface AuthenticationFrameProps {
   children?: ReactElement | string;
@@ -33,11 +34,6 @@ function AuthenticationFrame(props: AuthenticationFrameProps) {
     });
   }, [dispatch, userInfo.authenticated, userInfo.initialized]);
 
-  if (userInfo.initialized && NXOR(userInfo.authenticated, props.reverse)) {
-    navigate(props.to || '/auth');
-    return null;
-  }
-
   if (userInfo.initialized && XOR(userInfo.authenticated, props.reverse)) {
     return (props.children);
   } else if (!userInfo.initialized) {
@@ -46,6 +42,8 @@ function AuthenticationFrame(props: AuthenticationFrameProps) {
         <p>LOADING</p>
       </div>
     )
+  } else {
+    navigate(props.to || '/auth');
   }
 }
 

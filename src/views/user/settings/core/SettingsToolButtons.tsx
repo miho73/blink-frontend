@@ -1,10 +1,11 @@
 import Stack from "../../../layout/Stack.tsx";
 import {Button} from "../../../form/Button.tsx";
 import {useDispatch} from "react-redux";
-import {actions} from "../../../../modules/redux/UserInfoReducer.ts";
+import {actions as UserReduxActions, actions} from "../../../../modules/redux/UserInfoReducer.ts";
 import {useNavigate} from "react-router-dom";
 import Dialog from "../../../fragments/Dialog.tsx";
 import {useState} from "react";
+import {actions as SchoolReduxActions} from "../../../../modules/redux/SchoolReducer.ts";
 
 function SettingsToolButtons() {
   const dispatch = useDispatch();
@@ -15,7 +16,10 @@ function SettingsToolButtons() {
 
   function handleLogout() {
     dispatch(actions.signOut());
-    localStorage.removeItem('with-authentication');
+    localStorage.removeItem('blk-authentication');
+    dispatch(UserReduxActions.signOut());
+    dispatch(SchoolReduxActions.resetSchool());
+
     navigate('/auth');
   }
 

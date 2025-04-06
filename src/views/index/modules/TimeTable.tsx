@@ -56,7 +56,7 @@ function TimeTable() {
     }).catch(() => {
       setPageState(PageLoadingState.ERROR);
     })
-  }, []);
+  }, [jwt]);
 
   if((!tt || !ttBegin || !ttEnds) && pageState === PageLoadingState.LOADING) {
     return (

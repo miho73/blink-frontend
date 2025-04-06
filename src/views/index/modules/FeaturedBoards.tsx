@@ -77,7 +77,7 @@ function FeaturedBoards() {
       }).catch(() => {
         setLoadState(PageLoadingState.ERROR);
       });
-  }, []);
+  }, [jwt]);
 
   if (loadState === PageLoadingState.LOADING) {
     return (

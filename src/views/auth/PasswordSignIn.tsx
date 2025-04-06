@@ -36,6 +36,7 @@ function PasswordSignIn() {
   async function completeSignin() {
     try {
       const token = await startRecaptcha({executeRecaptcha}, 'signin/password');
+
       axios.post('/api/auth/password/login', {
         id: id,
         password: password,

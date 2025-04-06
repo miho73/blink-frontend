@@ -3,12 +3,9 @@ import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import {useDispatch} from "react-redux";
 import ErrorPage from "../error/ErrorPage.tsx";
-import {actions} from "../../modules/redux/UserInfoReducer.ts";
-
-function getUserInfo(jwt: string) {
-  return axios.get('/api/user',
-    {headers: {'Authorization': `Bearer ${jwt}`}});
-}
+import {loadApplication} from "../../modules/authorize.ts";
+import {actions as UserReduxActions} from "../../modules/redux/UserInfoReducer.ts";
+import {actions as SchoolReduxActions, SchoolReduxState} from "../../modules/redux/SchoolReducer.ts";
 
 function SetJwt() {
   const queryParams = new URLSearchParams(window.location.search);
@@ -29,22 +26,19 @@ function SetJwt() {
       {headers: {'Authorization': `Bearer ${jwt}`}}
     ).then(response => {
       if (response.data['authorized'] == true) {
-        getUserInfo(jwt)
-          .then(response => {
-            const user = response.data;
-            dispatch(actions.signIn({
-                username: user['user']['username'],
-                jwt: jwt,
-                authenticated: true,
-                initialized: true
-              })
-            );
+        // save credential to storage
+        localStorage.setItem('blk-authentication', jwt);
 
-            localStorage.setItem('with-authentication', jwt);
-            navigate('/');
-          }).catch(() => {
-          setStatus(3);
+        // load application with new jwt
+        loadApplication().then(credential => {
+          dispatch(UserReduxActions.signIn(credential.userSignIn));
+          dispatch(SchoolReduxActions.loadSchool(credential.schoolState));
+        }).catch(() => {
+          dispatch(UserReduxActions.completeInitialization(false));
+          dispatch(SchoolReduxActions.setState(SchoolReduxState.ERROR));
         });
+
+        navigate('/');
       } else {
         setStatus(2);
       }

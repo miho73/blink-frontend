@@ -31,6 +31,16 @@ const schoolSlice = createSlice({
   initialState,
   reducers: {
     loadSchool: (state: SchoolStateType, action: PayloadAction<SchoolStateType>) => {
+      if(action.payload === null) {
+        state.schoolUUID = null;
+        state.schoolNeisCode = null;
+        state.schoolName = null;
+        state.grade = null;
+
+        state.state = SchoolReduxState.NOT_VERIFIED;
+        return;
+      }
+
       state.schoolUUID = action.payload.schoolUUID;
       state.schoolNeisCode = action.payload.schoolNeisCode;
       state.schoolName = action.payload.schoolName;

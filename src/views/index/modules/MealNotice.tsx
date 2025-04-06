@@ -84,7 +84,7 @@ function MealNotice() {
     }).catch(() => {
       setPageState(2);
     });
-  }, []);
+  }, [jwt]);
 
   if(pageState === PageLoadingState.LOADING) {
     return (

@@ -8,7 +8,7 @@ interface ApplicationData {
 }
 
 async function loadApplication(): Promise<ApplicationData> {
-  const jwt: string | null = localStorage.getItem('with-authentication');
+  const jwt: string | null = localStorage.getItem('blk-authentication');
 
   if (jwt == null) throw new Error();
 
@@ -34,18 +34,32 @@ async function loadApplication(): Promise<ApplicationData> {
     '/api/user/sv',
     {headers: {'Authorization': `Bearer ${jwt}`}}
   );
-  const schoolInfo: SchoolStateType = {
-    schoolUUID: schoolResponse.data['school']['schoolUUID'],
-    schoolNeisCode: schoolResponse.data['school']['neisCode'],
-    schoolName: schoolResponse.data['school']['name'],
-    grade: schoolResponse.data['school']['grade'],
-    state: schoolResponse.data['verified'] ? SchoolReduxState.VERIFIED : SchoolReduxState.NOT_VERIFIED,
-  };
+  if (schoolResponse.data['verified'] == false) {
+    return {
+      userSignIn: userInfo,
+      schoolState: {
+        schoolUUID: null,
+        schoolNeisCode: null,
+        schoolName: null,
+        grade: null,
+        state: SchoolReduxState.NOT_VERIFIED,
+      }
+    };
+  }
+  else {
+    const schoolInfo: SchoolStateType = {
+      schoolUUID: schoolResponse.data['school']['schoolUUID'],
+      schoolNeisCode: schoolResponse.data['school']['neisCode'],
+      schoolName: schoolResponse.data['school']['name'],
+      grade: schoolResponse.data['school']['grade'],
+      state: schoolResponse.data['verified'] ? SchoolReduxState.VERIFIED : SchoolReduxState.NOT_VERIFIED,
+    };
 
-  return {
-    userSignIn: userInfo,
-    schoolState: schoolInfo,
-  };
+    return {
+      userSignIn: userInfo,
+      schoolState: schoolInfo,
+    };
+  }
 }
 
 export {
