@@ -20,6 +20,7 @@ import PersonalIcon from './personal.svg';
 import StarIcon from './star.svg';
 import StarFilledIcon from './star_filled.svg';
 import FlameIcon from './flame.svg';
+import ExternalLinkIcon from './external.svg';
 
 import PasskeyIconBlack from './FIDO_Passkey_mark_A_black.svg';
 import PasskeyIconWhite from './FIDO_Passkey_mark_A_white.svg';
@@ -79,6 +80,7 @@ export {
   StarIcon,
   StarFilledIcon,
   FlameIcon,
+  ExternalLinkIcon,
 
   Svg
 };
