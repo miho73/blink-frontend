@@ -1,4 +1,4 @@
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import DocumentFrame from "../frames/DocumentFrame.tsx";
 import {Hr} from "../fragments/Hr.tsx";
@@ -8,6 +8,9 @@ import {Button, ButtonLink} from "../form/Button.tsx";
 import axios from "axios";
 import {deltaToDateString} from "../../modules/Datetime.ts";
 import {DownvoteIcon, Svg, UpvoteIcon} from "../../assets/svgs/svg.tsx";
+import Dialog from "../fragments/Dialog.tsx";
+import Alert from "../form/Alert.tsx";
+import {checkFlag} from "../../modules/formValidator.ts";
 
 interface PostType {
   postId: string;
@@ -35,8 +38,15 @@ function Post() {
   // post 정보
   const [post, setPost] = useState<PostType>();
 
+  // 네비게이션
+  const navigate = useNavigate();
+
   // 페이지의 상태
   const [pageState, setPageState] = useState<number>(0);
+  const [deleteState, setDeleteState] = useState<number>(0);
+
+  // dialog 오픈 상태
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   function vote(upvote: boolean) {
     if (!post) return;
@@ -57,6 +67,24 @@ function Post() {
       });
     });
     // TODO: handle error
+  }
+  function deletePost() {
+    axios.delete(
+      `/api/social/post/${post?.postId}`,
+      { headers: {Authorization: `Bearer ${jwt}`} }
+    ).then(() => {
+      navigate('..');
+    }).catch(err => {
+      if(err.response.status === 403) {
+        setDeleteState(1 << 0);
+      }
+      else if(err.response.status === 404) {
+        setDeleteState(1 << 1);
+      }
+      else {
+        setDeleteState(1 << 2);
+      }
+    });
   }
 
   // 초기 post 정보 로딩
@@ -114,13 +142,12 @@ function Post() {
 
           <Stack direction={'row'} className={'justify-between items-center'}>
             <p className={'text-2xl font-medium'}>{post.title}</p>
-
             <Stack direction={'row'} className={'gap-2'}>
               <ButtonLink to={'..'}>&lt; 목록</ButtonLink>
               {post.author &&
                 <>
                   <Button color={'accent'} to={'write'}>수정</Button>
-                  <Button color={'accent'} to={'write'}>삭제</Button>
+                  <Button color={'accent'} to={'write'} onClick={() => setDeleteDialogOpen(true)}>삭제</Button>
                 </>
               }
             </Stack>
@@ -129,7 +156,9 @@ function Post() {
           <pre>
             <p>{post.content}</p>
           </pre>
+
           <Hr/>
+
           <Stack direction={'row'} className={'gap-x-3 divide-x items-center'}>
             <p>{post.views} Views</p>
             <Stack direction={'row'} className={'gap-3 items-center pl-2'}>
@@ -164,7 +193,21 @@ function Post() {
               </Button>
             </Stack>
           </Stack>
+
+          {checkFlag(deleteState, 0) && <Alert variant={'errorFill'}>게시물을 지울 수 없습니다.</Alert>}
+          {checkFlag(deleteState, 1) && <Alert variant={'errorFill'}>게시물을 찾지 못했습니다.</Alert>}
+          {checkFlag(deleteState, 2) && <Alert variant={'errorFill'}>게시물을 지우지 못했습니다.</Alert>}
         </Stack>
+
+        <Dialog
+          isOpen={deleteDialogOpen}
+          confirmText={'삭제'}
+          cancelText={'취소'}
+          onConfirm={deletePost}
+          finally={() => setDeleteDialogOpen(false)}
+        >
+          <p className={'my-1'}>게시물을 삭제할까요?</p>
+        </Dialog>
       </DocumentFrame>
     );
   }
