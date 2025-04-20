@@ -7,6 +7,7 @@ import {useAppSelector} from "../../modules/hook/ReduxHooks.ts";
 import {Button, ButtonLink} from "../form/Button.tsx";
 import axios from "axios";
 import {deltaToDateString} from "../../modules/Datetime.ts";
+import {DownvoteIcon, Svg, UpvoteIcon} from "../../assets/svgs/svg.tsx";
 
 interface PostType {
   postId: string;
@@ -20,6 +21,7 @@ interface PostType {
   views: number;
   upvote: number;
   downvote: number;
+  vote: boolean | null;
 }
 
 function Post() {
@@ -35,6 +37,27 @@ function Post() {
 
   // 페이지의 상태
   const [pageState, setPageState] = useState<number>(0);
+
+  function vote(upvote: boolean) {
+    if (!post) return;
+
+    axios.post(
+      `/api/social/post/vote`,
+      {
+        postId: post.postId,
+        vote: upvote
+      },
+      { headers: {Authorization: `Bearer ${jwt}`} }
+    ).then(res => {
+      setPost({
+        ...post,
+        upvote: res.data['votes']['upvote'],
+        downvote: res.data['votes']['downvote'],
+        vote: res.data['votes']['vote']
+      });
+    });
+    // TODO: handle error
+  }
 
   // 초기 post 정보 로딩
   useEffect(() => {
@@ -68,14 +91,16 @@ function Post() {
         <p>Loading...</p>
       </DocumentFrame>
     );
-  } else if (pageState === 2) {
+  }
+  else if (pageState === 2) {
     // TODO: provide error message
     return (
       <DocumentFrame>
         <p>Error</p>
       </DocumentFrame>
     );
-  } else if (pageState === 1 && post) {
+  }
+  else if (pageState === 1 && post) {
     const delta = new Date().getTime() - new Date(post.writeTime).getTime();
     const uploadDelta = deltaToDateString(delta);
 
@@ -83,8 +108,8 @@ function Post() {
       <DocumentFrame>
         <Stack className={'gap-2'}>
           <Stack direction={'row'} className={'divide-x'}>
-            <p>{post.schoolName}</p>
-            <p>{uploadDelta}</p>
+            <p className={'pr-2 text-caption dark:text-caption-dark'}>{post.schoolName}</p>
+            <p className={'pl-2 text-caption dark:text-caption-dark'}>{uploadDelta}</p>
           </Stack>
 
           <Stack direction={'row'} className={'justify-between items-center'}>
@@ -105,11 +130,40 @@ function Post() {
             <p>{post.content}</p>
           </pre>
           <Hr/>
-          <div>
-            <p>{post.views}</p>
-            <p>{post.upvote}</p>
-            <p>{post.downvote}</p>
-          </div>
+          <Stack direction={'row'} className={'gap-x-3 divide-x items-center'}>
+            <p>{post.views} Views</p>
+            <Stack direction={'row'} className={'gap-3 items-center pl-2'}>
+              <Button
+                color={post.vote === true ? 'accent' : 'default'}
+                className={
+                  '!p-1.5 rounded-full !shadow-none'
+                }
+                onClick={() => vote(true)}
+              >
+                <Svg
+                  src={UpvoteIcon}
+                  css
+                  cssColor={'white'}
+                  className={'w-[24px] h-[24px]'}
+                />
+              </Button>
+              <p className={'text-lg font-medium'}>{post.upvote - post.downvote}</p>
+              <Button
+                color={post.vote === false ? 'accent' : 'default'}
+                className={
+                  '!p-1.5 rounded-full !shadow-none'
+                }
+                onClick={() => vote(false)}
+              >
+                <Svg
+                  src={DownvoteIcon}
+                  css
+                  cssColor={'white'}
+                  className={'w-[24px] h-[24px]'}
+                />
+              </Button>
+            </Stack>
+          </Stack>
         </Stack>
       </DocumentFrame>
     );

@@ -9,6 +9,11 @@ import {useDispatch} from "react-redux";
 import {actions} from "../../modules/redux/BoardReducer.ts";
 import Post from "./Post.tsx";
 import NotFound from "../error/NotFound.tsx";
+import Stack from "../layout/Stack.tsx";
+import {Hr} from "../fragments/Hr.tsx";
+import DocumentFrame from "../frames/DocumentFrame.tsx";
+import {SkeletonElement, SkeletonFrame} from "../fragments/Skeleton.tsx";
+import ErrorPage from "../error/ErrorPage.tsx";
 
 function CoreBoard() {
   // Route 경로에서 boardIdentifier 얻기
@@ -55,6 +60,7 @@ function CoreBoard() {
           headers: {Authorization: `Bearer ${jwt}`}
         }
       ).then(res => {
+        // resolve 완료
         dispatch(
           actions.enterBoard({
             boardId: res.data.board.id,
@@ -62,9 +68,14 @@ function CoreBoard() {
             state: 0
           })
         );
-      }).catch(() => {
+      }).catch(err => {
+        if(err.response.status === 403) {
+          // 403 Forbidden 에러시, 권한 없음으로 리젝(4)
+          dispatch(actions.reject(4));
+        }
+
         // board name으로 resolve하지 못한 경우 리젝(3, board cannot be loaded)
-        dispatch(actions.reject(3));
+        else dispatch(actions.reject(3));
       });
     }
     // boardIdentifier가 UUID 형태인 경우 boardId로 board 정보 얻기
@@ -82,6 +93,7 @@ function CoreBoard() {
         `/api/social/board/${boardIdentifier}`,
         {headers: {Authorization: `Bearer ${jwt}`}}
       ).then(res => {
+        // resolve 완료
         dispatch(
           actions.enterBoard({
             boardId: res.data.board.id,
@@ -89,15 +101,19 @@ function CoreBoard() {
             state: 0
           })
         );
-      }).catch(() => {
-        // board 정보 얻지 못한 경우 리젝(3, board cannot be loaded)
-        dispatch(actions.reject(3));
+      }).catch(err => {
+        if(err.response.status === 403) {
+          // 403 Forbidden 에러시, 권한 없음으로 리젝(4)
+          dispatch(actions.reject(4));
+        }
+
+        // boardId로 resolve하지 못한 경우 리젝(3, board cannot be loaded)
+        else dispatch(actions.reject(3));
       });
     }
   }, [jwt, boardIdentifier]);
 
-  // TODO: board가 loading 중일 때, 2번 리젝일 때 핸들링
-  // state = 0: OK, 1: not set, 2: identifier not specified, 3: board cannot be loaded
+  // state = 0: OK, 1: not set, 2: identifier not specified, 3: board cannot be loaded, 4: permission denied
 
   if (reduxBoardState === 0) {
     return (
@@ -113,7 +129,22 @@ function CoreBoard() {
   } else if (reduxBoardState === 1) {
     return (
       <AuthenticationFrame>
-        <p>Loading</p>
+        <SkeletonFrame>
+          <DocumentFrame>
+            <Stack direction={'row'} className={'justify-between'}>
+              <SkeletonElement expW={250} expH={40}/>
+              <SkeletonElement expW={76} expH={40}/>
+            </Stack>
+            <Hr/>
+            <Stack className={'gap-3'}>
+              <SkeletonElement className={'w-[60%]'} expH={20}/>
+              <SkeletonElement className={'w-[40%]'} expH={20}/>
+              <SkeletonElement className={'w-[70%]'} expH={20}/>
+              <SkeletonElement className={'w-[50%]'} expH={20}/>
+              <SkeletonElement className={'w-[66%]'} expH={20}/>
+            </Stack>
+          </DocumentFrame>
+        </SkeletonFrame>
       </AuthenticationFrame>
     );
   } else if (reduxBoardState === 2) {
@@ -125,7 +156,13 @@ function CoreBoard() {
   } else if (reduxBoardState === 3) {
     return (
       <AuthenticationFrame>
-        <p>Board cannot be loaded</p>
+        <ErrorPage errorTitle={'게시판을 볼 수 없습니다.'} errorMessage={'게시판을 불러오지 못했습니다.'}/>
+      </AuthenticationFrame>
+    );
+  } else if (reduxBoardState === 4) {
+    return (
+      <AuthenticationFrame>
+        <ErrorPage errorTitle={'게시판을 볼 수 없습니다.'} errorMessage={'게시판을 볼 권한이 있는지 확인해주세요.'}/>
       </AuthenticationFrame>
     );
   } else {

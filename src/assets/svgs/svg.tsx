@@ -26,6 +26,8 @@ import PasskeyIconBlack from './FIDO_Passkey_mark_A_black.svg';
 import PasskeyIconWhite from './FIDO_Passkey_mark_A_white.svg';
 import KeyIconWhite from './Key_white.svg';
 import KeyIconBlack from './Key_black.svg';
+import UpvoteIcon from './upvote.svg';
+import DownvoteIcon from './downvote.svg';
 
 
 interface SVGProps {
@@ -81,6 +83,8 @@ export {
   StarFilledIcon,
   FlameIcon,
   ExternalLinkIcon,
+  UpvoteIcon,
+  DownvoteIcon,
 
   Svg
 };

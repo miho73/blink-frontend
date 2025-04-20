@@ -8,6 +8,7 @@ import axios from "axios";
 import {deltaToDateString} from "../../modules/Datetime.ts";
 import {trimContent} from "../../modules/content.ts";
 import {Link} from "react-router-dom";
+import {SkeletonElement, SkeletonFrame} from "../fragments/Skeleton.tsx";
 
 interface SimplePostType {
   postId: string;
@@ -109,10 +110,22 @@ function Board() {
 
   // pageState = 0: initial, 1: loaded, 2: post was not loaded, 3: additional post cannot be loaded
   if (pageState === 0) {
-    // TODO: Add loading spinner
     return (
       <DocumentFrame>
-        <p>Loading...</p>
+        <SkeletonFrame>
+          <Stack direction={'row'} className={'justify-between'}>
+            <SkeletonElement expW={250} expH={40}/>
+            <ButtonLink color={'accent'} to={'write'}>글쓰기</ButtonLink>
+          </Stack>
+          <Hr/>
+          <Stack className={'gap-3'}>
+            <SkeletonElement className={'w-[60%]'} expH={20}/>
+            <SkeletonElement className={'w-[40%]'} expH={20}/>
+            <SkeletonElement className={'w-[70%]'} expH={20}/>
+            <SkeletonElement className={'w-[50%]'} expH={20}/>
+            <SkeletonElement className={'w-[66%]'} expH={20}/>
+          </Stack>
+        </SkeletonFrame>
       </DocumentFrame>
     );
   } else if (pageState === 2) {
@@ -142,6 +155,11 @@ function Board() {
         </Stack>
         <Hr/>
         <div className={'grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-none'}>
+          {postList.length === 0 &&
+            (
+              <p>아직 게시물이 없습니다.</p>
+            )
+          }
           {postList.map(post => (
             <PostCard key={post.postId} post={post}/>
           ))}
@@ -166,8 +184,9 @@ function PostCard({post}: { post: SimplePostType }) {
         'text-xs my-1 md:text-sm md:my-2 ' +
         'divide-x divide-neutral-400 dark:divide-neutral-500 '
       }>
-        <p className={'px-1 text-neutral-400 dark:text-neutral-500'}>{post.upvote}/{post.downvote}</p>
-        <p className={'px-1 text-neutral-400 dark:text-neutral-500'}>{deltaToDateString(delta)}</p>
+        <p className={'pr-1 text-neutral-400 dark:text-neutral-500'}>{post.views} Views</p>
+        <p className={'px-1 text-neutral-400 dark:text-neutral-500'}>▲ {post.upvote} / {post.downvote} ▼</p>
+        <p className={'pl-1 text-neutral-400 dark:text-neutral-500'}>{deltaToDateString(delta)}</p>
       </div>
     </Link>
   );

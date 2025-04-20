@@ -1,10 +1,13 @@
 import {ReactNode} from "react";
 
 function SkeletonFrame(
-  {children}: { children: ReactNode }
+  {children, noCaption}: { children: ReactNode, noCaption?: boolean }
 ) {
   return (
-    <div role="status" className="w-full animate-pulse">{children}<span className="sr-only">로딩중</span></div>
+    <div role="status" className="w-full animate-pulse">
+      {children}
+      {!noCaption && <span className="sr-only">로딩중</span>}
+    </div>
   );
 }
 

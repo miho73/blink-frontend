@@ -8,6 +8,7 @@ import {Button, ButtonLink} from "../form/Button.tsx";
 import {checkFlag, lengthCheck, verifyAll} from "../../modules/formValidator.ts";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import Alert from "../form/Alert.tsx";
 
 function Write() {
   const jwt = useAppSelector(state => state.userInfoReducer.jwt);
@@ -46,8 +47,16 @@ function Write() {
     ).then(res => {
       const postid = res.data.postId;
       navigate(`../post/${postid}`);
-    }).catch(() => {
-
+    }).catch(err => {
+      if(err.response.status === 403) {
+        setFormState(1 << 2);
+      }
+      else if(err.response.status === 404) {
+        setFormState(1 << 3);
+      }
+      else {
+        setFormState(1 << 4);
+      }
     }).finally(() => {
       setWorking(false);
     });
@@ -103,6 +112,9 @@ function Write() {
           />
         </Stack>
       </Stack>
+      { checkFlag(formState, 2) && <Alert variant={'errorFill'}>게시판에 글을 쓸 권한이 없습니다.</Alert> }
+      { checkFlag(formState, 3) && <Alert variant={'errorFill'}>게시판에 글을 쓸 수 없습니다.</Alert> }
+      { checkFlag(formState, 4) && <Alert variant={'errorFill'}>게시판에 글을 쓰지 못했습니다.</Alert> }
     </DocumentFrame>
   );
 }
