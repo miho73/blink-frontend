@@ -35,8 +35,9 @@ function Post() {
   // redux에서 로그인 된 jwt 얻기
   const jwt = useAppSelector(state => state.userInfoReducer.jwt);
 
-  // post 정보
+  // post, board 정보
   const [post, setPost] = useState<PostType>();
+  const boardId = useAppSelector(state => state.boardReducer.boardId);
 
   // 네비게이션
   const navigate = useNavigate();
@@ -137,7 +138,8 @@ function Post() {
         <Stack className={'gap-2'}>
           <Stack direction={'row'} className={'divide-x'}>
             <p className={'pr-2 text-caption dark:text-caption-dark'}>{post.schoolName}</p>
-            <p className={'pl-2 text-caption dark:text-caption-dark'}>{uploadDelta}</p>
+            <p className={'px-2 text-caption dark:text-caption-dark'}>{uploadDelta}</p>
+            { post.edited && <p className={'px-2 text-caption dark:text-caption-dark'}>수정됨</p> }
           </Stack>
 
           <Stack direction={'row'} className={'justify-between items-center'}>
@@ -146,8 +148,8 @@ function Post() {
               <ButtonLink to={'..'}>&lt; 목록</ButtonLink>
               {post.author &&
                 <>
-                  <Button color={'accent'} to={'write'}>수정</Button>
-                  <Button color={'accent'} to={'write'} onClick={() => setDeleteDialogOpen(true)}>삭제</Button>
+                  <ButtonLink color={'accent'} to={`/board/${boardId}/edit/${postId}`}>수정</ButtonLink>
+                  <Button color={'accent'} onClick={() => setDeleteDialogOpen(true)}>삭제</Button>
                 </>
               }
             </Stack>
@@ -214,3 +216,6 @@ function Post() {
 }
 
 export default Post;
+export type {
+  PostType
+}

@@ -14,6 +14,7 @@ import {Hr} from "../fragments/Hr.tsx";
 import DocumentFrame from "../frames/DocumentFrame.tsx";
 import {SkeletonElement, SkeletonFrame} from "../fragments/Skeleton.tsx";
 import ErrorPage from "../error/ErrorPage.tsx";
+import EditPost from "./EditPost.tsx";
 
 function CoreBoard() {
   // Route 경로에서 boardIdentifier 얻기
@@ -122,6 +123,7 @@ function CoreBoard() {
           <Route path={''} element={<Board/>}/>
           <Route path={'/write'} element={<Write/>}/>
           <Route path={'/post/:postId'} element={<Post/>}/>
+          <Route path={'/edit/:postId'} element={<EditPost/>}/>
           <Route path={'*'} element={<NotFound/>}/>
         </Routes>
       </AuthenticationFrame>

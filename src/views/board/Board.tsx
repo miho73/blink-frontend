@@ -185,7 +185,7 @@ function PostCard({post}: { post: SimplePostType }) {
         'divide-x divide-neutral-400 dark:divide-neutral-500 '
       }>
         <p className={'pr-1 text-neutral-400 dark:text-neutral-500'}>{post.views} Views</p>
-        <p className={'px-1 text-neutral-400 dark:text-neutral-500'}>▲ {post.upvote} / {post.downvote} ▼</p>
+        <p className={'px-1 text-neutral-400 dark:text-neutral-500'} aria-label={`업보트 ${post.upvote}개. 다운보트 ${post.downvote}개`}>▲ {post.upvote} / {post.downvote} ▼</p>
         <p className={'pl-1 text-neutral-400 dark:text-neutral-500'}>{deltaToDateString(delta)}</p>
       </div>
     </Link>
