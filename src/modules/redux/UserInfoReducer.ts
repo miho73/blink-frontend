@@ -46,6 +46,10 @@ const userInfoSlice = createSlice({
       state.authenticated = action.payload;
     },
 
+    changeName: (state: UserInfoStateType, action: PayloadAction<string>) => {
+      state.username = action.payload;
+    },
+
     signOut: (state: UserInfoStateType) => {
       state.authenticated = false;
       state.username = '';

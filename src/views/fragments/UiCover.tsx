@@ -12,7 +12,7 @@ function Header() {
     links = (
       <>
         {userInfo.role.includes('root:access') && <Link to={'/root'} className={'href-none'}>관리자</Link>}
-        <Link to={'/user'} className={'href-none'}>프로필</Link>
+        <Link to={'/user/settings'} className={'href-none'}>프로필</Link>
       </>
     );
   } else {

@@ -12,6 +12,8 @@ import {checkFlag, lengthCheck, regexCheck, verifyAll} from "../../../../modules
 import InputGroup from "../../../form/InputGroup.tsx";
 import startRecaptcha from "../../../../modules/recaptcha.ts";
 import {PageLoadingState} from "../../../../modules/StandardPageFramework.ts";
+import {useDispatch} from "react-redux";
+import {actions} from "../../../../modules/redux/UserInfoReducer.ts";
 
 function GeneralSettings() {
   const {executeRecaptcha} = useGoogleReCaptcha();
@@ -24,6 +26,8 @@ function GeneralSettings() {
   const [pageState, setPageState] = useState<PageLoadingState>(PageLoadingState.LOADING);
   const [formState, setFormState] = useState<number>(0);
   const [working, setWorking] = useState<boolean>(false);
+
+  const dispatch = useDispatch();
 
   function loadProfile() {
     axios.get(
@@ -64,6 +68,7 @@ function GeneralSettings() {
         {headers: {'Authorization': `Bearer ${jwt}`}}
       ).then(() => {
         setFormState(1 << 3);
+        dispatch(actions.changeName(username));
         loadProfile();
       }).catch(err => {
         const error = err.response.data?.message;
