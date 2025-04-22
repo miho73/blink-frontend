@@ -11,6 +11,7 @@ import {DownvoteIcon, Svg, UpvoteIcon} from "../../assets/svgs/svg.tsx";
 import Dialog from "../fragments/Dialog.tsx";
 import Alert from "../form/Alert.tsx";
 import {checkFlag} from "../../modules/formValidator.ts";
+import {SkeletonElement, SkeletonFrame} from "../fragments/Skeleton.tsx";
 
 interface PostType {
   postId: string;
@@ -114,18 +115,32 @@ function Post() {
   }, []);
 
   if (pageState === 0) {
-    // TODO: Add loading skeleton
     return (
       <DocumentFrame>
-        <p>Loading...</p>
+        <SkeletonFrame>
+          <Stack direction={'row'} className={'justify-between'}>
+            <SkeletonElement expW={250} expH={40}/>
+            <ButtonLink to={'..'} disabled>&lt; 목록</ButtonLink>
+          </Stack>
+          <Hr/>
+          <Stack className={'gap-3'}>
+            <SkeletonElement className={'w-[60%]'} expH={20}/>
+            <SkeletonElement className={'w-[40%]'} expH={20}/>
+            <SkeletonElement className={'w-[70%]'} expH={20}/>
+            <SkeletonElement className={'w-[50%]'} expH={20}/>
+            <SkeletonElement className={'w-[66%]'} expH={20}/>
+          </Stack>
+        </SkeletonFrame>
       </DocumentFrame>
     );
   }
   else if (pageState === 2) {
-    // TODO: provide error message
     return (
       <DocumentFrame>
-        <p>Error</p>
+        <Stack className={'gap-2 items-center'}>
+          <p>게시물을 불러오지 못했습니다.</p>
+          <ButtonLink to={'..'}>&lt; 목록</ButtonLink>
+        </Stack>
       </DocumentFrame>
     );
   }

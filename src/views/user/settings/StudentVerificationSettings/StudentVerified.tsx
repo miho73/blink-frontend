@@ -152,7 +152,7 @@ function CheckOk(
         <Stack className={'my-2 gap-1'}>
           <p>재학생 확인을 철회할까요?</p>
           <p>더이상 BLINK에서 {props.school.name}의 학생으로 활동할 수 없습니다.</p>
-          <p>BLINK를 다시 사용하려면 재학생 화인을 다시 받아야 합니다.</p>
+          <p>BLINK를 다시 사용하려면 재학생 확인을 다시 받아야 합니다.</p>
         </Stack>
       </Dialog>
     </>

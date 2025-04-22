@@ -129,17 +129,18 @@ function Board() {
       </DocumentFrame>
     );
   } else if (pageState === 2) {
-    // TODO: provide error message
     return (
       <DocumentFrame>
-        <p>Error</p>
-      </DocumentFrame>
-    );
-  } else if (pageState === 3) {
-    // TODO: provide error message
-    return (
-      <DocumentFrame>
-        <p>Additional content cannot be loaded</p>
+        <Stack direction={'row'} className={'justify-between'}>
+          <Stack direction={'row'} className={'items-center'}>
+            <p className={'text-xl font-medium'}>{trimContent(boardName || '', 20)}</p>
+          </Stack>
+          <Stack>
+            <ButtonLink color={'accent'} to={'write'}>글쓰기</ButtonLink>
+          </Stack>
+        </Stack>
+        <Hr/>
+        <p>게시물을 불러오지 못했습니다.</p>
       </DocumentFrame>
     );
   } else {
@@ -164,6 +165,9 @@ function Board() {
             <PostCard key={post.postId} post={post}/>
           ))}
         </div>
+        { pageState === 3 && (
+          <p>게시물을 불러오지 못했습니다.</p>
+        )}
       </DocumentFrame>
     );
   }

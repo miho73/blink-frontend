@@ -12,6 +12,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 import {PostType} from "./Post.tsx";
 import {deltaToDateString} from "../../modules/Datetime.ts";
+import {SkeletonElement, SkeletonFrame} from "../fragments/Skeleton.tsx";
 
 function EditPost() {
   // post의 UUID를 Route에서 받아오기
@@ -105,18 +106,62 @@ function EditPost() {
   }, []);
 
   if(loadState === PageLoadingState.LOADING) {
-    // TODO: Add loading skeleton
     return (
       <DocumentFrame>
-        <p>Loading...</p>
+        <SkeletonFrame>
+          <Stack direction={'row'} className={'justify-between'}>
+            <SkeletonElement expW={250} expH={40}/>
+            <Stack direction={'row'} className={'gap-2'}>
+              <Button disabled={true} onClick={back}>&lt; 게시물</Button>
+              <Button
+                color={'accent'}
+                onClick={beginEdit}
+                disabled={true}
+              >
+                수정
+              </Button>
+            </Stack>
+          </Stack>
+          <Hr/>
+          <Stack direction={'row'} className={'divide-x gap-2'}>
+            <SkeletonElement className={'w-[25%]'} expH={24}/>
+            <SkeletonElement className={'w-[10%]'} expH={24}/>
+            <SkeletonElement className={'w-[15%]'} expH={24}/>
+          </Stack>
+          <Hr/>
+          <Stack className={'gap-3'}>
+            <SkeletonElement className={'w-[60%]'} expH={20}/>
+            <SkeletonElement className={'w-[40%]'} expH={20}/>
+            <SkeletonElement className={'w-[70%]'} expH={20}/>
+            <SkeletonElement className={'w-[50%]'} expH={20}/>
+            <SkeletonElement className={'w-[66%]'} expH={20}/>
+          </Stack>
+        </SkeletonFrame>
       </DocumentFrame>
     );
   }
   else if (loadState === PageLoadingState.ERROR) {
-    // TODO: provide error message
     return (
       <DocumentFrame>
-        <p>Error</p>
+        <Stack direction={'row'} className={'justify-between items-center'}>
+          <Stack direction={'row'} className={'items-center'}>
+            <p className={'text-xl font-medium'}>{boardName}</p>
+          </Stack>
+          <Stack direction={'row'} className={'gap-2'}>
+            <Button disabled={working} onClick={back}>&lt; 게시물</Button>
+            <Button
+              color={'accent'}
+              onClick={beginEdit}
+              disabled={true}
+            >
+              수정
+            </Button>
+          </Stack>
+        </Stack>
+
+        <Hr/>
+
+        <p>게시물을 불러오지 못했습니다.</p>
       </DocumentFrame>
     );
   }
