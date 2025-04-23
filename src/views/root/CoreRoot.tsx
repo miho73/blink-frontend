@@ -3,11 +3,12 @@ import AuthenticationFrame from "../frames/AuthenticationFrame.tsx";
 import Stack from "../layout/Stack.tsx";
 import {Route, Routes} from "react-router-dom";
 import SchoolManagement from "./SchoolManagement/SchoolManagement.tsx";
-import {NavigationButton, SchoolNav, SvNav} from "./NavigationLinks.tsx";
+import {NavigationButton, SchoolNav, SvNav, UserNav} from "./NavigationLinks.tsx";
 import {HomeIcon, ProfileIcon, SchoolCapIcon, SchoolIcon} from "../../assets/svgs/svg.tsx";
 import SvList from "./SchoolVerification/SvList.tsx";
 import SvApprove from "./SchoolVerification/SvApprove.tsx";
 import Root404 from "./Root404.tsx";
+import UserManagement from "./UserManagement/UserManagement.tsx";
 
 function CoreRoot() {
   return (
@@ -27,6 +28,7 @@ function CoreRoot() {
             <Routes>
               <Route path={'/school/*'} element={<SchoolNav/>}/>
               <Route path={'/sv/*'} element={<SvNav/>}/>
+              <Route path={'/user/*'} element={<UserNav/>}/>
             </Routes>
           </Stack>
           <div className={'pl-5 pr-8'}>
@@ -36,6 +38,8 @@ function CoreRoot() {
               <Route path={'/sv/approve'} element={<SvApprove/>}/>
               <Route path={'/school'} element={<SchoolManagement/>}/>
               <Route path={'/school/db'} element={<SchoolManagement/>}/>
+              <Route path={'/user'} element={<UserManagement/>}/>
+              <Route path={'/user/manage'} element={<UserManagement/>}/>
               <Route path={'*'} element={<Root404/>}/>
             </Routes>
           </div>

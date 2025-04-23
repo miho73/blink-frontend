@@ -19,7 +19,15 @@ function SvNav() {
       <SmallTab to={'/root/sv/list'}>재학생 확인 목록</SmallTab>
       <SmallTab to={'/root/sv/approve'}>재학생 확인 승인</SmallTab>
     </>
-  )
+  );
+}
+
+function UserNav() {
+  return (
+    <>
+      <SmallTab to={'/root/user/manage'}>사용자 관리</SmallTab>
+    </>
+  );
 }
 
 interface NavigationButtonProps {
@@ -70,5 +78,6 @@ function SmallTab(props: SmallButtonProps) {
 export {
   NavigationButton,
   SchoolNav,
-  SvNav
+  SvNav,
+  UserNav
 }
